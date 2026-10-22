@@ -1,0 +1,2232 @@
+[
+ {
+  "cluster": "TIMELINE: origins, scaling, and the model/coding-agent timeline (creator claims 1, 2, 4)",
+  "facts": [
+   {
+    "id": "chatgpt-launch-free-for-feedback",
+    "user_claim": "When ChatGPT (GPT-3.5) came out, people started using it, and that started the data flywheel.",
+    "verdict": "accurate",
+    "fact": "OpenAI released ChatGPT on November 30, 2022 as a free 'research preview'. It was fine-tuned from a GPT-3.5 series model using RLHF, the same method OpenAI had used for InstructGPT. OpenAI said openly that it was releasing ChatGPT for free to get user feedback.",
+    "evidence_card": "NOV 30, 2022: ChatGPT launches free, 'to get users' feedback' \u00b7 Source: OpenAI, 'Introducing ChatGPT'",
+    "key_numbers": [
+     "Nov 30, 2022",
+     "GPT-3.5 series (finished training early 2022)"
+    ],
+    "sources": [
+     {
+      "title": "Introducing ChatGPT",
+      "publisher": "OpenAI",
+      "url": "https://openai.com/index/chatgpt/",
+      "date": "2022-11-30",
+      "supporting_quote": "We are excited to introduce ChatGPT to get users' feedback and learn about its strengths and weaknesses. During the research preview, usage of ChatGPT is free."
+     },
+     {
+      "title": "Introducing ChatGPT",
+      "publisher": "OpenAI",
+      "url": "https://openai.com/blog/chatgpt",
+      "date": "2022-11-30",
+      "supporting_quote": "ChatGPT is fine-tuned from a model in the GPT-3.5 series, which finished training in early 2022."
+     },
+     {
+      "title": "Introducing ChatGPT (training method)",
+      "publisher": "OpenAI",
+      "url": "https://openai.com/blog/chatgpt",
+      "date": "2022-11-30",
+      "supporting_quote": "using the same methods as InstructGPT, but with slight differences in the data collection setup"
+     },
+     {
+      "title": "ChatGPT",
+      "publisher": "Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/ChatGPT",
+      "supporting_quote": "Originally released on November 30, 2022"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified. openai.com still returns 403 to direct fetch, but search engines index all three quoted sentences on OpenAI's own URLs, and university library mirrors match them word for word. I added the 'same methods as InstructGPT' line, which links this fact to the InstructGPT fact. The page now carries a note saying ChatGPT has changed a lot since 2022."
+   },
+   {
+    "id": "chatgpt-user-explosion",
+    "user_claim": "People started using it en masse.",
+    "verdict": "accurate",
+    "fact": "ChatGPT passed 1 million users about 5 days after launch, according to Sam Altman on Dec 5, 2022. UBS, using Similarweb data, estimated it reached 100 million monthly active users in January 2023, about two months after launch. That made it the fastest-growing consumer app on record at the time. TikTok took about 9 months to reach 100 million and Instagram about 2.5 years.",
+    "evidence_card": "5 DAYS: 1M users \u00b7 2 MONTHS: ~100M monthly users (estimate) \u00b7 Source: Sam Altman (Dec 5, 2022); Reuters/UBS (Feb 1, 2023)",
+    "key_numbers": [
+     "1 million users in ~5 days",
+     "~100 million MAU in January 2023 (UBS/Similarweb estimate)",
+     "~13 million daily unique visitors in Jan 2023 (Similarweb)",
+     "TikTok ~9 months, Instagram ~2.5 years to 100M (Sensor Tower)"
+    ],
+    "sources": [
+     {
+      "title": "ChatGPT sets record for fastest-growing user base - analyst note",
+      "publisher": "Reuters (via Yahoo Finance)",
+      "url": "https://finance.yahoo.com/news/1-chatgpt-sets-record-fastest-051929384.html",
+      "date": "2023-02-01",
+      "supporting_quote": "In 20 years following the internet space, we cannot recall a faster ramp in a consumer internet app"
+     },
+     {
+      "title": "Internet Sensation ChatGPT Crosses 1 Million Users In 5 Days",
+      "publisher": "Entrepreneur India",
+      "url": "https://india.entrepreneur.com/news-and-trends/internet-sensation-chatgpt-crosses-1-million-users-in-5-days/440390",
+      "date": "2022-12",
+      "supporting_quote": "ChatGPT launched on wednesday. today it crossed 1 million users! (Sam Altman, Dec 5, 2022)"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Changed: the UBS supporting quote was a paraphrase. I replaced it with the exact sentence from the Reuters story and added Altman's full tweet text. The numbers are unchanged. The 100M figure is an analyst estimate from web traffic, not an official OpenAI number, so say 'an estimated 100 million'. 'Fastest-growing at the time' is right: Meta's Threads later passed 100M faster, in July 2023."
+   },
+   {
+    "id": "early-skepticism-not-everyone",
+    "user_claim": "When ChatGPT 3.5 came, everyone thought it was a piece of junk.",
+    "verdict": "partly-accurate",
+    "fact": "Not 'everyone' dismissed it. Users flocked to it, but prominent voices called it unreliable or nothing new. Stack Overflow banned ChatGPT answers on Dec 5, 2022 because too many were wrong. Sam Altman himself called it 'incredibly limited'. In January 2023, Meta's chief AI scientist Yann LeCun said it was 'not particularly innovative'. A better line for the script: 'Experts called it a toy. The public called it magic.'",
+    "evidence_card": "DEC 5, 2022: Stack Overflow bans ChatGPT answers: correct-answer rate 'too low' \u00b7 Source: The Register",
+    "key_numbers": [
+     "Dec 5, 2022 Stack Overflow ban",
+     "Dec 10/11, 2022 Altman 'incredibly limited' tweet",
+     "Jan 2023 LeCun remarks (ZDNet)"
+    ],
+    "sources": [
+     {
+      "title": "Stack Overflow bans ChatGPT as 'substantially harmful' for coding issues",
+      "publisher": "The Register",
+      "url": "https://www.theregister.com/2022/12/05/stack_overflow_bans_chatgpt/",
+      "date": "2022-12-05",
+      "supporting_quote": "The average rate of getting correct answers from ChatGPT is too low"
+     },
+     {
+      "title": "OpenAI CEO admits ChatGPT risks. What now? | The AI Beat",
+      "publisher": "VentureBeat",
+      "url": "https://venturebeat.com/ai/openai-ceo-admits-chatgpt-risks-what-now-the-ai-beat",
+      "date": "2022-12-12",
+      "supporting_quote": "ChatGPT is incredibly limited, but good enough at some things to create a misleading impression of greatness."
+     },
+     {
+      "title": "ChatGPT is 'not particularly innovative,' and 'nothing revolutionary,' says Meta's chief AI scientist",
+      "publisher": "NYU Tandon (re-publishing ZDNet)",
+      "url": "https://engineering.nyu.edu/news/chatgpt-not-particularly-innovative-and-nothing-revolutionary-says-metas-chief-ai-scientist",
+      "date": "2023-01-23",
+      "supporting_quote": "In terms of underlying techniques, ChatGPT is not particularly innovative"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified. Small fix: NYU Tandon dates its repost Jan 23, 2023, not Jan 24. Altman's tweet is dated Dec 10 or Dec 11, 2022 depending on the source, likely because of time zones. Altman's line was a warning against over-trusting ChatGPT, not a dismissal, so present it that way. LeCun later said he was criticizing the hype, not OpenAI's engineering."
+   },
+   {
+    "id": "gpt4-trained-before-chatgpt",
+    "user_claim": "GPT-4 was already there before ChatGPT.",
+    "verdict": "accurate",
+    "fact": "GPT-4 finished training in August 2022, about three months before ChatGPT launched. OpenAI did not release it until March 14, 2023, after about seven more months of testing and refinement.",
+    "evidence_card": "AUG 2022: GPT-4 finishes training, 3 months before ChatGPT launches \u00b7 Source: OpenAI GPT-4 System Card",
+    "key_numbers": [
+     "Training finished Aug 2022",
+     "ChatGPT launched Nov 30, 2022",
+     "GPT-4 released Mar 14, 2023 (~7 months after training)"
+    ],
+    "sources": [
+     {
+      "title": "GPT-4 System Card",
+      "publisher": "OpenAI",
+      "url": "https://cdn.openai.com/papers/gpt-4-system-card.pdf",
+      "date": "2023-03-14",
+      "supporting_quote": "Since it finished training in August of 2022, we have been evaluating, adversarially testing, and iteratively improving the model and the system-level mitigations around it."
+     },
+     {
+      "title": "GPT-4 Technical Report (arXiv:2303.08774)",
+      "publisher": "OpenAI / arXiv",
+      "url": "https://arxiv.org/abs/2303.08774",
+      "date": "2023-03-15",
+      "supporting_quote": "Since it finished training in August of 2022, we have been evaluating, adversarially testing, and iteratively improving the model"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified: I downloaded the system card PDF and the arXiv report, and both contain the quote. I changed 'about six more months' in the fact text to 'about seven', to match the key numbers (Aug 2022 to Mar 2023). OpenAI itself says '6 months' of alignment, so either works if hedged as 'about'. 'Finished training' most likely means pre-training. The GPT-4 people used had been refined further, partly with ChatGPT data (see the next fact)."
+   },
+   {
+    "id": "gpt4-aligned-using-chatgpt",
+    "user_claim": "NEW",
+    "verdict": "new-evidence",
+    "fact": "OpenAI said it spent six months aligning GPT-4 using lessons from ChatGPT before releasing it. OpenAI also said it incorporated feedback submitted by ChatGPT users. Its system card says OpenAI collected real-world ChatGPT answers that users had flagged as not factual, and used them to train GPT-4's reward models. This is OpenAI's own primary-source confirmation of the data flywheel: public use of ChatGPT fed directly into improving the next model.",
+    "evidence_card": "'We collect real-world ChatGPT data that has been flagged by users as being not factual' to train GPT-4 \u00b7 Source: OpenAI GPT-4 System Card, Mar 2023",
+    "key_numbers": [
+     "6 months of alignment",
+     "Mar 14, 2023 release",
+     "GPT-4 scored 19 points higher than GPT-3.5 at avoiding open-domain hallucinations (OpenAI internal eval)"
+    ],
+    "sources": [
+     {
+      "title": "GPT-4 System Card",
+      "publisher": "OpenAI",
+      "url": "https://cdn.openai.com/papers/gpt-4-system-card.pdf",
+      "date": "2023-03-14",
+      "supporting_quote": "For tackling open-domain hallucinations, we collect real-world ChatGPT data that has been flagged by users as being not factual, and collect additional labeled comparison data that we use to train our reward models."
+     },
+     {
+      "title": "GPT-4 System Card",
+      "publisher": "OpenAI",
+      "url": "https://cdn.openai.com/papers/gpt-4-system-card.pdf",
+      "date": "2023-03-14",
+      "supporting_quote": "GPT-4 was trained to reduce the model's tendency to hallucinate by leveraging data from prior models such as ChatGPT."
+     },
+     {
+      "title": "GPT-4 (product page)",
+      "publisher": "OpenAI",
+      "url": "https://openai.com/index/gpt-4/",
+      "date": "2023-03-14",
+      "supporting_quote": "We incorporated more human feedback, including feedback submitted by ChatGPT users, to improve GPT-4's behavior."
+     },
+     {
+      "title": "GPT-4 announcement coverage",
+      "publisher": "Simon Willison's Weblog",
+      "url": "https://simonwillison.net/2023/Mar/14/openai/",
+      "date": "2023-03-14",
+      "supporting_quote": "We've spent 6 months iteratively aligning GPT-4 using lessons from our adversarial testing program as well as ChatGPT"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Changed and strengthened. The old caveat said OpenAI never specified what ChatGPT data it used. That is wrong: the system card (which I downloaded and checked) names user-flagged ChatGPT outputs used to train reward models. The '6 months... as well as ChatGPT' wording comes from the original March 2023 post. It survives in Simon Willison's same-day copy, but OpenAI's live page now uses different wording, so I dropped the openai.com/index/gpt-4-research URL as a source for that quote. Do not claim every user chat trained GPT-4. The documented use is flagged and feedback data, plus prompts."
+   },
+   {
+    "id": "scaling-laws",
+    "user_claim": "So it's just a scaling law.",
+    "verdict": "partly-accurate",
+    "fact": "Scaling laws are real and predictive. In January 2020, Kaplan et al. showed that model error falls smoothly as a power law with model size, data and compute. In March 2022, DeepMind's Chinchilla paper showed that model size and training data should grow together. OpenAI said it predicted parts of GPT-4's performance from models trained with no more than 1/1,000th of GPT-4's compute. Scale is not the whole story, though. Human-feedback fine-tuning, built on real users' prompts and human rankings, turned raw models into useful assistants.",
+    "evidence_card": "2020: 'The loss scales as a power-law with model size, dataset size, and the amount of compute' \u00b7 Source: Kaplan et al., OpenAI (arXiv:2001.08361)",
+    "key_numbers": [
+     "Jan 23, 2020 Kaplan et al.",
+     "trends spanning more than 7 orders of magnitude",
+     "Mar 29, 2022 Chinchilla (70B beats 280B Gopher)",
+     "GPT-4 performance predicted from <=1/1,000th compute"
+    ],
+    "sources": [
+     {
+      "title": "Scaling Laws for Neural Language Models",
+      "publisher": "arXiv (Kaplan et al., OpenAI)",
+      "url": "https://arxiv.org/abs/2001.08361",
+      "date": "2020-01-23",
+      "supporting_quote": "The loss scales as a power-law with model size, dataset size, and the amount of compute used for training, with some trends spanning more than seven orders of magnitude."
+     },
+     {
+      "title": "Training Compute-Optimal Large Language Models (Chinchilla)",
+      "publisher": "arXiv (Hoffmann et al., DeepMind)",
+      "url": "https://arxiv.org/abs/2203.15556",
+      "date": "2022-03-29",
+      "supporting_quote": "for every doubling of model size the number of training tokens should also be doubled"
+     },
+     {
+      "title": "GPT-4 Technical Report",
+      "publisher": "OpenAI / arXiv",
+      "url": "https://arxiv.org/abs/2303.08774",
+      "date": "2023-03-15",
+      "supporting_quote": "This allowed us to accurately predict some aspects of GPT-4's performance based on models trained with no more than 1/1,000th the compute of GPT-4."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified: all quotes and dates were checked against the arXiv abstracts and the GPT-4 report PDF. Small changes: the evidence card now quotes the paper exactly ('the amount of compute'), and the last sentence now says 'built on real users' prompts and human rankings' instead of 'uses user data'. The rankings came from paid labelers. Avoid 'just' scaling: the data flywheel works alongside scale."
+   },
+   {
+    "id": "instructgpt-rlhf-api-prompts",
+    "user_claim": "NEW",
+    "verdict": "new-evidence",
+    "fact": "OpenAI's InstructGPT paper (March 2022) describes reinforcement learning from human feedback, the method OpenAI later used for ChatGPT. Its training started from prompts that customers had submitted through the OpenAI API. Human-ranked outputs were then used to fine-tune the model. Labelers preferred outputs from the 1.3B-parameter InstructGPT model to those of the 175B GPT-3, a model 100 times larger. Human feedback beat raw size.",
+    "evidence_card": "MAR 2022: 1.3B model trained on human feedback beats a 100x-bigger GPT-3 \u00b7 Source: Ouyang et al., OpenAI (arXiv:2203.02155)",
+    "key_numbers": [
+     "1.3B vs 175B parameters (100x fewer)",
+     "Mar 4, 2022"
+    ],
+    "sources": [
+     {
+      "title": "Training language models to follow instructions with human feedback",
+      "publisher": "arXiv (Ouyang et al., OpenAI)",
+      "url": "https://arxiv.org/abs/2203.02155",
+      "date": "2022-03-04",
+      "supporting_quote": "Starting with a set of labeler-written prompts and prompts submitted through the OpenAI API, we collect a dataset of labeler demonstrations of the desired model behavior... outputs from the 1.3B parameter InstructGPT model are preferred to outputs from the 175B GPT-3, despite having 100x fewer parameters."
+     },
+     {
+      "title": "Introducing ChatGPT",
+      "publisher": "OpenAI",
+      "url": "https://openai.com/blog/chatgpt",
+      "date": "2022-11-30",
+      "supporting_quote": "using the same methods as InstructGPT, but with slight differences in the data collection setup"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified: the abstract text and the Mar 4, 2022 submission date were checked on arXiv. I added OpenAI's ChatGPT post to back up the link to ChatGPT. The labelers in this paper were paid contractors. The public contributed the prompts sent through the API, and later ChatGPT feedback. Do not say every user chat is used directly as training data. Policies and opt-outs vary by product."
+   },
+   {
+    "id": "copilot-timeline",
+    "user_claim": "Before coding agents were fully public, everyone was asked to use Copilot; within months it got extremely better.",
+    "verdict": "partly-accurate",
+    "fact": "GitHub Copilot launched as a technical preview on June 29, 2021, built on OpenAI Codex. It became generally available on June 21, 2022 at $10 a month. In about four years it went from autocomplete to an autonomous agent. GitHub announced the Copilot coding agent on May 19, 2025: you assign it a GitHub issue and it opens a pull request on its own. It became generally available to all paid Copilot subscribers on September 25, 2025.",
+    "evidence_card": "2021: autocomplete preview \u2192 2025: an agent that opens its own pull requests \u00b7 Source: GitHub Blog",
+    "key_numbers": [
+     "Jun 29, 2021 technical preview",
+     "Jun 21, 2022 GA, $10/month or $100/year",
+     "May 19, 2025 coding agent announced (Copilot Enterprise and Pro+ only)",
+     "Sep 25, 2025 coding agent GA for all paid subscribers"
+    ],
+    "sources": [
+     {
+      "title": "Introducing GitHub Copilot: your AI pair programmer",
+      "publisher": "GitHub Blog",
+      "url": "https://github.blog/2021-06-29-introducing-github-copilot-ai-pair-programmer/",
+      "date": "2021-06-29",
+      "supporting_quote": "Today, we are launching a technical preview of GitHub Copilot, a new AI pair programmer that helps you write better code."
+     },
+     {
+      "title": "GitHub Copilot is now available to individual developers",
+      "publisher": "GitHub Changelog",
+      "url": "https://github.blog/changelog/2022-06-21-github-copilot-is-now-available-to-individual-developers/",
+      "date": "2022-06-21",
+      "supporting_quote": "to all developers for $10 USD/month or $100 USD/year"
+     },
+     {
+      "title": "GitHub Copilot: Meet the new coding agent",
+      "publisher": "GitHub Blog",
+      "url": "https://github.blog/news-insights/product-news/github-copilot-meet-the-new-coding-agent/",
+      "date": "2025-05-19",
+      "supporting_quote": "To run the new coding agent, assign one or more GitHub issues to Copilot. It's as easy as that."
+     },
+     {
+      "title": "Copilot coding agent is now generally available",
+      "publisher": "GitHub Changelog",
+      "url": "https://github.blog/changelog/2025-09-25-copilot-coding-agent-is-now-generally-available/",
+      "date": "2025-09-25",
+      "supporting_quote": "is now generally available for all paid Copilot subscribers"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Changed: 'about three years' is now 'about four years' (Jun 2021 to May 2025 is about 3 years 11 months). The 2021 quote said 'we're'; the source says 'we are'. The coding-agent quote ('The agent starts its work when you assign...') could not be found on the page, so I replaced it with a verified line. I added the GA quote. I changed the verdict to partly-accurate because the move from autocomplete to agent took years, not 'months'. Big jumps within months did happen from 2024 to 2026 (see the benchmark fact)."
+   },
+   {
+    "id": "mandates-shopify-duolingo",
+    "user_claim": "Everyone has been asked to use Copilot and embrace it.",
+    "verdict": "accurate",
+    "fact": "In April 2025, Shopify CEO Tobi Lutke told staff that 'reflexive AI usage is now a baseline expectation'. Teams had to show AI could not do a job before asking for more headcount, and AI use was added to performance reviews. On April 28, 2025, Duolingo CEO Luis von Ahn declared the company 'AI-first' and said it would gradually stop using contractors for work AI can do.",
+    "evidence_card": "APR 2025: Shopify CEO: 'Reflexive AI usage is now a baseline expectation' \u00b7 Source: Tobi Lutke memo (posted on X)",
+    "key_numbers": [
+     "Apr 7, 2025 Shopify memo made public",
+     "Apr 28, 2025 Duolingo 'AI-first' memo"
+    ],
+    "sources": [
+     {
+      "title": "Internal memo: Shopify CEO declares AI non-optional",
+      "publisher": "Digital Commerce 360",
+      "url": "https://www.digitalcommerce360.com/2025/04/08/internal-memo-shopify-ceo-declares-ai-non-optional/",
+      "date": "2025-04-08",
+      "supporting_quote": "Reflexive AI usage is now a baseline expectation at Shopify."
+     },
+     {
+      "title": "Duolingo goes 'AI first' as it phases out human contractors",
+      "publisher": "Computing",
+      "url": "https://www.computing.co.uk/news/2025/ai/duolingo-goes-ai-first-as-it-phases-out-human-contractors",
+      "date": "2025-04-29"
+     },
+     {
+      "title": "Duolingo now plans to use AI instead of new hires or contractors where possible",
+      "publisher": "Tom's Guide",
+      "url": "https://www.tomsguide.com/ai/duolingo-wants-to-ditch-contractors-in-favor-of-ai",
+      "date": "2025-04"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified. The memo first went out internally, and Lutke posted it on X around April 7, 2025, ahead of an expected leak. I added Tom's Guide as a second Duolingo source because computing.co.uk blocks direct fetch. Von Ahn later said the change was not about replacing full-time employees. Neither company is about Copilot specifically; both are general AI-use mandates."
+   },
+   {
+    "id": "mandates-microsoft-coinbase",
+    "user_claim": "Everyone has been asked to use it and embrace it.",
+    "verdict": "new-evidence",
+    "fact": "In June 2025, Microsoft developer-division president Julia Liuson told managers that 'using AI is no longer optional' and that it should factor into how they reflect on employee performance, according to an internal memo first reported by Business Insider. In August 2025, Coinbase CEO Brian Armstrong said he gave engineers about a week to onboard to GitHub Copilot and Cursor, and fired some who had not done so and had no good reason.",
+    "evidence_card": "2025: Microsoft memo, reported: 'Using AI is no longer optional' \u00b7 Coinbase CEO fires engineers who didn't onboard AI tools",
+    "key_numbers": [
+     "June 2025 Microsoft memo (reported)",
+     "~1-week deadline at Coinbase",
+     "Aug 2025 Cheeky Pint podcast",
+     "~33% of new Coinbase code AI-written (company claim)"
+    ],
+    "sources": [
+     {
+      "title": "AI is no longer optional at Microsoft (PC Gamer, via Yahoo Tech)",
+      "publisher": "PC Gamer / Yahoo Tech",
+      "url": "https://tech.yahoo.com/ai/articles/ai-no-longer-optional-microsoft-183003779.html",
+      "date": "2025-06-29",
+      "supporting_quote": "using AI is no longer optional\u2014it's core to every role and every level."
+     },
+     {
+      "title": "Microsoft mandates AI use by employees whilst prospect of job cuts looms",
+      "publisher": "Computing",
+      "url": "https://www.computing.co.uk/news/2025/ai/microsoft-mandates-ai-use-by-employees",
+      "date": "2025-06"
+     },
+     {
+      "title": "Coinbase CEO explains why he fired engineers who didn't try AI immediately",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2025/08/22/coinbase-ceo-explains-why-he-fired-engineers-who-didnt-try-ai-immediately",
+      "date": "2025-08-22",
+      "supporting_quote": "at least onboard by the end of the week"
+     },
+     {
+      "title": "Coinbase CEO Brian Armstrong AI coding assistants mandate",
+      "publisher": "Fortune",
+      "url": "https://fortune.com/2025/08/25/coinbase-ceo-brian-armstrong-ai-coding-assistants-mandate-tech",
+      "date": "2025-08-25"
+     }
+    ],
+    "confidence": "medium",
+    "caveats": "Changed: I added a fetchable source with the exact Microsoft quote (PC Gamer, June 29, 2025, citing Business Insider) because Computing blocks direct fetch. I added the exact Coinbase deadline wording and clarified that '33%' refers to new code. The Microsoft memo is known only from Business Insider's leak report, and a Microsoft spokesperson reportedly told UC Today there is no formal review of employees' AI usage, so attribute it as 'reported'. Armstrong's firings come from his own account on the podcast; Coinbase did not say how many."
+   },
+   {
+    "id": "coding-agents-go-public",
+    "user_claim": "Before coding agents were fully into the public...",
+    "verdict": "new-evidence",
+    "fact": "Autonomous coding agents went mainstream in the first half of 2025. Anthropic's Claude Code launched as a limited research preview on February 24, 2025 and became generally available on May 22, 2025. OpenAI launched its cloud agent Codex on May 16, 2025. GitHub's Copilot coding agent followed on May 19, 2025.",
+    "evidence_card": "FEB-MAY 2025: Claude Code, OpenAI Codex and Copilot agent all go public \u00b7 Sources: Anthropic, OpenAI, GitHub",
+    "key_numbers": [
+     "Feb 24, 2025 Claude Code preview",
+     "May 16, 2025 OpenAI Codex (research preview)",
+     "May 19, 2025 Copilot coding agent",
+     "May 22, 2025 Claude Code GA"
+    ],
+    "sources": [
+     {
+      "title": "Claude 3.7 Sonnet and Claude Code",
+      "publisher": "Anthropic",
+      "url": "https://www.anthropic.com/news/claude-3-7-sonnet",
+      "date": "2025-02-24",
+      "supporting_quote": "Claude Code is available as a limited research preview, and enables developers to delegate substantial engineering tasks to Claude directly from their terminal."
+     },
+     {
+      "title": "Introducing Claude 4",
+      "publisher": "Anthropic",
+      "url": "https://www.anthropic.com/news/claude-4",
+      "date": "2025-05-22",
+      "supporting_quote": "Claude Code is now generally available"
+     },
+     {
+      "title": "Introducing Codex",
+      "publisher": "OpenAI",
+      "url": "https://openai.com/index/introducing-codex/",
+      "date": "2025-05-16",
+      "supporting_quote": "a cloud-based software engineering agent that can work on many tasks in parallel, powered by codex-1"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Changed sources: the old docs.anthropic.com release-notes URL now redirects to a GitHub CHANGELOG with no GA date. I replaced it with Anthropic's dated Claude 4 announcement, which has the GA quote. I also made the Claude Code preview quote the full exact sentence. Note that OpenAI Codex also launched as a 'research preview'. The dates are otherwise verified."
+   },
+   {
+    "id": "naming-correction-4-6",
+    "user_claim": "Once OpenAI 4.6 came, people have not even seen backwards.",
+    "verdict": "inaccurate",
+    "fact": "OpenAI has no model called '4.6'. Its 4.x line went GPT-4o, GPT-4.5 (Feb 27, 2025), GPT-4.1 (Apr 2025), then GPT-5 (Aug 7, 2025). The model the creator means is almost certainly Anthropic's Claude Opus 4.6, released February 5, 2026. Anthropic called it 'our smartest model', said it improved on its predecessor's coding skills, and said it scored highest on the agentic coding test Terminal-Bench 2.0. It was the first Opus model with a 1M-token context window, in beta.",
+    "evidence_card": "FEB 5, 2026: Anthropic releases Claude Opus 4.6, not 'OpenAI 4.6' \u00b7 Source: Anthropic",
+    "key_numbers": [
+     "Feb 5, 2026",
+     "1M-token context (beta)",
+     "$5/$25 per million tokens (unchanged)",
+     "SWE-bench Verified 81.42% with prompt modification (Anthropic footnote)"
+    ],
+    "sources": [
+     {
+      "title": "Introducing Claude Opus 4.6",
+      "publisher": "Anthropic",
+      "url": "https://www.anthropic.com/news/claude-opus-4-6",
+      "date": "2026-02-05",
+      "supporting_quote": "We're upgrading our smartest model. The new Claude Opus 4.6 improves on its predecessor's coding skills."
+     },
+     {
+      "title": "Introducing Claude Opus 4.6",
+      "publisher": "Anthropic",
+      "url": "https://www.anthropic.com/news/claude-opus-4-6",
+      "date": "2026-02-05",
+      "supporting_quote": "it achieves the highest score on the agentic coding evaluation Terminal-Bench 2.0"
+     },
+     {
+      "title": "GPT-4.5",
+      "publisher": "Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/GPT-4.5",
+      "supporting_quote": "released on February 27, 2025"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Changed: 'Anthropic billed it as its best coding model' was not Anthropic's wording. The page says 'our smartest model' and 'industry-leading'. I also split the supporting quote, which had stitched two sentences together, into two exact quotes taken from the downloaded page. On screen, use 'Claude Opus 4.6 (Anthropic)'. Third-party sites list chart values of about 65.4% on Terminal-Bench 2.0 and about 80.8% on SWE-bench Verified. Anthropic's text gives only the 81.42% footnote figure."
+   },
+   {
+    "id": "opus-4-6-market-shock",
+    "user_claim": "Once [Opus] 4.6 came, people have not even seen backwards.",
+    "verdict": "new-evidence",
+    "fact": "Anthropic released industry plug-ins for its Claude Cowork agent on Friday, January 30, 2026. On Tuesday, February 3, they set off a broad sell-off in software and data stocks: Thomson Reuters fell nearly 18% and FactSet 10.5%. Two days later, on Thursday, February 5, Anthropic released Opus 4.6, pitched partly at financial analysis, and financial-data stocks fell again, with FactSet down about 10%. Gartner pushed back, calling predictions of the death of SaaS 'premature'.",
+    "evidence_card": "FEB 3-5, 2026: Claude releases set off a software-stock sell-off; FactSet falls ~10% twice in one week \u00b7 Sources: Reuters; Fortune",
+    "key_numbers": [
+     "Jan 30, 2026 Cowork plug-ins",
+     "Feb 3, 2026: Thomson Reuters ~-18%, FactSet -10.5% (Reuters)",
+     "Feb 5, 2026: Opus 4.6; FactSet ~-9% to -10% (Fortune ~10%; others 9.1% at close)"
+    ],
+    "sources": [
+     {
+      "title": "Anthropic's AI tools deepen selloff in data analytics and software stocks, investors say",
+      "publisher": "Reuters (via Yahoo Finance)",
+      "url": "https://finance.yahoo.com/news/anthropics-ai-tools-deepen-selloff-054551832.html",
+      "date": "2026-02-03",
+      "supporting_quote": "launched plug-ins for its Claude Cowork agent on Friday"
+     },
+     {
+      "title": "Anthropic's Claude triggered a trillion-dollar selloff. A new upgrade could make things worse",
+      "publisher": "Fortune",
+      "url": "https://fortune.com/2026/02/06/anthropic-claude-opus-4-6-stock-selloff-new-upgrade/",
+      "date": "2026-02-06",
+      "supporting_quote": "Financial data providers bore the brunt of investor anxiety over the new release, with FactSet Research Systems dropping 10%"
+     },
+     {
+      "title": "Anthropic's Claude triggered a trillion-dollar selloff (Gartner comment)",
+      "publisher": "Fortune",
+      "url": "https://fortune.com/2026/02/06/anthropic-claude-opus-4-6-stock-selloff-new-upgrade/",
+      "date": "2026-02-06",
+      "supporting_quote": "Predictions of the death of SaaS and enterprise applications are premature."
+     }
+    ],
+    "confidence": "medium",
+    "caveats": "Changed the timeline. 'Same week' was loose: the plug-ins launched Friday Jan 30, the sell-off hit Tuesday Feb 3, and Opus 4.6 came Thursday Feb 5. I added the Reuters Feb 3 story, which shows FactSet had already fallen 10.5% before Opus 4.6. Fortune's paragraph is ambiguous about which day its 10% refers to, and other outlets give 9.1% at Thursday's close. Fortune's headline says 'trillion-dollar selloff' but its body gives no total, and press estimates of $285B to $300B vary. Don't put a dollar total on screen. Most of the sell-off was driven by Cowork, not Opus 4.6 alone."
+   },
+   {
+    "id": "opus-5-5-and-gpt-5-5",
+    "user_claim": "OpenAI 5.5 is an excellent thing. It's another OpenAI 4.6-level release.",
+    "verdict": "partly-accurate",
+    "fact": "Both names exist, so the script must pick one. Anthropic released Claude Opus 5.5 on September 22, 2026, two months after Opus 5 (July 24, 2026). Anthropic says it performs at the level of its larger Claude Fable 5.1 model on most work and costs 40% less to run than Opus 5. Separately, OpenAI released GPT-5.5 on April 23, 2026 and reported 82.7% on Terminal-Bench 2.0. Since the creator pairs it with 'Opus 4.6', the intended model is most likely Claude Opus 5.5.",
+    "evidence_card": "SEP 22, 2026: Claude Opus 5.5, 'at the level of Claude Fable 5.1', 40% cheaper to run \u00b7 Source: Anthropic",
+    "key_numbers": [
+     "Claude Opus 5.5: Sep 22, 2026",
+     "Opus 5: Jul 24, 2026 (TechCrunch)",
+     "$4/$20 per million tokens (20% below Opus 5's $5/$25)",
+     "Terminal-Bench 4.0: 66.4% Opus 5.5 vs 55.8% Fable 5.1 (Anthropic-reported)",
+     "GPT-5.5: Apr 23, 2026, 82.7% on Terminal-Bench 2.0 (OpenAI-reported)"
+    ],
+    "sources": [
+     {
+      "title": "Introducing Claude Opus 5.5",
+      "publisher": "Anthropic",
+      "url": "https://www.anthropic.com/claude-opus-5-5",
+      "date": "2026-09-22",
+      "supporting_quote": "We're introducing Claude Opus 5.5, the first model in our new Claude 5.5 family. It performs at the level of Claude Fable 5.1 on most work and costs 40% less to run than Opus 5."
+     },
+     {
+      "title": "Anthropic releases Opus 5.5 with lower prices and Fable-level performance",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2026/09/22/anthropic-releases-opus-5-5-with-lower-prices-and-fable-level-performance/",
+      "date": "2026-09-22",
+      "supporting_quote": "Output tokens will be charged at $20 per million tokens for Opus 5.5, compared to $25 for the previous model."
+     },
+     {
+      "title": "OpenAI releases GPT-5.5, bringing company one step closer to an AI 'super app'",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2026/04/23/openai-chatgpt-gpt-5-5-ai-model-superapp/",
+      "date": "2026-04-23"
+     },
+     {
+      "title": "GPT-5.5",
+      "publisher": "Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/GPT-5.5",
+      "supporting_quote": "released on April 23, 2026; 82.7% on Terminal-Bench 2.0 (as reported by OpenAI)"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Mostly verified against Anthropic's page and TechCrunch. Changed: 'its largest model' is not Anthropic's wording; TechCrunch says 'the larger Fable model'. I added the Opus 5 date (July 24, 2026, from TechCrunch; some Asian outlets say July 25 local time). The GPT-5.5 date was confirmed by TechCrunch. The 82.7% comes from OpenAI via Wikipedia and secondary coverage; openai.com was not fetchable. Terminal-Bench 2.0 and 4.0 are different tests, so don't compare those scores. Anthropic itself notes that benchmark margins 'have become a less reliable guide to real-world differences'. Whether Opus 5.5 is 'another 4.6-level leap' is the creator's opinion. Don't say 'OpenAI 5.5' if Claude is meant."
+   },
+   {
+    "id": "swe-bench-steep-curve",
+    "user_claim": "Within months, it has been getting extremely better.",
+    "verdict": "new-evidence",
+    "fact": "SWE-bench tests whether AI can fix real GitHub issues. In October 2023, the best model, Claude 2, solved just 1.96% of issues on the original benchmark. In August 2024, GPT-4o solved 33.2% of SWE-bench Verified, a human-checked set of 500 problems. In February 2026, Anthropic reported about 81% for Claude Opus 4.6. That is roughly from 2% to about 80% in under two and a half years. The test has since been retired by OpenAI as contaminated.",
+    "evidence_card": "AI fixing real GitHub bugs: 2% (Oct 2023) \u2192 33% (Aug 2024) \u2192 ~81% (Feb 2026) \u00b7 Sources: SWE-bench paper; OpenAI; Anthropic (lab-reported, different test versions)",
+    "key_numbers": [
+     "1.96% Claude 2, Oct 2023 (full SWE-bench)",
+     "33.2% GPT-4o, Aug 2024 (SWE-bench Verified)",
+     "81.42% Claude Opus 4.6, Feb 2026 (Verified, with prompt modification; ~80.8% headline)",
+     "Feb 23, 2026: OpenAI stops reporting SWE-bench Verified"
+    ],
+    "sources": [
+     {
+      "title": "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?",
+      "publisher": "arXiv (Jimenez et al., Princeton)",
+      "url": "https://arxiv.org/abs/2310.06770",
+      "date": "2023-10-10",
+      "supporting_quote": "The best-performing model, Claude 2, is able to solve a mere 1.96% of the issues."
+     },
+     {
+      "title": "Introducing SWE-bench Verified",
+      "publisher": "OpenAI",
+      "url": "https://openai.com/index/introducing-swe-bench-verified/",
+      "date": "2024-08-13",
+      "supporting_quote": "On SWE-bench Verified, GPT-4o resolves 33.2% of samples"
+     },
+     {
+      "title": "Introducing Claude Opus 4.6",
+      "publisher": "Anthropic",
+      "url": "https://www.anthropic.com/news/claude-opus-4-6",
+      "date": "2026-02-05",
+      "supporting_quote": "SWE-bench Verified: Our score was averaged over 25 trials. With a prompt modification, we saw a score of 81.42%."
+     },
+     {
+      "title": "Why we no longer evaluate SWE-bench Verified",
+      "publisher": "OpenAI",
+      "url": "https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/",
+      "date": "2026-02-23",
+      "supporting_quote": "OpenAI said the benchmark is increasingly contaminated and stopped reporting SWE-bench Verified scores (per search summary; page returns 403 to direct fetch)"
+     }
+    ],
+    "confidence": "medium",
+    "caveats": "Numbers verified (1.96% and Oct 10, 2023 checked on arXiv). New and important: on about Feb 23, 2026, OpenAI said SWE-bench Verified is 'increasingly contaminated'. Its audit found flawed tests in about 59% of the hard problems it checked, and frontier models had seen some problems during training. OpenAI stopped reporting the test and urged other labs to do the same. The ~80% figure is therefore likely inflated, and the test should not be presented as clean. The early score used the harder full SWE-bench with no agent scaffold, and later scores use the 500-task Verified subset with agent harnesses. The curve is right in direction, not a like-for-like comparison. Add 'lab-reported, different test versions' in small print. On screen, prefer '~80%' to '81.42%'."
+   },
+   {
+    "id": "flywheel-scale-2026",
+    "user_claim": "NEW",
+    "verdict": "new-evidence",
+    "fact": "On February 27, 2026, OpenAI said ChatGPT had 900 million weekly active users and 50 million paying subscribers. In other words, about 94% of weekly users were not paying subscribers. OpenAI announced this alongside a $110 billion funding round. By its DevDay on September 29, 2026, OpenAI said ChatGPT had 1.2 billion weekly users.",
+    "evidence_card": "FEB 2026: 900M weekly ChatGPT users, only 50M paying \u00b7 SEP 2026: 1.2B weekly users \u00b7 Source: TechCrunch, citing OpenAI",
+    "key_numbers": [
+     "900 million weekly active users (Feb 27, 2026)",
+     "50 million paying subscribers (Feb 27, 2026; latest public figure)",
+     "$110B funding round",
+     "1.2 billion weekly users (Sep 29, 2026, per OpenAI)"
+    ],
+    "sources": [
+     {
+      "title": "ChatGPT reaches 900M weekly active users",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2026/02/27/chatgpt-reaches-900m-weekly-active-users",
+      "date": "2026-02-27",
+      "supporting_quote": "ChatGPT has reached 900 million weekly active users, OpenAI announced Friday... OpenAI also shared that it now has 50 million paying subscribers."
+     },
+     {
+      "title": "OpenAI's latest features take direct aim at the app store model",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2026/09/29/openais-latest-features-take-direct-aim-at-the-app-store-model/",
+      "date": "2026-09-29",
+      "supporting_quote": "The chatbot, which the company says now has 1.2 billion weekly users"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Updated. The 1.2B figure, which the earlier researcher could not confirm, is now confirmed: TechCrunch reported on Sep 29, 2026 that OpenAI 'says' it has 1.2 billion weekly users, and OpenAI's DevDay recap reportedly repeats it. I found no newer paying-subscriber number than 50M. So compute the 'about 94% don't pay' share only from the matched February pair, not from 1.2B. Weekly users and subscribers are different measures, and business seats (more than 9M) are counted separately, so the share is approximate."
+   }
+  ]
+ },
+ {
+  "cluster": "THE DATA FLYWHEEL: mechanics and evidence (creator claims 1, 2, 5)",
+  "facts": [
+   {
+    "id": "flywheel-definition",
+    "user_claim": "NEW: what a 'data flywheel' is",
+    "verdict": "new-evidence",
+    "fact": "NVIDIA defines an AI data flywheel as a self-improving loop. Data from AI interactions is used to keep refining the models, and the better models produce more valuable data. The loop collects high-signal data such as wrong predictions, low-confidence outputs and changes in user behavior.",
+    "evidence_card": "DEFINITION: 'A self-improving loop' \u00b7 Source: NVIDIA Glossary, 'What is a Data Flywheel?'",
+    "key_numbers": [],
+    "sources": [
+     {
+      "title": "What is a Data Flywheel?",
+      "publisher": "NVIDIA",
+      "url": "https://www.nvidia.com/en-us/glossary/data-flywheel/",
+      "supporting_quote": "An AI data flywheel is a self-improving loop where data collected from AI interactions or processes is used to continuously refine AI models, generating better outcomes and more valuable data for continued improvement. ... the flywheel collects high-signal data\u2014such as incorrect predictions, low-confidence outputs, or evolving user behavior"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified by fetching the live NVIDIA page on 2026-10-22. I trimmed the second quote to the wording I could confirm verbatim. NVIDIA sells flywheel tooling, so this is a vendor's definition. Feedback loops can also reinforce errors or bias."
+   },
+   {
+    "id": "chatgpt-launch-was-a-feedback-collector",
+    "user_claim": "When ChatGPT (GPT-3.5) launched, people used it en masse, which started a data flywheel",
+    "verdict": "partly-accurate",
+    "fact": "OpenAI launched ChatGPT on Nov 30, 2022 as a free 'research preview' and said plainly that it wanted user feedback. Users were asked to flag problematic outputs right in the interface. ChatGPT reached 1 million users in 5 days (Sam Altman, Dec 5, 2022). By January 2023 it had an estimated 100 million monthly users; UBS said it could not recall a faster ramp for a consumer internet app. The feedback loop did not start with ChatGPT, though: InstructGPT (March 2022) was already trained partly on prompts sent through OpenAI's API.",
+    "evidence_card": "NOV 30, 2022: ChatGPT launches 'to get users' feedback' \u00b7 1M users in 5 days \u00b7 Source: OpenAI, 'Introducing ChatGPT'",
+    "key_numbers": [
+     "Launched Nov 30, 2022 (free research preview)",
+     "1 million users by Dec 5, 2022",
+     "~100 million monthly active users in Jan 2023 (UBS/Similarweb estimate)",
+     "TikTok ~9 months, Instagram ~2.5 years to reach 100M (Sensor Tower)"
+    ],
+    "sources": [
+     {
+      "title": "Introducing ChatGPT",
+      "publisher": "OpenAI",
+      "url": "https://openai.com/index/chatgpt/",
+      "date": "2022-11-30",
+      "supporting_quote": "We are excited to introduce ChatGPT to get users' feedback and learn about its strengths and weaknesses. During the research preview, usage of ChatGPT is free. ... Users are encouraged to provide feedback on problematic model outputs through the UI"
+     },
+     {
+      "title": "ChatGPT launched on wednesday already crosses 1 million users (Altman tweet)",
+      "publisher": "The Tech Outlook / @sama on X",
+      "url": "https://www.thetechoutlook.com/news/new-release/software-apps/chatgpt-launched-on-wednesday-already-crosses-1-million-users/",
+      "date": "2022-12-05",
+      "supporting_quote": "ChatGPT launched on wednesday. today it crossed 1 million users!"
+     },
+     {
+      "title": "ChatGPT sets record for fastest-growing user base - analyst note (Reuters)",
+      "publisher": "Reuters via Cyprus Mail",
+      "url": "https://cyprus-mail.com/2023/02/05/chatgpt-sets-record-for-fastest-growing-user-base",
+      "date": "2023-02-01 (Reuters); reprinted 2023-02-05",
+      "supporting_quote": "is estimated to have reached 100 million monthly active users in January, just two months after launch ... In 20 years following the internet space, we cannot recall a faster ramp in a consumer internet app"
+     },
+     {
+      "title": "Training language models to follow instructions with human feedback (InstructGPT)",
+      "publisher": "OpenAI / arXiv 2203.02155",
+      "url": "https://arxiv.org/abs/2203.02155",
+      "date": "2022-03-04",
+      "supporting_quote": "Starting with a set of labeler-written prompts and prompts submitted through the OpenAI API, we collect a dataset of labeler demonstrations"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Changed: I removed the claim that the post 'ended by promising to carry the lessons into more capable systems' and its quote, because I could not confirm that sentence this session. I replaced it with the confirmed lines 'usage of ChatGPT is free' and the in-UI feedback request. I also changed 'flag button' to 'flag outputs in the interface'. The Reuters/UBS story is dated Feb 1, 2023; the Cyprus Mail reprint is Feb 5, and the source date was wrong. openai.com returns 403, so the launch-post wording was confirmed through search-indexed copies. The 100M figure is a Similarweb/UBS estimate, not an OpenAI disclosure. The 'fastest ever' title was later overtaken by Threads in 2023."
+   },
+   {
+    "id": "chatgpt-early-skepticism",
+    "user_claim": "When ChatGPT 3.5 came, everyone thought it was a piece of junk",
+    "verdict": "partly-accurate",
+    "fact": "'Everyone thought it was junk' goes too far: the launch went viral at once. It did draw real skepticism about accuracy, though. Stack Overflow temporarily banned ChatGPT answers on Dec 5, 2022, saying 'the average rate of getting correct answers from ChatGPT is too low'. Sam Altman himself called it 'incredibly limited' on Dec 10, 2022. In January 2023, Meta's Yann LeCun said its underlying techniques were 'not particularly innovative'.",
+    "evidence_card": "DEC 2022: Stack Overflow bans ChatGPT answers; Altman calls it 'incredibly limited' \u00b7 Sources: The Register, VentureBeat",
+    "key_numbers": [
+     "Stack Overflow ban: Dec 5, 2022 (temporary)",
+     "Altman tweet: Dec 10, 2022 (US time; some embeds show Dec 11)"
+    ],
+    "sources": [
+     {
+      "title": "Stack Overflow bans ChatGPT",
+      "publisher": "The Register",
+      "url": "https://www.theregister.com/2022/12/05/stack_overflow_bans_chatgpt/",
+      "date": "2022-12-05",
+      "supporting_quote": "The average rate of getting correct answers from ChatGPT is too low"
+     },
+     {
+      "title": "OpenAI CEO admits ChatGPT risks. What now?",
+      "publisher": "VentureBeat",
+      "url": "https://venturebeat.com/ai/openai-ceo-admits-chatgpt-risks-what-now-the-ai-beat",
+      "date": "2022-12",
+      "supporting_quote": "ChatGPT is incredibly limited, but good enough at some things to create a misleading impression of greatness. it's a mistake to be relying on it for anything important right now."
+     },
+     {
+      "title": "Meta's AI chief Yann LeCun calls ChatGPT 'not particularly innovative'",
+      "publisher": "The Decoder (citing ZDNet)",
+      "url": "https://the-decoder.com/metas-ai-chief-yann-lecun-calls-chatgpt-not-particularly-innovative/",
+      "date": "2023-01",
+      "supporting_quote": "In terms of underlying techniques, ChatGPT is not particularly innovative"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified. I fixed the Stack Overflow date to Dec 5 using The Register's timestamp (Dec 5, 2022, 21:30 UTC) and noted the ban was temporary. The Altman tweet went out Saturday, Dec 10 in the US; some embeds show Dec 11 because of time zones. LeCun's remark comes from a ZDNet report on a Zoom event, and he later said he was criticizing the hype, not OpenAI."
+   },
+   {
+    "id": "gpt4-trained-before-chatgpt",
+    "user_claim": "GPT-4 already existed before ChatGPT launched",
+    "verdict": "accurate",
+    "fact": "Correct. OpenAI's GPT-4 System Card says GPT-4 'finished training in August of 2022', about three months before ChatGPT launched on Nov 30, 2022. It then spent about seven months in testing and alignment before its public release on March 14, 2023.",
+    "evidence_card": "AUG 2022: GPT-4 finishes training, 3 months BEFORE ChatGPT launches \u00b7 Source: OpenAI GPT-4 System Card",
+    "key_numbers": [
+     "GPT-4 training finished Aug 2022",
+     "ChatGPT launched Nov 30, 2022",
+     "GPT-4 released Mar 14, 2023"
+    ],
+    "sources": [
+     {
+      "title": "GPT-4 System Card",
+      "publisher": "OpenAI",
+      "url": "https://cdn.openai.com/papers/gpt-4-system-card.pdf",
+      "date": "2023-03-14",
+      "supporting_quote": "Since it finished training in August of 2022, we have been evaluating, adversarially testing, and iteratively improving the model and the system-level mitigations around it."
+     },
+     {
+      "title": "GPT-4 Technical Report",
+      "publisher": "OpenAI / arXiv 2303.08774",
+      "url": "https://arxiv.org/abs/2303.08774",
+      "date": "2023-03-15",
+      "supporting_quote": "Since it finished training in August of 2022, we have been evaluating, adversarially testing, and iteratively improving the model"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified against the text of the System Card PDF. I changed 'roughly six months' of testing to 'about seven months', since August 2022 to March 14, 2023 is about seven months; OpenAI's launch post itself says '6 months' of alignment. Pretraining finished before ChatGPT, but the GPT-4 that shipped was further shaped by post-training that drew on ChatGPT data (see next fact)."
+   },
+   {
+    "id": "gpt4-improved-with-chatgpt-user-feedback",
+    "user_claim": "NEW: usage data from ChatGPT made the next model (GPT-4) better",
+    "verdict": "new-evidence",
+    "fact": "OpenAI's own GPT-4 materials say ChatGPT users' feedback helped shape GPT-4. The launch post says OpenAI 'incorporated more human feedback, including feedback submitted by ChatGPT users'. The System Card says that to reduce hallucinations, OpenAI collected 'real-world ChatGPT data that has been flagged by users as being not factual' and used it to train its reward models.",
+    "evidence_card": "MAR 2023: 'feedback submitted by ChatGPT users' used to improve GPT-4 \u00b7 Source: OpenAI GPT-4 launch post & System Card",
+    "key_numbers": [
+     "'6 months' of iterative alignment before release (OpenAI)"
+    ],
+    "sources": [
+     {
+      "title": "GPT-4",
+      "publisher": "OpenAI",
+      "url": "https://openai.com/index/gpt-4/",
+      "date": "2023-03-14",
+      "supporting_quote": "We incorporated more human feedback, including feedback submitted by ChatGPT users, to improve GPT-4's behavior. ... We've spent 6 months iteratively aligning GPT-4 using lessons from our adversarial testing program as well as ChatGPT"
+     },
+     {
+      "title": "GPT-4 System Card",
+      "publisher": "OpenAI",
+      "url": "https://cdn.openai.com/papers/gpt-4-system-card.pdf",
+      "date": "2023-03-14",
+      "supporting_quote": "For tackling open-domain hallucinations, we collect real-world ChatGPT data that has been flagged by users as being not factual, and collect additional labeled comparison data that we use to train our reward models."
+     },
+     {
+      "title": "OpenAI GPT-4 announcement (repost)",
+      "publisher": "Simon Willison's Weblog",
+      "url": "https://simonwillison.net/2023/Mar/14/openai",
+      "date": "2023-03-14",
+      "supporting_quote": "We've spent 6 months iteratively aligning GPT-4 using lessons from our adversarial testing program as well as ChatGPT"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified. The System Card quote was confirmed verbatim from the PDF text. The launch-post quotes were confirmed through search indexing and Simon Willison's repost, because openai.com returns 403. This was post-training and alignment (reward models), not pretraining."
+   },
+   {
+    "id": "not-just-scaling-laws",
+    "user_claim": "Progress is 'just scaling laws'",
+    "verdict": "partly-accurate",
+    "fact": "Scaling laws are real. Kaplan et al. (Jan 2020) showed that language-model loss falls predictably, as a power law, as model size, data and compute grow. But scaling alone did not make ChatGPT useful. OpenAI's InstructGPT paper (March 2022) says making models bigger 'does not inherently make them better at following a user's intent'. Its 1.3B-parameter model trained with human feedback (RLHF) was preferred over the 175B GPT-3, a model 100 times larger. Human feedback is the part the flywheel feeds.",
+    "evidence_card": "MAR 2022: 1.3B model + human feedback beats 175B GPT-3 \u00b7 Source: OpenAI, InstructGPT paper (arXiv 2203.02155)",
+    "key_numbers": [
+     "Scaling laws paper: Jan 23, 2020",
+     "1.3B InstructGPT preferred over 175B GPT-3 (100x fewer parameters)",
+     "Trends span 7+ orders of magnitude"
+    ],
+    "sources": [
+     {
+      "title": "Scaling Laws for Neural Language Models",
+      "publisher": "OpenAI (Kaplan et al.) / arXiv 2001.08361",
+      "url": "https://arxiv.org/abs/2001.08361",
+      "date": "2020-01-23",
+      "supporting_quote": "The loss scales as a power-law with model size, dataset size, and the amount of compute used for training, with some trends spanning more than seven orders of magnitude."
+     },
+     {
+      "title": "Training language models to follow instructions with human feedback",
+      "publisher": "OpenAI (Ouyang et al.) / arXiv 2203.02155",
+      "url": "https://arxiv.org/abs/2203.02155",
+      "date": "2022-03-04",
+      "supporting_quote": "Making language models bigger does not inherently make them better at following a user's intent. ... outputs from the 1.3B parameter InstructGPT model are preferred to outputs from the 175B GPT-3, despite having 100x fewer parameters."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified against both arXiv abstracts. Later gains also came from other levers, such as reasoning and reinforcement learning, so 'scaling + feedback' is still a simplification."
+   },
+   {
+    "id": "openai-consumer-default-training",
+    "user_claim": "AI is free because users ARE the data (consumer ChatGPT)",
+    "verdict": "partly-accurate",
+    "fact": "By default, OpenAI may use what people type into its individual services, such as ChatGPT and Codex, to train its models. Users can opt out by turning off 'Improve the model for everyone' (Settings > Data controls) or through the Privacy Portal. Temporary Chats are not used for training. One catch: even after opting out, rating a reply thumbs-up or thumbs-down means 'the entire conversation associated with that feedback may be used to train our models'. OpenAI's own explanation reads like a flywheel: 'When you share your content with us, it helps our models become more accurate'.",
+    "evidence_card": "DEFAULT ON: ChatGPT chats may train OpenAI models unless you switch off 'Improve the model for everyone' \u00b7 Source: OpenAI data-usage policy",
+    "key_numbers": [
+     "Opt-out controls first added Apr 25, 2023 (chat history off: 30-day retention, then deleted)",
+     "OpenAI data-usage policy page last updated Mar 13, 2026"
+    ],
+    "sources": [
+     {
+      "title": "How your data is used to improve model performance",
+      "publisher": "OpenAI",
+      "url": "https://openai.com/policies/how-your-data-is-used-to-improve-model-performance/",
+      "date": "2026-03-13 (last updated)",
+      "supporting_quote": "When you share your content with us, it helps our models become more accurate and better at solving your specific problems"
+     },
+     {
+      "title": "How your data is used to improve model performance",
+      "publisher": "OpenAI Help Center",
+      "url": "https://help.openai.com/en/articles/5722486-how-your-data-is-used-to-improve-model-performance",
+      "supporting_quote": "If you choose to provide feedback, the entire conversation associated with that feedback may be used to train our models."
+     },
+     {
+      "title": "New ways to manage your data in ChatGPT",
+      "publisher": "OpenAI",
+      "url": "https://openai.com/index/new-ways-to-manage-your-data-in-chatgpt",
+      "date": "2023-04-25",
+      "supporting_quote": "conversations that are started when chat history is disabled won't be used to train and improve our models"
+     }
+    ],
+    "confidence": "medium",
+    "caveats": "Changed: I replaced the quote 'helps our models become more accurate and better at solving your specific problems', which was attributed to the help-center page but not found there verbatim. It does appear, prefixed by 'When you share your content with us', on the openai.com policy page (updated Mar 13, 2026). I dropped the Data Controls FAQ quote and URL (7730893), which I could not confirm, and used the verified feedback-exception quote instead. openai.com and help.openai.com return 403, so all wording was confirmed through search-indexed copies; check the live page before putting it on screen. 'Partly accurate': data is a big reason, but not the only reason, the product is free (see the subsidy fact)."
+   },
+   {
+    "id": "api-business-not-trained-by-default",
+    "user_claim": "BALANCE: is everyone's data used?",
+    "verdict": "new-evidence",
+    "fact": "Not everyone's data goes into the flywheel. Since March 1, 2023, OpenAI has not trained on data sent through its API unless the customer opts in. By default it also does not train on ChatGPT Business, Enterprise or Edu data. Anthropic's commercial products (Claude for Work, Government, Education and the API, including via Amazon Bedrock and Google Vertex AI) are excluded too, as are GitHub Copilot Business and Enterprise. In practice, it is mainly free and individual users who feed the flywheel by default.",
+    "evidence_card": "MAR 1, 2023: OpenAI stops training on API data by default \u00b7 paying businesses opted OUT; consumers opted IN",
+    "key_numbers": [
+     "Policy effective Mar 1, 2023",
+     "API data retained max 30 days for abuse monitoring"
+    ],
+    "sources": [
+     {
+      "title": "How your data is used to improve model performance",
+      "publisher": "OpenAI",
+      "url": "https://openai.com/policies/how-your-data-is-used-to-improve-model-performance/",
+      "date": "2026-03-13 (last updated)",
+      "supporting_quote": "By default, we do not train on any inputs or outputs from our products for business users"
+     },
+     {
+      "title": "Do OpenAI use customers' prompts for training their models? (quoting OpenAI API FAQ)",
+      "publisher": "OpenAI Developer Community",
+      "url": "https://community.openai.com/t/do-openai-use-customers-prompts-for-training-their-models/166615",
+      "date": "2023",
+      "supporting_quote": "As of March 1st, 2023, we retain your API data for 30 days but no longer use your data sent via the API to improve our models."
+     },
+     {
+      "title": "OpenAI Clarifies its Data Privacy Practices for API Users",
+      "publisher": "Maginative",
+      "url": "https://www.maginative.com/article/openai-clarifies-its-data-privacy-practices-for-api-users/",
+      "date": "2023-07-24",
+      "supporting_quote": "Previously, data submitted through the API before March 1, 2023 could have been incorporated into model training."
+     },
+     {
+      "title": "Updates to Consumer Terms and Privacy Policy",
+      "publisher": "Anthropic",
+      "url": "https://www.anthropic.com/news/updates-to-our-consumer-terms",
+      "date": "2025-08-28",
+      "supporting_quote": "Claude for Work, Claude for Government, Claude for Education, or API use"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Changed: Maginative's date was wrong (published July 24, 2023, not March 2023), and I fixed its quote to the exact wording. I could not fetch Neowin (403), so I replaced it with an OpenAI community thread that quotes the API FAQ. I removed 'Google's enterprise offerings', which I did not verify this session. The 'business users' sentence is confirmed on the openai.com policy page through search indexing. Before March 1, 2023, API data could be used for training, and InstructGPT did use API prompts. API customers can still opt in, for example by sharing data."
+   },
+   {
+    "id": "gpt4o-sycophancy-thumbs-reward",
+    "user_claim": "NEW: direct proof that user clicks feed training",
+    "verdict": "new-evidence",
+    "fact": "In its May 2, 2025 postmortem on the 'sycophantic' GPT-4o update, OpenAI said the April 25, 2025 update 'introduced an additional reward signal based on user feedback\u2014thumbs-up and thumbs-down data from ChatGPT'. OpenAI admitted that user feedback 'can sometimes favor more agreeable responses', which likely made the model more flattering. The update was rolled back within days. Your thumbs-up is literally a training signal.",
+    "evidence_card": "MAY 2, 2025: OpenAI admits thumbs-up/down data became a reward signal for GPT-4o \u00b7 Source: OpenAI, 'Expanding on what we missed with sycophancy'",
+    "key_numbers": [
+     "Update shipped Apr 25, 2025",
+     "Rollback announced Apr 29, 2025",
+     "Postmortem May 2, 2025"
+    ],
+    "sources": [
+     {
+      "title": "Expanding on what we missed with sycophancy",
+      "publisher": "OpenAI (quoted by Simon Willison)",
+      "url": "https://openai.com/index/expanding-on-sycophancy/",
+      "date": "2025-05-02",
+      "supporting_quote": "In the April 25th model update, we had candidate improvements to better incorporate user feedback, memory, and fresher data ... an additional reward signal based on user feedback\u2014thumbs-up and thumbs-down data from ChatGPT. ... User feedback in particular can sometimes favor more agreeable responses"
+     },
+     {
+      "title": "What we missed with sycophancy (commentary)",
+      "publisher": "Simon Willison's Weblog",
+      "url": "https://simonwillison.net/2025/May/2/what-we-missed-with-sycophancy/",
+      "date": "2025-05-02",
+      "supporting_quote": "an additional reward signal based on user feedback\u2014thumbs-up and thumbs-down data from ChatGPT."
+     },
+     {
+      "title": "OpenAI explains why ChatGPT became too sycophantic",
+      "publisher": "TechCrunch (quoting OpenAI, 'Sycophancy in GPT-4o')",
+      "url": "https://techcrunch.com/2025/04/29/openai-explains-why-chatgpt-became-too-sycophantic",
+      "date": "2025-04-29",
+      "supporting_quote": "we focused too much on short-term feedback, and did not fully account for how users' interactions with ChatGPT evolve over time"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified through Simon Willison's verbatim excerpts, since openai.com returns 403. Coverage from TechCrunch, VentureBeat and Bloomberg agrees. Rollback for free users began late on Apr 28; Altman and OpenAI announced it Apr 29. It is a strong flywheel example, but also a cautionary one: optimizing for user approval caused a defect."
+   },
+   {
+    "id": "anthropic-consumer-terms-2025",
+    "user_claim": "Labs want your data (Anthropic / Claude)",
+    "verdict": "new-evidence",
+    "fact": "On Aug 28, 2025, Anthropic changed its consumer terms so that Claude Free, Pro and Max users, including when they use Claude Code from those accounts, choose whether their chats and coding sessions train future models. Users who allow it have their data kept for five years instead of 30 days. Anthropic's own explanation reads like a flywheel: real coding interactions offer 'valuable signals', and 'this creates a feedback loop that helps models get better over time'. Commercial and API use is excluded.",
+    "evidence_card": "AUG 28, 2025: Anthropic, 'This creates a feedback loop that helps models get better over time' \u00b7 5-year retention if you opt in",
+    "key_numbers": [
+     "Announced Aug 28, 2025",
+     "Decision deadline Oct 8, 2025 per Anthropic's current page (initially reported as Sept 28)",
+     "5-year retention if training allowed vs 30 days if not"
+    ],
+    "sources": [
+     {
+      "title": "Updates to Consumer Terms and Privacy Policy",
+      "publisher": "Anthropic",
+      "url": "https://www.anthropic.com/news/updates-to-our-consumer-terms",
+      "date": "2025-08-28",
+      "supporting_quote": "This creates a feedback loop that helps models get better over time. ... We are also extending data retention to five years, if you allow us to use your data for model training."
+     },
+     {
+      "title": "Anthropic to use Claude chats for AI training by Sept 28 (citing The Verge)",
+      "publisher": "Communications Today",
+      "url": "https://www.communicationstoday.co.in/anthropic-to-use-claude-chats-for-ai-training-by-sept-28/",
+      "date": "2025-09-02",
+      "supporting_quote": "accompanied by a toggle switch that defaults to \u201cOn.\u201d ... This means many users may click the large \u201cAccept\u201d button without noticing or changing the toggle option."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified on Anthropic's live page, which reads 'You have until October 8, 2025 to make your selection' and does not mention Sept 28. Launch coverage (Tom's Guide, Business Today, Shelly Palmer) reported Sept 28, so the deadline was evidently moved, though I found no source documenting the extension. Fixed the Communications Today date to Sept 2, 2025. The 'toggle defaults to On' detail is second-hand, from The Verge as cited by Communications Today; The Verge article itself was not retrieved. Anthropic frames this as a user choice, which is accurate."
+   },
+   {
+    "id": "github-copilot-2026-training",
+    "user_claim": "Workers told to use Copilot and 'embrace it'; it got much better within months",
+    "verdict": "new-evidence",
+    "fact": "On March 25, 2026, GitHub announced that from April 24, 2026 it would train its AI models on interaction data from Copilot Free, Pro and Pro+ users unless they opt out. That data includes inputs, accepted or edited outputs, code around the cursor, file names, repository structure and thumbs ratings. GitHub said that a year of training on Microsoft employees' Copilot interactions had produced 'meaningful improvements, including increased acceptance rates in multiple languages'. The section heading reads 'Real-world data = smarter models'. Copilot Business and Enterprise are excluded.",
+    "evidence_card": "MAR 25, 2026: GitHub, 'Real-world data = smarter models' \u00b7 Copilot Free/Pro/Pro+ data trains models from APR 24, 2026 unless you opt out",
+    "key_numbers": [
+     "Announced Mar 25, 2026",
+     "Effective Apr 24, 2026",
+     "Applies to Copilot Free, Pro, Pro+ (not Business/Enterprise)"
+    ],
+    "sources": [
+     {
+      "title": "Updates to GitHub Copilot interaction data usage policy",
+      "publisher": "GitHub Blog (Mario Rodriguez, CPO)",
+      "url": "https://github.blog/news-insights/company-news/updates-to-github-copilot-interaction-data-usage-policy/",
+      "date": "2026-03-25",
+      "supporting_quote": "From April 24 onward, interaction data\u2014specifically inputs, outputs, code snippets, and associated context\u2014from Copilot Free, Pro, and Pro+ users will be used to train and improve our AI models unless they opt out. ... This past year, we've started incorporating interaction data from Microsoft employees and have seen meaningful improvements, including increased acceptance rates in multiple languages. ... We believe the future of AI-assisted development depends on real-world interaction data from developers like you."
+     },
+     {
+      "title": "Updates to our Privacy Statement and Terms of Service: How we use your data",
+      "publisher": "GitHub Changelog",
+      "url": "https://github.blog/changelog/2026-03-25-updates-to-our-privacy-statement-and-terms-of-service-how-we-use-your-data/",
+      "date": "2026-03-25",
+      "supporting_quote": "These changes affect Copilot Free, Pro, and Pro+ users. ... These changes take effect on April 24."
+     },
+     {
+      "title": "Only with opt-out: GitHub will train Copilot models with user data in the future",
+      "publisher": "heise online",
+      "url": "https://www.heise.de/en/news/Only-with-opt-out-GitHub-will-train-Copilot-models-with-user-data-in-the-future-11226787.html",
+      "date": "2026-03",
+      "supporting_quote": "students and teachers who use the Pro plan for free ... are also not impacted"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified on both live GitHub pages. The GitHub post confirms that people who opted out earlier keep that choice ('your preference has been retained'). I added heise as the source for the student and teacher exemption, which the GitHub post does not mention. I found no reports that the policy was reversed. GitHub published no metrics behind 'meaningful improvements'. This shows the flywheel, not the speed of Copilot's improvement claimed by the creator."
+   },
+   {
+    "id": "google-gemini-human-review",
+    "user_claim": "Labs use consumer interactions (Google Gemini)",
+    "verdict": "new-evidence",
+    "fact": "Google's Gemini Apps Privacy Hub (updated Oct 19, 2026) says the data it collects is used to improve its services, including 'the generative AI models and other machine-learning technologies powering our services'. It also says human reviewers, including contractors, read some of it. Chats a reviewer has seen are kept for up to three years, even if the user deletes their activity. Gemini activity auto-deletes after 18 months by default.",
+    "evidence_card": "Google: 'Please don't enter confidential information that you wouldn't want a reviewer to see' \u00b7 Source: Gemini Apps Privacy Hub (Oct 2026)",
+    "key_numbers": [
+     "Reviewed chats retained up to 3 years",
+     "Default auto-delete 18 months (can change to 3 or 36 months, or no auto-delete)",
+     "Keep Activity off / Temporary chats: retained 72 hours"
+    ],
+    "sources": [
+     {
+      "title": "Gemini Apps Privacy Hub",
+      "publisher": "Google",
+      "url": "https://support.google.com/gemini/answer/13594961?hl=en",
+      "date": "2026-10-19 (last updated)",
+      "supporting_quote": "These uses extend to the generative AI models and other machine-learning technologies powering our services. Human reviewers (including trained reviewers from our service providers) review some of the data we collect for these purposes. Please don't enter confidential information that you wouldn't want a reviewer to see or Google to use to improve our services, including machine-learning technologies."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified on the live page (Oct 19, 2026). Changed: I corrected the Keep Activity caveat. Per the page, chats made with Keep Activity off, and Temporary chats, are kept with the account for 72 hours to respond and for protection, and are not used to train Google's AI models unless the user sends feedback. I also fixed the auto-delete options (3 or 36 months, or no auto-delete)."
+   },
+   {
+    "id": "stanford-all-six-train-by-default",
+    "user_claim": "You are part of the data flywheel (industry-wide)",
+    "verdict": "new-evidence",
+    "fact": "A Stanford study led by Jennifer King reviewed the privacy policies of six US frontier AI developers: Amazon, Anthropic, Google, Meta, Microsoft and OpenAI. It found that all six appear to use users' chat data by default to train their models. Some offer an opt-out and some do not, some keep the data indefinitely, and four of the six appear to include children's chats. The researchers recommend requiring affirmative opt-in. Stanford HAI summarized the study on Oct 15, 2025.",
+    "evidence_card": "OCT 2025: Stanford finds ALL SIX major AI developers train on your chats by default \u00b7 Source: Stanford HAI",
+    "key_numbers": [
+     "6 of 6 companies train on chat data by default",
+     "4 of 6 appear to include children's chat data",
+     "28 policy documents analyzed"
+    ],
+    "sources": [
+     {
+      "title": "Be Careful What You Tell Your AI Chatbot",
+      "publisher": "Stanford HAI",
+      "url": "https://hai.stanford.edu/news/be-careful-what-you-tell-your-ai-chatbot",
+      "date": "2025-10-15",
+      "supporting_quote": "The scholars found all six companies employ users' chat data by default to train their models ... Some give consumers the choice to opt out, while others do not."
+     },
+     {
+      "title": "User Privacy and Large Language Models: An Analysis of Frontier Developers' Privacy Policies",
+      "publisher": "arXiv 2509.05382 / AAAI-ACM AIES 2025 (King, Klyman, Capstick, Saade, Hsieh)",
+      "url": "https://arxiv.org/abs/2509.05382",
+      "date": "2025-09-05",
+      "supporting_quote": "all six developers appear to employ their users' chat data to train and improve their models by default, and some retain this data indefinitely"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified. I added the paper's arXiv date (Sept 5, 2025) and its AIES venue. The '4 of 6 children's data' figure comes from the paper's abstract as indexed by search; the HAI article says only 'most'. The study analyzes privacy policies, not internal practice, and 'appear to' is the paper's own hedge."
+   },
+   {
+    "id": "no-other-option-defaults",
+    "user_claim": "You don't have other options",
+    "verdict": "partly-accurate",
+    "fact": "This overstates it. Opt-outs exist at OpenAI ('Improve the model for everyone', Temporary Chat), Anthropic (privacy toggle), Google (Keep Activity off), GitHub (privacy setting) and X/Grok. Paid business and API tiers are excluded by default. Meta, however, offers no opt-out from its Dec 16, 2025 change that uses Meta AI chats to personalize ads. The real force is defaults: in Jared Spool's well-known study, fewer than 5% of users had changed any settings at all. Most people stay in the flywheel because they never touch the switch, not because there is no switch.",
+    "evidence_card": "'Less than 5% of the users we surveyed had changed any settings at all' \u00b7 Source: Jared Spool, UIE (2011)",
+    "key_numbers": [
+     "<5% of surveyed users changed any settings (Spool, 2011; Microsoft Word settings files)",
+     "Meta AI-chat ad personalization: announced Oct 1, 2025, effective Dec 16, 2025, no opt-out (excl. EU, UK, South Korea)"
+    ],
+    "sources": [
+     {
+      "title": "Do users change their settings?",
+      "publisher": "UIE / Jared Spool",
+      "url": "https://archive.uie.com/brainsparks/2011/09/14/do-users-change-their-settings/",
+      "date": "2011-09-14",
+      "supporting_quote": "Less than 5% of the users we surveyed had changed any settings at all."
+     },
+     {
+      "title": "Improving Your Recommendations on Our Apps With AI at Meta",
+      "publisher": "Meta",
+      "url": "https://about.fb.com/news/2025/10/improving-your-recommendations-apps-ai/",
+      "date": "2025-10-01",
+      "supporting_quote": "we will soon use your interactions with AI at Meta to personalize the content and ads you see"
+     },
+     {
+      "title": "Meta will listen into AI conversations to personalize ads",
+      "publisher": "The Register",
+      "url": "https://www.theregister.com/2025/10/01/meta_ai_use_informs_ads/",
+      "date": "2025-10-01",
+      "supporting_quote": "There's no opt-out, but Meta has spared those who live in the EU, the UK, and South Korea for the time being."
+     },
+     {
+      "title": "Here's how to disable X from using your data to train its Grok AI",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2024/07/26/heres-how-to-disable-x-twitter-from-using-your-data-to-train-its-grok-ai",
+      "date": "2024-07-26",
+      "supporting_quote": "your X posts as well as your user interactions, inputs and results with Grok for training and fine-tuning purposes"
+     }
+    ],
+    "confidence": "medium",
+    "caveats": "Changed: three quotes in the earlier draft were paraphrases. I replaced them with verbatim text for Meta ('soon use your interactions with AI at Meta to personalize the content and ads you see'), The Register ('There's no opt-out...') and TechCrunch (the setting covers posts plus Grok interactions; TechCrunch says X 'enabled the new setting by default'). I added that Spool's sample was several hundred Microsoft Word users who sent in their settings files. It is one small, informal survey, so present it as illustrative. Meta notifications started Oct 7, 2025. The Meta change concerns ad personalization, not model training. Opting out also does not remove data already used in past training."
+   },
+   {
+    "id": "subsidy-is-not-only-data",
+    "user_claim": "The subsidy exists because you are the data",
+    "verdict": "partly-accurate",
+    "fact": "Data is one real reason free tiers exist, but not the only one. Free AI is also subsidized by investor capital, by converting users into subscribers, and now by ads. Sam Altman said in Jan 2025 that OpenAI was losing money even on $200/month Pro subscriptions. On Feb 27, 2026, OpenAI reported more than 900 million weekly ChatGPT users but only about 50 million paying consumer subscribers, alongside a $110B funding round. By DevDay (Sept 29, 2026) weekly users had passed 1.2 billion. OpenAI announced ads for Free and Go users on Jan 16, 2026 and began testing them in the US on Feb 9, 2026. A fairer line is 'you pay with your data, your attention, and investors' money'.",
+    "evidence_card": "2026: 900M+ weekly users, ~50M paying \u00b7 ads arrive in free ChatGPT \u00b7 Sources: AP; Entrepreneur; The Decoder",
+    "key_numbers": [
+     "900M+ weekly active users, 50M+ consumer subscribers (Feb 27, 2026)",
+     "1.2B+ weekly users (OpenAI DevDay, Sept 29, 2026)",
+     "$110B funding round at $730B pre-money valuation (Amazon $50B, Nvidia $30B, SoftBank $30B)",
+     "Ads announced Jan 16, 2026; test began Feb 9, 2026 (US, Free + Go tiers; Go = $8/month)",
+     "Altman: losing money on $200/mo Pro (tweet Jan 5, 2025)"
+    ],
+    "sources": [
+     {
+      "title": "ChatGPT maker OpenAI receives $110B in investments from Amazon, Nvidia and SoftBank",
+      "publisher": "Associated Press (via Spectrum News 13)",
+      "url": "https://mynews13.com/fl/orlando/ap-top-news/2026/02/27/chatgpt-maker-openai-receives-110b-in-investments-from-amazon-nvidia-and-softbank",
+      "date": "2026-02-27",
+      "supporting_quote": "putting the technology company's pre-money valuation at $730 billion ... ChatGPT has more than 900 million weekly active users, and more than 50 million consumer subscribers"
+     },
+     {
+      "title": "OpenAI just raised a record $110 billion",
+      "publisher": "Entrepreneur",
+      "url": "https://www.entrepreneur.com/business-news/openai-just-raised-record-110-billion",
+      "date": "2026-02-27",
+      "supporting_quote": "ChatGPT now has 900 million weekly active users and 50 million paying subscribers."
+     },
+     {
+      "title": "ChatGPT now reaches 1.2 billion people every week, OpenAI says",
+      "publisher": "The Decoder",
+      "url": "https://the-decoder.com/chatgpt-now-reaches-1-2-billion-people-every-week-openai-says",
+      "date": "2026-09-29 (updated 2026-10-09)",
+      "supporting_quote": "more than 1.2 billion weekly ChatGPT users"
+     },
+     {
+      "title": "OpenAI brings advertising to ChatGPT",
+      "publisher": "Forklog (quoting OpenAI on X)",
+      "url": "https://forklog.com/en/news/openai-brings-advertising-to-chatgpt",
+      "date": "2026-02-09",
+      "supporting_quote": "We're starting to roll out a test for ads in ChatGPT today to a subset of free and Go users in the U.S."
+     },
+     {
+      "title": "Even at $200/mo, Altman admits ChatGPT Pro struggles to turn a profit",
+      "publisher": "The Register",
+      "url": "https://www.theregister.com/2025/01/06/altman_gpt_profits/",
+      "date": "2025-01-06",
+      "supporting_quote": "Insane thing: We are currently losing money on OpenAI Pro subscriptions!"
+     }
+    ],
+    "confidence": "medium",
+    "caveats": "Changed: I added the newer weekly-user figure, 1.2B+ at DevDay on Sept 29, 2026, per The Decoder; no newer paid-subscriber number was disclosed, so 50M (Feb 2026) is still the latest. The Altman tweet was posted Jan 5, 2025; The Register's article is dated Jan 6. I replaced the Axios source (403, could not verify the quote) with Forklog quoting OpenAI's Feb 9 post. The Jan 16, 2026 ads announcement date comes from press coverage (YourStory, eCommerceNews); OpenAI's original post was not retrieved. Weekly users and subscribers are different metrics, so do not present a precise 'free %'; say 'the vast majority don't pay'. No lab has said outright that 'free = because you are data', so that link is the creator's interpretation, though it is consistent with the labs' own flywheel language. My web-search budget ran out near the end, so the 1.2B figure rests on The Decoder plus secondary sites."
+   }
+  ]
+ },
+ {
+  "cluster": "STARTUP GRAVEYARD + SUBSIDY ECONOMICS (creator claims 3 and 5)",
+  "facts": [
+   {
+    "id": "devday-2023-wrapper-shock",
+    "user_claim": "Startups built on GPT-4 kept getting 'nuked' by the next OpenAI release",
+    "verdict": "partly-accurate",
+    "fact": "At its first DevDay on November 6, 2023, OpenAI launched GPT-4 Turbo with a 128K context window and lower prices, an Assistants API with built-in Code Interpreter, retrieval and function calling, and no-code custom 'GPTs' with a GPT Store to follow. Commentators said OpenAI had just 'killed' the wrapper startups. The fear was real, but 'killed' was a reaction, not what happened: many of those companies kept operating.",
+    "evidence_card": "NOV 6, 2023: OpenAI DevDay ships GPTs, Assistants API, GPT-4 Turbo 128K \u00b7 Sources: OpenAI, TechCrunch",
+    "key_numbers": [
+     "128,000-token context window (4x GPT-4)",
+     "3x cheaper input / 2x cheaper output tokens vs GPT-4 ($0.01 / $0.03 per 1K tokens)",
+     "ChatGPT at 100 million weekly users (same day)",
+     "2 million+ developers"
+    ],
+    "sources": [
+     {
+      "title": "New models and developer products announced at DevDay",
+      "publisher": "OpenAI",
+      "url": "https://openai.com/index/new-models-and-developer-products-announced-at-devday/",
+      "date": "2023-11-06",
+      "supporting_quote": "GPT-4 Turbo with 128K context and lower prices, the new Assistants API, GPT-4 Turbo with Vision, DALL\u00b7E 3 API, and more."
+     },
+     {
+      "title": "OpenAI launches GPT-4 Turbo and launches fine-tuning program for GPT-4",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2023/11/06/openai-launches-gpt-4-turbo-and-launches-fine-tuning-program-for-gpt-4/",
+      "date": "2023-11-06",
+      "supporting_quote": "GPT-4 Turbo offers a 128,000-token context window \u2014 four times the size of GPT-4's ... a 3x cheaper price for input tokens and a 2x cheaper price for output tokens compared to GPT-4"
+     },
+     {
+      "title": "OpenAI launches API that lets developers build 'assistants' into their apps",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2023/11/06/openai-launches-api-that-lets-developers-build-assistants-into-their-apps/",
+      "date": "2023-11-06",
+      "supporting_quote": "OpenAI's tool that writes and runs Python code in a sandboxed execution environment ... supports function calling, which enables assistants to invoke programming functions that a developer defines"
+     },
+     {
+      "title": "OpenAI's ChatGPT now has 100 million weekly active users",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2023/11/06/openais-chatgpt-now-has-100-million-weekly-active-users/",
+      "date": "2023-11-06",
+      "supporting_quote": "ChatGPT now has 100 million weekly active users ... over two million developers use the platform"
+     },
+     {
+      "title": "Fast Company article on the GPT Store and AI startups (URL slug: 'openais-gpt-store-might-not-have-killed-the-company-but-it-could-still-threaten-ai-startups')",
+      "publisher": "Fast Company",
+      "url": "https://www.fastcompany.com/90991188/openais-gpt-store-might-not-have-killed-the-company-but-it-could-still-threaten-ai-startups",
+      "date": "2023-11",
+      "supporting_quote": "heralded with immediate clamor that OpenAI had just killed the so-called wrapper market (search snippet only; page returns 403)"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Launch facts re-verified against TechCrunch, including exact prices. I added the TechCrunch GPT-4 Turbo article because OpenAI's page returns 403. I also replaced the Code Interpreter paraphrase with a verbatim TechCrunch quote. The Fast Company 'killed the wrapper market' line is still unverified: the page blocks every fetch method, so I could not confirm its exact headline. Its URL slug says the GPT Store 'might not have killed' the company. Use 'killed' only as the reaction people had, not as the outcome. The GPT Store itself opened later, in January 2024."
+   },
+   {
+    "id": "pdf-upload-sherlock",
+    "user_claim": "Every new model/release spawns startups whose value evaporates with the next release",
+    "verdict": "accurate",
+    "fact": "In late October 2023, OpenAI began letting some paying ChatGPT Plus subscribers upload PDFs and ask questions about them. That was the whole product for a cottage industry of 'chat with your PDF' startups, and AI researcher Alex Ker posted: 'Many startups just died today.' On DevDay, TechCrunch's lesson for founders was: 'Build a company, not a feature.'",
+    "evidence_card": "OCT 2023: 'Many startups just died today': ChatGPT adds PDF upload \u00b7 Sources: Decrypt, TechCrunch",
+    "key_numbers": [
+     "Rolled out to 'a limited number of paying subscribers to ChatGPT Plus'",
+     "Exposed: ChatPDF, HiPDF, SmallPDF, Humata (had just raised $3.5M), plus plugins like AskYourPDF"
+    ],
+    "sources": [
+     {
+      "title": "A ChatGPT Update Could Wreck a Bunch of AI Startups",
+      "publisher": "Decrypt",
+      "url": "https://decrypt.co/203920/openai-pdf-chatbot-ai-startups-sherlocked",
+      "date": "2023-10-31",
+      "supporting_quote": "\"Many startups just died today,\""
+     },
+     {
+      "title": "Startups learn the hard way that relying on OpenAI's tech can burn them",
+      "publisher": "TechCrunch (Haje Jan Kamps)",
+      "url": "https://techcrunch.com/2023/11/06/get-the-pdf-outta-here/",
+      "date": "2023-11-06",
+      "supporting_quote": "their unique selling proposition can be made redundant by a feature update ... Build a company, not a feature."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Quote, speaker and article dates verified. Changes: (1) Narrowed 'paying ChatGPT users' to 'some ChatGPT Plus subscribers', because Decrypt says a limited rollout. (2) Changed the card date from 'OCT 31' to 'OCT 2023': Oct 31 is the Decrypt article date, and the tweet's own date is not given. (3) Removed the claim that ChatPDF said it was 'bracing for impact', because neither cited source contains it. (4) AskYourPDF was listed as a ChatGPT plugin, not an API app. 'Died' was the reaction at the time, not a documented wave of shutdowns."
+   },
+   {
+    "id": "altman-steamroll-20vc",
+    "user_claim": "Startups built on the current model get nuked by the next release",
+    "verdict": "new-evidence",
+    "fact": "On the 20VC podcast with Harry Stebbings (mid-April 2024), Sam Altman said there are two ways to build on AI: assume the model won't get better, or assume OpenAI keeps improving at the same pace. He said 95% of the world should bet on the second. Startups that bet on the first will get 'steamrolled' as OpenAI improves: 'Not because we don't like you, but because we have a mission.'",
+    "evidence_card": "APR 2024: Altman: startups betting the model won't improve will get 'steamrolled' \u00b7 Source: 20VC podcast",
+    "key_numbers": [
+     "95% should bet on models improving"
+    ],
+    "sources": [
+     {
+      "title": "20VC Newsletter - Apr 21st 2024",
+      "publisher": "20VC (Harry Stebbings)",
+      "url": "https://20vc.substack.com/p/20vc-newsletter-apr-21st-2024",
+      "date": "2024-04-21",
+      "supporting_quote": "95% should bet on #2. We have a mission to improve the model, so we will steamroll you. (newsletter's summary of the episode)"
+     },
+     {
+      "title": "Sam Altman explains why OpenAI might steamroll your AI startup",
+      "publisher": "The Decoder",
+      "url": "https://the-decoder.com/sam-altman-explains-why-openai-might-steamroll-your-ai-startup/",
+      "date": "2024-04-17",
+      "supporting_quote": "Not because we don't like you, but because we have a mission."
+     },
+     {
+      "title": "Sam Altman: OpenAI is 'going to steamroll you' if your startup is a wrapper on GPT-4",
+      "publisher": "Tech Startups",
+      "url": "https://techstartups.com/2024/04/22/sam-altman-openai-is-going-to-steamroll-you-if-your-startup-is-a-wrapper-on-gpt-4/",
+      "date": "2024-04-22",
+      "supporting_quote": "It would seem to me that 95% of the world should be betting on the latter category"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified with one correction. 'We will steamroll you' is the 20VC newsletter's summary, not Altman's verbatim words. Transcriptions say 'we're going to steamroll you' or 'steamrolled'. I changed the card to the word 'steamrolled', which The Decoder quotes, and used The Decoder's verbatim 'we have a mission' line. The Decoder published on Apr 17, 2024, so the episode came out before that; 'Monday's episode' points to Apr 15, 2024. The '95%' is Altman's own words per Tech Startups; The Decoder paraphrases it."
+   },
+   {
+    "id": "jasper-chatgpt-squeeze",
+    "user_claim": "Each new model release makes earlier AI startups' IP evaporate",
+    "verdict": "partly-accurate",
+    "fact": "Jasper, an early AI writing app that launched on the back of OpenAI's GPT-3, raised $125M at a $1.5B valuation on October 18, 2022, six weeks before ChatGPT launched. In July 2023 it laid off staff. By September 2023 it had cut its internal valuation about 20%, to roughly $1.2B, cut its 2023 annual recurring revenue (ARR) forecast by at least 30%, and replaced its CEO. Reporting said ChatGPT created 'a formidable low-cost competitor practically overnight.'",
+    "evidence_card": "2023: Jasper cuts valuation ~20%, lays off staff after ChatGPT arrives \u00b7 Source: The Information via Maginative",
+    "key_numbers": [
+     "$125M at $1.5B valuation (Oct 18, 2022)",
+     "~20% internal valuation cut to ~$1.2B (Sept 2023)",
+     "2023 ARR forecast cut at least 30%",
+     "Layoffs July 2023"
+    ],
+    "sources": [
+     {
+      "title": "Jasper Appoints New CEO and Cuts Internal Valuation as AI Growth Slows",
+      "publisher": "Maginative (citing The Information)",
+      "url": "https://www.maginative.com/article/jasper-cuts-internal-valuation-as-ai-growth-slows/",
+      "date": "2023-09-29",
+      "supporting_quote": "OpenAI's launch of ChatGPT in the fall created a formidable low-cost competitor practically overnight."
+     },
+     {
+      "title": "Jasper AI laying off staff 9 months after $125M raise",
+      "publisher": "Voicebot.ai",
+      "url": "https://voicebot.ai/2023/07/17/jasper-ai-laying-off-staff-9-months-after-125m-raise/",
+      "date": "2023-07-17",
+      "supporting_quote": "discontinuing a number of roles so that we may sharpen our focus"
+     },
+     {
+      "title": "AI content platform Jasper raises $125M at a $1.5B valuation",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2022/10/18/ai-content-platform-jasper-raises-125m-at-a-1-7b-valuation/",
+      "date": "2022-10-18",
+      "supporting_quote": "$125 million ... $1.5 billion (article corrected from an earlier $1.7 billion)"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Numbers verified. I added the TechCrunch raise article for the date. Its URL still says $1.7B, but the article was corrected to $1.5B, so do not use $1.7B. 'Built on GPT-3' is softened to 'launched on the back of GPT-3': TechCrunch says the company saw its opportunity 'with the advent of GPT-3' and does not state its model stack. The forecast cut was to ARR. Jasper was hurt badly but did not die; it pivoted to marketing teams. The fair word is 'squeezed', not 'nuked'."
+   },
+   {
+    "id": "chegg-chatgpt-crash",
+    "user_claim": "AI lab releases wipe out businesses built in their path",
+    "verdict": "new-evidence",
+    "fact": "On May 2, 2023, Chegg stock fell 48% in one day, closing at $9.08, after its CEO said students' interest in ChatGPT was 'having an impact on our new customer growth rate.' In October 2025, Chegg said it would cut about 45% of its staff (388 roles), citing the 'new realities of AI' and a sharp drop in traffic from Google.",
+    "evidence_card": "MAY 2, 2023: Chegg stock -48% in a day over ChatGPT \u00b7 Source: AP; OCT 2025: 45% of staff cut \u00b7 Source: Fortune",
+    "key_numbers": [
+     "-48% in one day, closed at $9.08 (May 2, 2023)",
+     "388 roles / ~45% of staff cut (Oct 2025)"
+    ],
+    "sources": [
+     {
+      "title": "Chegg's stock plunges on fears of competition from ChatGPT",
+      "publisher": "Associated Press (via News4Jax)",
+      "url": "https://www.news4jax.com/business/2023/05/02/cheggs-stock-plunges-on-fears-of-competition-from-chatgpt/",
+      "date": "2023-05-02",
+      "supporting_quote": "We now believe it's having an impact on our new customer growth rate."
+     },
+     {
+      "title": "Chegg's CEO once said he's the 'poster child' for AI shock. Now, the company is slashing 45% of staff",
+      "publisher": "Fortune",
+      "url": "https://www.fortune.com/2025/10/28/chegg-layoffs-ceo-dan-rosensweig-poster-child-ai-slashing-staff-shares",
+      "date": "2025-10-28",
+      "supporting_quote": "388 roles ... new realities of AI"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "All numbers and quotes verified. I corrected the Fortune article title to its real headline. Chegg was a public homework-help company, not an AI startup, so it illustrates a business 'in the blast radius'. By 2025 Chegg was also blaming falling Google traffic, not only ChatGPT."
+   },
+   {
+    "id": "openai-2025-product-absorption",
+    "user_claim": "Every new release absorbs another startup category",
+    "verdict": "partly-accurate",
+    "fact": "OpenAI kept moving into categories startups were building in. It launched Operator, a browser agent, on Jan 23, 2025, and Deep Research on Feb 2\u20133, 2025. On July 17, 2025 it combined their abilities in 'ChatGPT agent'. AgentKit, a visual agent builder with an embeddable chat UI, followed on Oct 6, 2025, and one analyst said it 'looks like a lightweight n8n or Zapier clone.' On Oct 21, 2025 came the ChatGPT Atlas browser, which TechCrunch set against startup browsers such as Perplexity's Comet and The Browser Company's Dia.",
+    "evidence_card": "2025: Operator \u2192 Deep Research \u2192 ChatGPT agent \u2192 AgentKit \u2192 Atlas browser \u00b7 Source: TechCrunch",
+    "key_numbers": [
+     "Operator: Jan 23, 2025",
+     "Deep Research: Feb 2\u20133, 2025",
+     "ChatGPT agent: Jul 17, 2025",
+     "AgentKit: Oct 6, 2025",
+     "Atlas: Oct 21, 2025"
+    ],
+    "sources": [
+     {
+      "title": "OpenAI launches Operator, an AI agent that performs tasks autonomously",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2025/01/23/openai-launches-operator-an-ai-agent-that-performs-tasks-autonomously/",
+      "date": "2025-01-23",
+      "supporting_quote": "take control of a web browser and independently perform certain actions"
+     },
+     {
+      "title": "OpenAI launches a general-purpose agent in ChatGPT",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2025/07/17/openai-launches-a-general-purpose-agent-in-chatgpt/",
+      "date": "2025-07-17",
+      "supporting_quote": "a unified agentic system combining Operator's action-taking remote browser, deep research's web synthesis"
+     },
+     {
+      "title": "OpenAI launches AgentKit to help developers build and ship AI agents",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2025/10/06/openai-launches-agentkit-to-help-developers-build-and-ship-ai-agents",
+      "date": "2025-10-06",
+      "supporting_quote": "signals a competitive move against other AI platforms"
+     },
+     {
+      "title": "OpenAI launches an AI-powered browser: ChatGPT Atlas",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2025/10/21/openai-launches-an-ai-powered-browser-chatgpt-atlas",
+      "date": "2025-10-21",
+      "supporting_quote": "such as Perplexity's Comet and The Browser Company's Dia"
+     },
+     {
+      "title": "Recap: OpenAI DevDay 2025",
+      "publisher": "Artificial Ignorance (Charlie Guo)",
+      "url": "https://www.ignorance.ai/p/recap-openai-devday-2025",
+      "date": "2025-10-07",
+      "supporting_quote": "a ton of headlines are about to proclaim that OpenAI is \"killing hundreds of startups.\" ... Agent Builder certainly looks like a lightweight n8n or Zapier clone."
+     },
+     {
+      "title": "ChatGPT Deep Research",
+      "publisher": "Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/ChatGPT_Deep_Research",
+      "supporting_quote": "Release date February 3, 2025 (OpenAI's 'Introducing deep research' post dated 2025-02-02)"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Dates verified. Changes: (1) 'Merged both into ChatGPT agent' became 'combined their abilities'. TechCrunch describes one unified system, but Deep Research also stayed available on its own. (2) I replaced the Wikipedia Operator source, which no longer resolves to a dated statement, with TechCrunch's Jan 23, 2025 launch article. (3) I corrected the Ignorance.ai date to Oct 7, 2025 and its quote to verbatim, and confirmed the TechCrunch AgentKit quote. I raised confidence to high because every date now has a primary-press source. I still found no reputable report that a specific startup shut down because of these launches. Say 'moved into their territory', not 'killed them'."
+   },
+   {
+    "id": "app-layer-survivors",
+    "user_claim": "All startups' IP shall evaporate with the next release",
+    "verdict": "inaccurate",
+    "fact": "Not every company built on lab models gets wiped out. Cursor, an AI code editor that runs on the labs' models, passed $1 billion in annualized revenue and raised $2.3B at a $29.3B valuation in November 2025. Bloomberg reported its recurring revenue doubled to $2 billion by March 2026. On Aug 14, 2026, Cursor announced it had been acquired by SpaceX, whose AI arm builds the Grok models. The winners at the app layer were not nuked; this one got bought.",
+    "evidence_card": "NOV 2025: Cursor valued at $29.3B \u2192 MAR 2026: $2B revenue run-rate \u2192 AUG 2026: acquired by SpaceX \u00b7 Sources: AI Business, Cursor",
+    "key_numbers": [
+     "$1B+ annualized revenue, $2.3B Series D, $29.3B valuation (Nov 2025)",
+     "$2B recurring revenue (Mar 2, 2026, Bloomberg)",
+     "Acquired by SpaceX (announced Aug 14, 2026; terms not disclosed by Cursor)"
+    ],
+    "sources": [
+     {
+      "title": "Cursor Raises $2.3B Bringing It to a $29.3B Valuation",
+      "publisher": "AI Business",
+      "url": "https://aibusiness.com/generative-ai/cursor-raises-billions-continued-momentum",
+      "date": "2025-11-14",
+      "supporting_quote": "in excess of $1 billion in annualized revenue"
+     },
+     {
+      "title": "Cursor is now a part of SpaceX",
+      "publisher": "Cursor (official blog)",
+      "url": "https://cursor.com/blog/joining-spacex",
+      "date": "2026-08-14",
+      "supporting_quote": "Cursor has officially been acquired by SpaceX."
+     },
+     {
+      "title": "Cursor Recurring Revenue Doubles in Three Months to $2 Billion",
+      "publisher": "Bloomberg (headline as listed in Cursor's press feed)",
+      "url": "https://www.bloomberg.com/news/articles/2026-03-02/cursor-recurring-revenue-doubles-in-three-months-to-2-billion",
+      "date": "2026-03-02",
+      "supporting_quote": "Cursor Recurring Revenue Doubles in Three Months to $2 Billion (headline)"
+     }
+    ],
+    "confidence": "medium",
+    "caveats": "This fact was outdated, so I updated it. Cursor's own blog confirms that SpaceX acquired it on Aug 14, 2026, after a partnership with 'SpaceXAI' that began in April 2026. The earlier researcher had wrongly dismissed this as an aggregator rumor. The deal value (the '$60B' figure) is still unverified: Cursor's post gives no terms, so do not state a price. I confirmed the $2B revenue figure only from the Bloomberg headline in Cursor's press listing, because Bloomberg's site was blocked. Revenue figures are self-reported run-rates, not audited. Narrative use: thin wrappers get steamrolled, strong app-layer companies get bought. The acquisition is also a twist on the creator's point, because the survivor ended up inside a company that trains its own models."
+   },
+   {
+    "id": "chatgpt-user-scale",
+    "user_claim": "People used ChatGPT en masse (scale of the free user base feeding the flywheel)",
+    "verdict": "new-evidence",
+    "fact": "ChatGPT went from 100 million weekly users (Nov 2023) to more than 800 million (Oct 6, 2025), then 900 million with 50 million paying subscribers (Feb 27, 2026). At OpenAI's DevDay on Sept 29, 2026, a graphic behind Sam Altman showed 1.2 billion weekly users.",
+    "evidence_card": "100M (2023) \u2192 800M (Oct 2025) \u2192 1.2B weekly users (Sept 2026) \u00b7 Source: TechCrunch, Engadget",
+    "key_numbers": [
+     "100M weekly (Nov 6, 2023)",
+     "800M+ weekly (Oct 6, 2025)",
+     "900M weekly + 50M paying (Feb 27, 2026)",
+     "1.2B weekly (Sept 29, 2026)"
+    ],
+    "sources": [
+     {
+      "title": "OpenAI's ChatGPT now has 100 million weekly active users",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2023/11/06/openais-chatgpt-now-has-100-million-weekly-active-users/",
+      "date": "2023-11-06",
+      "supporting_quote": "ChatGPT now has 100 million weekly active users"
+     },
+     {
+      "title": "Sam Altman says ChatGPT has hit 800M weekly active users",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2025/10/06/sam-altman-says-chatgpt-has-hit-800m-weekly-active-users/",
+      "date": "2025-10-06",
+      "supporting_quote": "More than 800 million people use ChatGPT every week, and we process over 6 billion tokens per minute on the API."
+     },
+     {
+      "title": "ChatGPT reaches 900M weekly active users",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2026/02/27/chatgpt-reaches-900m-weekly-active-users",
+      "date": "2026-02-27",
+      "supporting_quote": "900 million weekly active users ... 50 million paying subscribers"
+     },
+     {
+      "title": "OpenAI Dev Day 2026: Live updates",
+      "publisher": "Engadget",
+      "url": "https://www.engadget.com/2271985/openai-dev-day-live-blog-chatgpt-news/",
+      "date": "2026-09-29",
+      "supporting_quote": "A graphic behind Altman indicates ChatGPT now has 1.2 billion weekly users."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "All four figures verified, and I made the Engadget quote verbatim. I added the 2023 TechCrunch source for the 100M starting point. All figures are OpenAI's own and none is independently audited. Weekly active users are not unique people. I skipped the disputed 1-billion milestone date, as the earlier researcher had."
+   },
+   {
+    "id": "only-5-percent-pay",
+    "user_claim": "AI is free/subsidized \u2014 most users don't pay",
+    "verdict": "accurate",
+    "fact": "Only about 1 in 20 ChatGPT users pays. OpenAI reported 50 million paying subscribers against 900 million weekly users in February 2026, about 5.6%. In January 2026, The Information, using Sensor Tower data, reported that only about five percent pay and that almost 90% of users live outside the US and Canada.",
+    "evidence_card": "~1 in 20 ChatGPT users pays \u00b7 Sources: OpenAI via TechCrunch (Feb 2026); The Information (Jan 2026)",
+    "key_numbers": [
+     "50M paying / 900M weekly \u2248 5.6%",
+     "~5% (The Information / Sensor Tower, Jan 2026)",
+     "Almost 90% of users outside US/Canada"
+    ],
+    "sources": [
+     {
+      "title": "ChatGPT reaches 900M weekly active users",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2026/02/27/chatgpt-reaches-900m-weekly-active-users",
+      "date": "2026-02-27",
+      "supporting_quote": "900 million weekly active users ... 50 million paying subscribers"
+     },
+     {
+      "title": "Only 5 percent of ChatGPT's 900 million weekly users pay, and reportedly most aren't worth much to advertisers",
+      "publisher": "The Decoder (citing The Information)",
+      "url": "https://the-decoder.com/only-5-percent-of-chatgpts-900-million-weekly-users-pay-and-reportedly-most-arent-worth-much-to-advertisers/",
+      "date": "2026-01-05",
+      "supporting_quote": "Only about five percent of users pay for subscriptions."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified. Added that The Information's figure relies on Sensor Tower data, and changed '~90%' to 'almost 90%' to match the source. The ratio is approximate: weekly users and subscribers are different counts, and there is no subscriber number to match the 1.2B figure. Say 'about 1 in 20'."
+   },
+   {
+    "id": "openai-loses-billions",
+    "user_claim": "AI is subsidized (you are getting it for much less than it costs)",
+    "verdict": "accurate",
+    "fact": "OpenAI expected to lose about $5 billion on $3.7 billion of revenue in 2024. Its leaked audited 2025 accounts, independently verified by the Financial Times, show about $13.1 billion of revenue against roughly $34 billion of costs, an operating loss of about $21 billion. In September 2025 it was reported to project about $115 billion of cash burn through 2029, $80 billion more than it had previously expected.",
+    "evidence_card": "2025: OpenAI revenue ~$13.1B, costs ~$34B, operating loss ~$20.9B \u00b7 Source: leaked audited financials, verified by FT",
+    "key_numbers": [
+     "2024: ~$5B loss (excl. stock compensation) on $3.7B revenue",
+     "2025: $13.07B revenue, ~$34B costs, $20.92B operating loss",
+     "$115B projected cash burn through 2029 (+$80B vs prior forecast)"
+    ],
+    "sources": [
+     {
+      "title": "OpenAI sees $5 billion loss in 2024 (NYT report)",
+      "publisher": "Fortune",
+      "url": "https://fortune.com/2024/09/28/openai-5-billion-loss-2024-revenue-forecasts-fundraising-chapgpt-fee-hikes",
+      "date": "2024-09-28",
+      "supporting_quote": "OpenAI sees a loss of $5 billion ... the company expects revenue of $3.7 billion in 2024"
+     },
+     {
+      "title": "OpenAI 2025 financials leaked: $38.5B loss ahead of IPO",
+      "publisher": "Yahoo Finance",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/openai-2025-financials-leaked-38-121508294.html",
+      "date": "2026-06-16",
+      "supporting_quote": "audited financial documents obtained by blogger Ed Zitron ... independently verified by the Financial Times; operating loss $20.92 billion; total costs and expenses $34 billion"
+     },
+     {
+      "title": "Report: OpenAI expects business to burn $115 billion through 2029",
+      "publisher": "Reuters via Yahoo Finance (citing The Information)",
+      "url": "https://finance.yahoo.com/news/openai-expects-business-burn-115-022035561.html",
+      "date": "2025-09-06",
+      "supporting_quote": "has sharply raised its projected cash burn through 2029 to $115 billion ... $80 billion higher than the company previously expected"
+     }
+    ],
+    "confidence": "medium",
+    "caveats": "Numbers verified. Changes: (1) Noted that the 2024 $5B loss excludes stock-based compensation. (2) Added the +$80B revision. (3) Recorded that the leak came via blogger Ed Zitron, with FT verification. (4) Corrected the reason the $38.5B net loss is inflated: Yahoo attributes it to charges tied to the nonprofit-to-for-profit conversion, including a $41.55B fair-value loss on convertible interests and warrant liability. That is a non-cash accounting item, not operating spending, so use the ~$21B operating loss. OpenAI's accounts are not public. If an IPO filing (S-1) has been published since June 2026, its official figures should replace these; my web search quota ran out, so I could not check. The losses also fund research and training, not only free users."
+   },
+   {
+    "id": "altman-pro-plan-loss",
+    "user_claim": "Users are getting AI for far less than it costs (subsidy)",
+    "verdict": "new-evidence",
+    "fact": "On Sunday, January 5, 2025, Sam Altman posted that OpenAI was losing money even on its $200-a-month ChatGPT Pro plan, because people used it more than expected. At the time, even the most expensive consumer tier did not cover its own costs.",
+    "evidence_card": "JAN 5, 2025: Altman: 'we are currently losing money on openai pro subscriptions!' \u00b7 Source: Altman on X, via Fortune",
+    "key_numbers": [
+     "$200/month Pro plan"
+    ],
+    "sources": [
+     {
+      "title": "Sam Altman says OpenAI is losing money on its $200 ChatGPT Pro subscriptions",
+      "publisher": "Fortune",
+      "url": "https://fortune.com/2025/01/07/sam-altman-openai-chatgpt-pro-subscription-losing-money-tech",
+      "date": "2025-01-07",
+      "supporting_quote": "insane thing: we are currently losing money on openai pro subscriptions! people use it much more than we expected."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Quote and price verified verbatim. Fortune says the post was made on a Sunday; Jan 5, 2025 is the Sunday before the Jan 7 article. This is a statement about one plan at one moment in early 2025, not proof that every tier loses money today."
+   },
+   {
+    "id": "ads-in-chatgpt",
+    "user_claim": "Why is it free? You are the product",
+    "verdict": "new-evidence",
+    "fact": "OpenAI started testing ads in ChatGPT on February 9, 2026, for US users on the free tier and the $8-a-month Go tier. Ads are matched to your conversation topic, past chats and past ad interactions. OpenAI says advertisers do not see your chats, and users can opt out of personalized ads. OpenAI's own projections, reported by Axios, have ad revenue rising from about $2.5B in 2026 to $53B in 2029 and about $100B by 2030. They assume 2.75 billion weekly users by 2030.",
+    "evidence_card": "FEB 9, 2026: Ads arrive in free ChatGPT, matched to your chats \u00b7 Source: TechCrunch / NBC News",
+    "key_numbers": [
+     "Ads on Free + Go ($8/mo US) tiers; Plus/Pro/Business/Enterprise ad-free",
+     "Ad revenue projection: $2.5B (2026) \u2192 $11B (2027) \u2192 $25B (2028) \u2192 $53B (2029) \u2192 ~$100B (2030)",
+     "Assumes 2.75B weekly users by 2030"
+    ],
+    "sources": [
+     {
+      "title": "ChatGPT rolls out ads",
+      "publisher": "TechCrunch",
+      "url": "https://www.techcrunch.com/2026/02/09/chatgpt-rolls-out-ads/",
+      "date": "2026-02-09",
+      "supporting_quote": "we keep your conversations with ChatGPT private from advertisers"
+     },
+     {
+      "title": "OpenAI starts testing ads in ChatGPT",
+      "publisher": "NBC News",
+      "url": "https://www.nbcnews.com/tech/internet/openai-starts-testing-ads-chatgpt-rcna258242",
+      "date": "2026-02-09",
+      "supporting_quote": "based on the user's topic of conversation, prior chats and previous interactions with ads"
+     },
+     {
+      "title": "OpenAI Projects Steep Advertising Growth, Targeting $100 Billion by 2030",
+      "publisher": "PYMNTS (citing Axios via Reuters)",
+      "url": "https://www.pymnts.com/artificial-intelligence-2/2026/openai-projects-steep-advertising-growth-targeting-100-billion-by-2030/",
+      "date": "2026-04-09",
+      "supporting_quote": "$11 billion in 2027, $25 billion in 2028 and $53 billion by 2029 ... 2.75 billion weekly users by 2030"
+     },
+     {
+      "title": "OpenAI to start testing ChatGPT ads across Free and Go tiers",
+      "publisher": "SiliconANGLE",
+      "url": "https://siliconangle.com/2026/01/16/openai-start-testing-chatgpt-ads-across-free-go-tiers/",
+      "date": "2026-01-16",
+      "supporting_quote": "pledged not to share ChatGPT conversations with advertisers"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified. Changes: (1) 'Investor forecasts' became 'OpenAI's own projections reported by Axios', per the PYMNTS headline. (2) Added the ~$100B 2030 figure. (3) Made the NBC targeting quote verbatim. (4) Added from NBC that users can opt out of personalized ads, which undercuts 'no other option'. The plan was announced Jan 16, 2026 and the test began Feb 9, 2026. The earlier researcher cited an Aug 2026 report that the wider rollout uses only the current conversation; I could not re-verify it because my search quota ran out, so say ads 'can be' matched to your chats. Ad revenue figures are projections, not results."
+   },
+   {
+    "id": "free-tier-land-grab",
+    "user_claim": "That's why it's free and subsidized",
+    "verdict": "new-evidence",
+    "fact": "Free or near-free AI is also a race for users. OpenAI made ChatGPT Go free for 12 months for users in India who signed up from Nov 4, 2025. Airtel gave Perplexity Pro (normally \u20b917,000 a year) free for a year to its roughly 360 million customers in July 2025. Google gave Jio Unlimited 5G users 18 months of Google AI Pro, worth about \u20b935,100 ($396). Altman's stated reason: 'We believe everyone deserves to use AI and are committed to free access, because we believe access creates agency.'",
+    "evidence_card": "2025: ChatGPT Go, Perplexity Pro, Google AI Pro given away free in India \u00b7 Sources: Outlook Business, Engadget",
+    "key_numbers": [
+     "ChatGPT Go free 12 months in India (sign-ups from Nov 4, 2025; ~\u20b9399/mo at launch)",
+     "Perplexity Pro free 1 year for ~360M Airtel customers (normally \u20b917,000/yr; Jul 17, 2025)",
+     "Google AI Pro free 18 months on Jio Unlimited 5G, ~\u20b935,100 / $396 value (Oct 31, 2025)"
+    ],
+    "sources": [
+     {
+      "title": "OpenAI Offers Free One-Year ChatGPT Go Access in India Starting November 4",
+      "publisher": "Outlook Business",
+      "url": "https://www.outlookbusiness.com/artificial-intelligence/openai-offers-free-one-year-chatgpt-go-access-in-india-starting-november-4",
+      "date": "2025-10-28",
+      "supporting_quote": "free for 12 months to any user in India ... limited promotional window beginning 4 November"
+     },
+     {
+      "title": "Google brings free Gemini access to India's largest carrier",
+      "publisher": "Engadget",
+      "url": "https://engadget.com/ai/google-brings-free-gemini-access-to-indias-largest-carrier-130627625.html",
+      "date": "2025-10-31",
+      "supporting_quote": "for 18 months ... 35,100 rupees ($396) per user"
+     },
+     {
+      "title": "Airtel beats Jio to AI chatbot punch with Perplexity tie-up",
+      "publisher": "Outlook Business",
+      "url": "https://www.outlookbusiness.com/corporate/airtel-beats-jio-to-ai-chatbot-punch-with-perplexity-tie-up",
+      "date": "2025-07-17",
+      "supporting_quote": "around 360 million Airtel customers ... Normally priced at Rs 17,000 per year"
+     },
+     {
+      "title": "Sam Altman pans Anthropic Super Bowl ad, defends ChatGPT ad model",
+      "publisher": "Analytics India Magazine",
+      "url": "https://analyticsindiamag.com/ai-news/sam-altman-pans-anthropic-super-bowl-ad-defends-chatgpt-ad-model",
+      "date": "2026-02-05",
+      "supporting_quote": "We believe everyone deserves to use AI and are committed to free access, because we believe access creates agency."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified. Changes: (1) Made the source quotes verbatim. (2) Added the \u20b917,000 Perplexity value. (3) Noted that \u20b9399 was Go's launch price, not necessarily its current price. (4) Narrowed the Google offer to Jio Unlimited 5G plans, as Engadget describes it, rather than all Jio users. (5) Changed 'Gemini Pro' to 'Google AI Pro'. Altman's quote came in his February 2026 X post criticizing Anthropic's Super Bowl ad. These promotions show companies buying market share, not their internal motives. Present both framings: Altman calls it a mission, critics call it a land grab."
+   },
+   {
+    "id": "llmflation-cost-collapse",
+    "user_claim": "It's free/cheap only because you are the data",
+    "verdict": "new-evidence",
+    "fact": "Another reason AI keeps getting cheaper is that running it keeps getting cheaper. a16z found that at the same capability, the price of using an LLM falls about 10x every year: GPT-3-level quality went from $60 to $0.06 per million tokens in three years. In February 2025, Sam Altman wrote that 'the cost to use a given level of AI falls about 10x every 12 months.'",
+    "evidence_card": "Same AI, 1,000x cheaper in 3 years: $60 \u2192 $0.06 per million tokens \u00b7 Source: a16z 'LLMflation', Nov 2024",
+    "key_numbers": [
+     "~10x cheaper per year at equal capability",
+     "$60 \u2192 $0.06 per million tokens (MMLU-42 / GPT-3 level, Nov 2021 \u2192 Nov 2024)",
+     "~62x drop for GPT-4-level (MMLU 83) since Mar 2023",
+     "~150x per-token price drop GPT-4 (early 2023) \u2192 GPT-4o (mid-2024), per Altman"
+    ],
+    "sources": [
+     {
+      "title": "Welcome to LLMflation \u2013 LLM inference cost is going down fast",
+      "publisher": "Andreessen Horowitz (Guido Appenzeller)",
+      "url": "https://www.a16z.com/llmflation-llm-inference-cost",
+      "date": "2024-11-12",
+      "supporting_quote": "For an LLM of equivalent performance, the cost is decreasing by 10x every year."
+     },
+     {
+      "title": "Three Observations",
+      "publisher": "Sam Altman (blog)",
+      "url": "https://blog.samaltman.com/three-observations",
+      "date": "2025-02-09",
+      "supporting_quote": "The cost to use a given level of AI falls about 10x every 12 months, and lower prices lead to much more use."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "All quotes and numbers verified verbatim. The '1,000x in 3 years' line is a16z's own. The page does not display the Altman post's date; Feb 9, 2025 comes from public record. The decline applies at a fixed capability level, measured as the cheapest model's price, not as one company's cost. Frontier models are not 10x cheaper every year. The a16z analysis relies on one benchmark (MMLU) and covers 2021\u20132024."
+   },
+   {
+    "id": "your-chats-train-models",
+    "user_claim": "You are the data \u2014 you are part of the data flywheel that makes models better",
+    "verdict": "partly-accurate",
+    "fact": "Consumer chats do feed training by default. OpenAI's help center says 'ChatGPT, for instance, improves by further training on the conversations people have with it.' Free, Plus and Pro chats can be used unless you switch off 'Improve the model for everyone'. Since Aug 28, 2025, Anthropic has asked Claude Free, Pro and Max users, including their Claude Code use, to let their chats train future models; allowing it means the data is kept for five years. Business and API customers are excluded by default at both companies.",
+    "evidence_card": "OpenAI: 'ChatGPT ... improves by further training on the conversations people have with it' \u00b7 Source: OpenAI Help Center",
+    "key_numbers": [
+     "OpenAI API data not used for training by default since Mar 1, 2023",
+     "Anthropic: 5-year retention if you allow training vs 30 days if not",
+     "Anthropic choice deadline: Oct 8, 2025"
+    ],
+    "sources": [
+     {
+      "title": "How your data is used to improve model performance",
+      "publisher": "OpenAI Help Center",
+      "url": "https://help.openai.com/en/articles/5722486-how-your-data-is-used-to-improve-model-performance",
+      "supporting_quote": "ChatGPT, for instance, improves by further training on the conversations people have with it ... By default, we do not train on any inputs or outputs from our products for business users, including ChatGPT Business, ChatGPT Enterprise, and the API."
+     },
+     {
+      "title": "Updates to our consumer terms",
+      "publisher": "Anthropic",
+      "url": "https://www.anthropic.com/news/updates-to-our-consumer-terms",
+      "date": "2025-08-28",
+      "supporting_quote": "You'll also help future Claude models improve at skills like coding, analysis, and reasoning, ultimately leading to better models for all users."
+     },
+     {
+      "title": "Addressing criticism, OpenAI will no longer use customer data to train its models by default",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2023/03/01/addressing-criticism-openai-will-no-longer-use-customer-data-to-train-its-models-by-default/",
+      "date": "2023-03-01",
+      "supporting_quote": "won't use data submitted through its API for 'service improvements,' including AI model training, unless a customer or organization opts in (paraphrase of article)"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Anthropic details verified on its own page: Free/Pro/Max including Claude Code, 5 years vs 30 days, Oct 8, 2025 deadline, and Claude for Work, Gov, Education and the API excluded. Changes: (1) Replaced the Neowin source, which was blocked and carried a likely wrong date, with TechCrunch's Mar 1, 2023 article. Altman's 'we will not do that' quote dates to a later CNBC interview, not to Mar 1. (2) Removed the line that a thumbs-up or thumbs-down sends the whole conversation into training, because OpenAI's help pages return 403 and I could not confirm it. The OpenAI help-center quotes come from indexed copies; I could not fetch them directly. Two corrections to the creator: 'You have no other option' is wrong, because opt-outs and Temporary Chat exist and business/API customers are excluded by default. And the split is consumer vs business, not free vs paid: a paying Plus user's chats are also used by default."
+   },
+   {
+    "id": "thumbs-feedback-in-reward",
+    "user_claim": "Users are making the models better and better (data flywheel)",
+    "verdict": "new-evidence",
+    "fact": "OpenAI admitted that its April 25, 2025 update to GPT-4o was trained with 'an additional reward signal based on user feedback\u2014thumbs-up and thumbs-down data from ChatGPT.' That signal helped make the model too flattering, and OpenAI rolled the update back days later. It is direct proof that users' clicks steer how the model behaves, though not always for the better.",
+    "evidence_card": "MAY 2, 2025: OpenAI: GPT-4o update trained on 'thumbs-up and thumbs-down data from ChatGPT' \u00b7 Source: OpenAI postmortem",
+    "key_numbers": [
+     "Update shipped Apr 25, 2025",
+     "Full rollback began Monday, Apr 28, 2025",
+     "Postmortem published May 2, 2025"
+    ],
+    "sources": [
+     {
+      "title": "Expanding on what we missed with sycophancy",
+      "publisher": "OpenAI",
+      "url": "https://openai.com/index/expanding-on-sycophancy/",
+      "date": "2025-05-02",
+      "supporting_quote": "an additional reward signal based on user feedback\u2014thumbs-up and thumbs-down data from ChatGPT"
+     },
+     {
+      "title": "What we missed with sycophancy (link post quoting OpenAI)",
+      "publisher": "Simon Willison's Weblog",
+      "url": "https://simonwillison.net/2025/May/2/what-we-missed-with-sycophancy/",
+      "date": "2025-05-02",
+      "supporting_quote": "an additional reward signal based on user feedback\u2014thumbs-up and thumbs-down data from ChatGPT"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "The quote was verified through Simon Willison's verbatim copy, because OpenAI's page returns 403. I added the Apr 25, 2025 update date. The rollback date is confirmed as Monday, Apr 28: system-prompt changes went in late Sunday and the full rollback started Monday. OpenAI named thumbs data as one of several factors, so 'helped make' is fairer than 'made'. This fits a 'nuanced reveal' beat, because it shows user feedback can make a model worse."
+   },
+   {
+    "id": "subsidy-thesis-verdict",
+    "user_claim": "The subsidy is because you are the data; you are part of the data flywheel; you have no other option",
+    "verdict": "partly-accurate",
+    "fact": "The sources support several reasons AI is cheap or free. Companies are racing to sign up billions of users who can be shown ads. Investors keep funding the losses, as in a $110B round in February 2026. Running a given level of AI gets about 10x cheaper each year. And by default, consumer conversations and feedback help train the models. 'You are the data' is one real part of the deal, not the only reason. A line the evidence supports: 'If you're not paying full price, you're paying partly in attention and partly in data. Your chats can train the next model, and your eyes are the new ad inventory.'",
+    "evidence_card": "Why it's cheap: market share + investor cash + falling costs + your data and attention \u00b7 Sources: OpenAI, TechCrunch, a16z",
+    "key_numbers": [
+     "~5% of users pay",
+     "$110B funding round at $730B pre-money valuation (Feb 2026)",
+     "~10x/yr cost decline at fixed capability",
+     "2.75B weekly-user assumption behind ad projections"
+    ],
+    "sources": [
+     {
+      "title": "ChatGPT reaches 900M weekly active users",
+      "publisher": "TechCrunch",
+      "url": "https://techcrunch.com/2026/02/27/chatgpt-reaches-900m-weekly-active-users",
+      "date": "2026-02-27",
+      "supporting_quote": "$110 billion private funding round ... $730 billion pre-money valuation"
+     },
+     {
+      "title": "OpenAI Projects Steep Advertising Growth, Targeting $100 Billion by 2030",
+      "publisher": "PYMNTS (citing Axios via Reuters)",
+      "url": "https://www.pymnts.com/artificial-intelligence-2/2026/openai-projects-steep-advertising-growth-targeting-100-billion-by-2030/",
+      "date": "2026-04-09",
+      "supporting_quote": "2.75 billion weekly users by 2030"
+     },
+     {
+      "title": "Welcome to LLMflation \u2013 LLM inference cost is going down fast",
+      "publisher": "Andreessen Horowitz",
+      "url": "https://www.a16z.com/llmflation-llm-inference-cost",
+      "date": "2024-11-12",
+      "supporting_quote": "For an LLM of equivalent performance, the cost is decreasing by 10x every year."
+     },
+     {
+      "title": "How your data is used to improve model performance",
+      "publisher": "OpenAI Help Center",
+      "url": "https://help.openai.com/en/articles/5722486-how-your-data-is-used-to-improve-model-performance",
+      "supporting_quote": "ChatGPT, for instance, improves by further training on the conversations people have with it"
+     }
+    ],
+    "confidence": "medium",
+    "caveats": "This is a synthesis, not a single sourced claim. Its components are verified: $110B at $730B pre-money (TechCrunch), the ad projections (PYMNTS/Axios) and the 10x decline (a16z). I added a16z as a source and changed 'future ad inventory' to 'the new ad inventory', since ads have run since Feb 2026. No lab has said it subsidizes consumers mainly to collect data, so do not present 'data is THE reason' as fact. 'You have no other option' is wrong, because training and personalized-ad opt-outs exist; the realistic claim is that most people never change the default. Drop the 'you idiots' framing for credibility. My web search quota ran out mid-review, so I checked these facts by fetching their sources directly rather than through fresh searches."
+   }
+  ]
+ },
+ {
+  "cluster": "INNER CAPITAL: attention, mental and physical health (creator claim 6)",
+  "facts": [
+   {
+    "id": "mark-47-seconds",
+    "user_claim": "Creator claim 6 (attention span is your biggest asset); research brief: Gloria Mark found average attention on a single screen is about 47 seconds, down from about 2.5 minutes in 2004",
+    "verdict": "accurate",
+    "fact": "UC Irvine researcher Gloria Mark found that in 2004, people stayed on one screen for about two and a half minutes on average before switching. In her studies since about 2016 the average is about 47 seconds, with a median of 40 seconds.",
+    "evidence_card": "2004: ~2.5 MIN \u2192 TODAY: ~47 SEC on one screen before switching \u00b7 Source: Gloria Mark, UC Irvine / 'Attention Span' (2023)",
+    "key_numbers": [
+     "~2.5 minutes / 150 seconds (2003 fieldwork, published 2004)",
+     "~47 seconds average (studies since ~2016; 'by 2020' per UC Newsroom)",
+     "40 seconds median",
+     "Book 'Attention Span' (Hanover Square Press, a HarperCollins imprint), January 2023"
+    ],
+    "sources": [
+     {
+      "title": "How to sharpen your attention and meet your goals in 2024",
+      "publisher": "University of California (UC Newsroom), by Robyn Schelenz",
+      "url": "https://www.universityofcalifornia.edu/news/how-sharpen-your-attention-and-meet-your-goals-2024",
+      "date": "2024-01-02",
+      "supporting_quote": "My first paper on this subject was published in 2004 from a study conducted in 2003. ... We found attention spans on screens to average two-and-a-half minutes."
+     },
+     {
+      "title": "Our 47-Second Attention Span With Gloria Mark (S5: EP3) Transcript",
+      "publisher": "Steelcase (Work Better podcast)",
+      "url": "https://www.steelcase.com/research/articles/our-47-second-attention-span-with-gloria-mark-s5-ep3-transcript/",
+      "supporting_quote": "we found that attention spans average 47 seconds on a screen before switching ... The median length of time, which means the midpoint, is 40 seconds."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Re-verified both sources. Changes: I made the UC Newsroom quote one Mark actually says (2003 study, published 2004, 2.5 min). I dropped the article's lead-in line 'can't concentrate ... for more than 47 seconds', because 47 s is an average, not a maximum. I also loosened the book date to January 2023, since I could confirm the year and publisher group but not the exact day. One inconsistency: Mark now describes the 2004 baseline as 2.5 min 'on a screen', but the CHI 2004 abstract reports a little over 2 min per tool or document. Treat both figures as approximate. This is switching behavior in workplace studies with different samples and tools, not one controlled trial. Narrate it as 'we stay on one screen for about 47 seconds before switching', not 'our attention span is 47 seconds'."
+   },
+   {
+    "id": "mark-measure-caveat",
+    "user_claim": "NEW (prevents overstating the 47-second figure)",
+    "verdict": "new-evidence",
+    "fact": "The 2004 baseline comes from a CHI 2004 field study by Victor Gonzalez and Gloria Mark. They observed analysts, software developers and managers at work and found the work highly fragmented. People spent about three minutes on a task, and about two minutes with any one electronic tool or paper document, before switching. The number describes switching behavior at work. It does not describe a biological limit on human focus.",
+    "evidence_card": "CHI 2004 \u00b7 office workers observed: ~3 min per task, ~2 min per tool before switching \u00b7 Source: Gonz\u00e1lez & Mark, 'Constant, constant, multi-tasking craziness'",
+    "key_numbers": [
+     "~3 min per task before switching",
+     "a little over 2 min per tool or document",
+     "~10 'working spheres' a day, ~12 min in one before switching",
+     "14 information workers at one organisation, ~477 hours of observation (secondary source only)",
+     "Published April 25, 2004, CHI '04, pp. 113-120"
+    ],
+    "sources": [
+     {
+      "title": "\"Constant, constant, multi-tasking craziness\": managing multiple working spheres (CHI 2004), OpenAlex record with abstract",
+      "publisher": "ACM CHI 2004 (Gonz\u00e1lez & Mark), via OpenAlex",
+      "url": "https://api.openalex.org/works/doi:10.1145/985692.985707",
+      "date": "2004-04-25",
+      "supporting_quote": "Abstract (paraphrased from index): people spend about three minutes on a task and about two minutes with any single electronic tool or paper document before switching."
+     },
+     {
+      "title": "Analysis of Gloria Mark's 47-second screen attention figure",
+      "publisher": "Silicon Canals",
+      "url": "https://siliconcanals.com/t-screen-attention-47-seconds-gloria-mark/",
+      "supporting_quote": "followed 14 information workers at one organisation: managers, financial analysts and software developers ... 477 hours of fieldwork ... The number is best understood as a carefully timed field observation, not a universal norm."
+     }
+    ],
+    "confidence": "medium",
+    "caveats": "Changes: I replaced the dead isr.uci.edu link (503) with the OpenAlex record for DOI 10.1145/985692.985707, which confirms title, authors, date, venue and the ~3 min / ~2 min abstract findings. I fixed the Silicon Canals quote to its actual wording and removed its unverified date (2026-08-30). Sample size (14) and hours (477) still come only from Silicon Canals; the ACM and author PDFs were unreachable (403/503). Use this fact as framing, not as an on-screen number."
+   },
+   {
+    "id": "goldfish-myth",
+    "user_claim": "NEW: do NOT repeat 'humans now have an 8-second attention span, shorter than a goldfish'",
+    "verdict": "new-evidence",
+    "fact": "The popular claim that humans have an 8-second attention span, shorter than a goldfish's 9 seconds, has no research behind it. It traces to a 2015 Microsoft Canada consumer-insights report, which credited a website called 'Statistic Brain'. BBC and Wall Street Journal investigations in 2017 found no study supporting the numbers.",
+    "evidence_card": "MYTH: '8-second human vs 9-second goldfish' \u00b7 No study behind it \u00b7 Source: BBC World Service, 'Busting the attention span myth' (10 March 2017)",
+    "key_numbers": [
+     "8 s (human, claimed)",
+     "9 s (goldfish, claimed)",
+     "2015 Microsoft Canada report (survey of 2,000 Canadians)",
+     "BBC debunk: 10 March 2017",
+     "WSJ debunk: 17 Feb 2017"
+    ],
+    "sources": [
+     {
+      "title": "Busting the attention span myth",
+      "publisher": "BBC World Service (Simon Maybin)",
+      "url": "https://www.bbc.com/news/health-38896790",
+      "date": "2017-03-10",
+      "supporting_quote": "the figure that everyone picked up on - about our shrinking attention spans - did not actually come from Microsoft's research. It appears in the report, but with a citation for another source called Statistic Brain."
+     },
+     {
+      "title": "Goldfish MythBusting (course reading reproducing the BBC article and WSJ 'Is Your Attention Span Shorter Than a Goldfish's?')",
+      "publisher": "University of Wisconsin-Madison, Psychology",
+      "url": "https://internet.psych.wisc.edu/wp-content/uploads/532-Master/532-UnitPages/Unit-09/Goldfish_MythBusting.pdf",
+      "supporting_quote": "Popular accounts claiming the average person's attention span has dwindled to 8 seconds\u2014shorter, supposedly, than a goldfish\u2014are not corroborated by science."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Changes: I swapped the downes.ca repost for the BBC original URL, because that repost is dated 10 Feb 2023, not 2017. The BBC site blocks direct fetching, so I confirmed its full text, byline and date (10 March 2017) from the UW-Madison PDF, which reproduces the BBC piece and the WSJ piece (Jo Craven McGinty, 17 Feb 2017). I raised confidence to high and added the WSJ date and the Microsoft survey size. Leave the goldfish line out of the script entirely and use Gloria Mark's measured data instead."
+   },
+   {
+    "id": "interruptions-stress",
+    "user_claim": "NEW (supports protecting attention)",
+    "verdict": "new-evidence",
+    "fact": "In a 2008 lab study, Gloria Mark and colleagues found that interrupted people finished tasks faster with no difference in quality. But they paid for it with more stress, frustration, time pressure and effort.",
+    "evidence_card": "CHI 2008 \u00b7 Interrupted workers: faster, but more stress and frustration \u00b7 Source: Mark, Gudith & Klocke, 'The Cost of Interrupted Work'",
+    "key_numbers": [
+     "48 participants (81% German university students, mean age 26)",
+     "CHI 2008, Florence, April 5-10, 2008"
+    ],
+    "sources": [
+     {
+      "title": "The Cost of Interrupted Work: More Speed and Stress",
+      "publisher": "ACM CHI 2008 Proceedings (Mark, Gudith, Klocke)",
+      "url": "https://www.interruptions.net/literature/Mark-CHI08.pdf",
+      "date": "2008-04",
+      "supporting_quote": "Our data suggests that people compensate for interruptions by working faster, but this comes at a price: experiencing more stress, higher frustration, time pressure and effort."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified against the paper's text, including 'Forty-eight subjects participated' and the abstract quote, which I corrected to its exact wording. I added that most subjects were German students. This is a small lab experiment using an email task. Do not use the widely quoted '23 minutes to refocus' figure; the UC Newsroom piece says only that recovering from an interruption 'can take almost half an hour'."
+   },
+   {
+    "id": "mit-cognitive-debt",
+    "user_claim": "Research brief: MIT Media Lab 'Your Brain on ChatGPT' (Kosmyna et al., June 2025) found lower brain connectivity and poorer recall in ChatGPT users",
+    "verdict": "accurate",
+    "fact": "In an MIT Media Lab EEG study of 54 people writing essays, brain connectivity was weakest when people used ChatGPT and strongest when they wrote unaided. In the first session, 15 of 18 ChatGPT users (83%) failed to quote from the essay they had written minutes earlier, compared with 2 of 18 in each of the other groups.",
+    "evidence_card": "MIT MEDIA LAB, 2025 \u00b7 83% of ChatGPT users couldn't quote the essay they'd just written \u00b7 Source: Kosmyna et al., arXiv:2506.08872 (preprint)",
+    "key_numbers": [
+     "54 participants (Sessions 1-3), 18 per group",
+     "18 completed Session 4",
+     "15/18 = 83.3% of LLM group failed to give a correct quotation vs 2/18 = 11.1% in Search and Brain-only groups",
+     "0/18 LLM users gave a fully correct quote (stricter Question 4)",
+     "4 sessions over 4 months",
+     "v1 June 10, 2025; v2 Dec 31, 2025"
+    ],
+    "sources": [
+     {
+      "title": "Your Brain on ChatGPT: Accumulation of Cognitive Debt when Using an AI Assistant for Essay Writing Task",
+      "publisher": "arXiv (MIT Media Lab: Kosmyna, Hauptmann, Yuan, Situ, Liao, Beresnitzky, Braunstein, Maes)",
+      "url": "https://arxiv.org/abs/2506.08872",
+      "date": "2025-06-10",
+      "supporting_quote": "Brain connectivity systematically scaled down with the amount of external support ... In the LLM-assisted group, 83.3 % of participants (15/18) failed to provide a correct quotation, whereas only 11.1 % (2/18) in both the Search-Engine and Brain-Only groups encountered the same difficulty."
+     },
+     {
+      "title": "Your Brain on ChatGPT (project site)",
+      "publisher": "MIT Media Lab / brainonllm.com",
+      "url": "https://www.brainonllm.com/",
+      "supporting_quote": "it has not yet been peer-reviewed, thus all the conclusions are to be treated with caution and as preliminary."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified in the v2 PDF. The supporting quotes come from the paper's summary and results sections, not its abstract; the abstract says 'Cognitive activity scaled down in relation to external tool use.' Changes: I reworded the recall finding to match the paper (failing to quote at all) and added the stricter result that none of the 18 gave a fully correct quote. The v2 PDF (Dec 31, 2025) is still marked 'Preprint, under review', and the FAQ says peer review has only begun. I could not run new searches to check for a 2026 journal version. Limits: small sample (54, all from Boston-area universities), essay writing only, ChatGPT only. An arXiv comment, not a peer-reviewed rebuttal (Stankovic et al., arXiv:2601.00856, Dec 29, 2025), raises concerns about sample size, reproducibility and the EEG analysis. Narrate it as 'early evidence suggests'."
+   },
+   {
+    "id": "mit-authors-no-brain-rot",
+    "user_claim": "NEW (guardrail on how to narrate the MIT study)",
+    "verdict": "new-evidence",
+    "fact": "The MIT authors themselves say their study does not show that AI is making people 'dumber'. They ask reporters not to describe it with words like 'stupid', 'brain rot', 'harm' or 'damage'.",
+    "evidence_card": "MIT AUTHORS: 'Please do not use the words like \"stupid\", \"dumb\", \"brain rot\"' \u00b7 Source: brainonllm.com FAQ",
+    "key_numbers": [],
+    "sources": [
+     {
+      "title": "FAQ for 'Your Brain on ChatGPT'",
+      "publisher": "MIT Media Lab study site (brainonllm.com)",
+      "url": "https://www.brainonllm.com/faq",
+      "supporting_quote": "Is it safe to say that LLMs are, in essence, making us \"dumber\"? No! Please do not use the words like \"stupid\", \"dumb\", \"brain rot\", \"harm\", \"damage\", \"passivity\", \"trimming\" and so on."
+     },
+     {
+      "title": "Comment on: Your Brain on ChatGPT",
+      "publisher": "arXiv (Stankovic, Hirche, Kollatzsch, Doetsch)",
+      "url": "https://arxiv.org/abs/2601.00856",
+      "date": "2025-12-29",
+      "supporting_quote": "some results by Kosmyna et al. (2025) could be interpreted more conservatively"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified the FAQ question and answer word for word, and completed the list of words with 'passivity' and 'trimming'. The FAQ also says peer review 'has been already started'. The Stankovic comment is an arXiv preprint, not a peer-reviewed publication. Use this fact to keep the closing respectful: how you use AI matters, not that AI damages your brain."
+   },
+   {
+    "id": "msft-cmu-critical-thinking",
+    "user_claim": "Research brief: Microsoft Research and CMU CHI 2025 study found higher confidence in AI goes with less critical thinking",
+    "verdict": "accurate",
+    "fact": "Microsoft Research and Carnegie Mellon surveyed 319 knowledge workers about 936 real examples of using generative AI at work. The more people trusted the AI, the less critical thinking they reported doing, while people confident in their own skills reported more.",
+    "evidence_card": "CHI 2025 \u00b7 319 knowledge workers: more trust in AI = less critical thinking \u00b7 Source: Lee et al., Microsoft Research & CMU",
+    "key_numbers": [
+     "319 knowledge workers",
+     "936 real-world examples",
+     "Critical thinking self-reported in 555 of 936 examples (59.29%)",
+     "CHI '25, Yokohama, Article 1121, April 26-May 1, 2025"
+    ],
+    "sources": [
+     {
+      "title": "The Impact of Generative AI on Critical Thinking: Self-Reported Reductions in Cognitive Effort and Confidence Effects From a Survey of Knowledge Workers",
+      "publisher": "ACM CHI 2025 / Microsoft Research (Lee, Sarkar, Tankelevitch, Drosos, Rintel, Banks, Wilson)",
+      "url": "https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/",
+      "date": "2025-04",
+      "supporting_quote": "Specifically, higher confidence in GenAI is associated with less critical thinking, while higher self-confidence is associated with more critical thinking."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified on the Microsoft page and in the author PDF (319, 936, 555 = 59.29%, Article 1121, DOI 10.1145/3706598.3713778). I corrected '~60%' to the exact 59.29%. This is a self-reported, correlational survey, so it shows an association, not that AI causes a decline. The authors also find that critical thinking shifts toward verifying and integrating AI output rather than disappearing. Do not use the unverified '83 of 319' or '36%' numbers circulating online."
+   },
+   {
+    "id": "ironies-of-automation",
+    "user_claim": "NEW (one-line framing for the 'use it or lose it' idea)",
+    "verdict": "new-evidence",
+    "fact": "The same Microsoft paper cites a decades-old 'irony of automation': when machines do the routine work, people lose the daily practice that keeps their judgement sharp. That leaves their skills weakened when the hard cases arrive.",
+    "evidence_card": "'...leaving them atrophied and unprepared when the exceptions do arise' \u00b7 Source: Lee et al., CHI 2025, on Bainbridge's 'Ironies of Automation' (1983)",
+    "key_numbers": [
+     "Bainbridge, 'Ironies of Automation', 1983"
+    ],
+    "sources": [
+     {
+      "title": "The Impact of Generative AI on Critical Thinking (PDF)",
+      "publisher": "ACM CHI 2025 (author copy, advait.org)",
+      "url": "https://advait.org/files/lee_2025_ai_critical_thinking_survey.pdf",
+      "date": "2025-04",
+      "supporting_quote": "As Bainbridge [7] noted, a key irony of automation is that by mechanising routine tasks and leaving exception-handling to the human user, you deprive the user of the routine opportunities to practice their judgement and strengthen their cognitive musculature, leaving them atrophied and unprepared when the exceptions do arise."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified word for word in the PDF; reference [7] is Lisanne Bainbridge, 1983, 'Ironies of automation'. These words are the Microsoft authors' paraphrase of Bainbridge, not Bainbridge's own sentence, so credit the on-screen quote to Lee et al. (as the card does), not to Bainbridge. This is a theoretical framing, not a measured result."
+   },
+   {
+    "id": "pnas-ai-crutch",
+    "user_claim": "NEW (2025 follow-up on AI and learning; strongest causal evidence in this cluster)",
+    "verdict": "new-evidence",
+    "fact": "In a randomized field experiment with nearly 1,000 high-school math students, unrestricted GPT-4 access raised practice grades by 48%. When the AI was taken away, those students scored 17% lower than students who never had it. A tutor version with learning safeguards largely avoided that drop.",
+    "evidence_card": "PNAS, JUNE 2025 \u00b7 With AI: +48% \u00b7 AI removed: -17% vs never-users \u00b7 Source: Bastani et al., 'Generative AI without guardrails can harm learning'",
+    "key_numbers": [
+     "Nearly 1,000 students",
+     "+48% grades with GPT Base during practice",
+     "+127% with GPT Tutor",
+     "-17% grades after access removed (GPT Base)",
+     "PNAS 122(26) e2422633122, published June 25, 2025"
+    ],
+    "sources": [
+     {
+      "title": "Generative AI without guardrails can harm learning: Evidence from high school mathematics",
+      "publisher": "PNAS (Bastani, Bastani, Sungu, Ge, Kabakc\u0131, Mariman)",
+      "url": "https://doi.org/10.1073/pnas.2422633122",
+      "date": "2025-06-25",
+      "supporting_quote": "when access is subsequently taken away, students actually perform worse than those who never had access (17% reduction in grades for GPT Base)-i.e., unfettered access to GPT-4 can harm educational outcomes. These negative learning effects are largely mitigated by the safeguards in GPT Tutor."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified the abstract through PubMed (PMID 40560616) and the full text through PMC. The study was an RCT at one large high school in Turkey in fall 2023, using GPT-4, in one subject (math). Change: the August 2025 PNAS correction (e2518204122) only fixed an author affiliation, so it does not touch any results. The point is that design and how you use the tool matter, since the guardrailed tutor largely avoided the harm."
+   },
+   {
+    "id": "anthropic-coding-skills",
+    "user_claim": "NEW (ties to creator claim 4 about coding tools)",
+    "verdict": "new-evidence",
+    "fact": "In a January 2026 randomized controlled trial run by Anthropic, 52 mostly junior software engineers learned a new Python library. Those who used AI help averaged 50% on a quiz about it, against 67% for those who coded by hand, and they were not significantly faster.",
+    "evidence_card": "JAN 2026 \u00b7 AI-assisted coders: 50% vs 67% on a quiz of what they'd just learned \u00b7 Source: Anthropic, 'How AI assistance impacts the formation of coding skills'",
+    "key_numbers": [
+     "52 software engineers (mostly junior)",
+     "Quiz average 50% (AI) vs 67% (hand-coding), 17 points lower, 'nearly two letter grades'",
+     "AI group ~2 minutes faster, not statistically significant",
+     "Library: Trio (async Python)",
+     "Blog Jan 29, 2026; paper arXiv 2601.20245 (Shen & Tamkin, submitted Jan 28, 2026)"
+    ],
+    "sources": [
+     {
+      "title": "How AI assistance impacts the formation of coding skills",
+      "publisher": "Anthropic",
+      "url": "https://www.anthropic.com/research/AI-assistance-coding-skills",
+      "date": "2026-01-29",
+      "supporting_quote": "participants in the AI group scored 17% lower than those who coded by hand, or the equivalent of nearly two letter grades."
+     },
+     {
+      "title": "How AI Impacts Skill Formation",
+      "publisher": "arXiv (Judy Hanwen Shen, Alex Tamkin)",
+      "url": "https://arxiv.org/abs/2601.20245",
+      "date": "2026-01-28"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified. Change: Anthropic's '17% lower' is the gap between averages of 50% and 67%, which is 17 percentage points (about 25% lower in relative terms). I rewrote the fact and card to show 50% vs 67% so the number can't be misread. Small sample, tested right after the task. Participants who used AI to ask follow-up questions or request explanations learned much more; the code-plus-explanation group scored 68%. This is an AI lab publishing a warning about its own kind of product."
+   },
+   {
+    "id": "endoscopy-deskilling",
+    "user_claim": "NEW (real-world deskilling evidence)",
+    "verdict": "new-evidence",
+    "fact": "At four Polish endoscopy centres, doctors who had started using AI-assisted colonoscopy found precancerous growths less often in the procedures they did without AI. Their detection rate fell from 28.4% in the three months before the AI arrived to 22.4% in the three months after.",
+    "evidence_card": "LANCET GASTRO & HEPATOLOGY, AUG 2025 \u00b7 Detection without AI: 28.4% \u2192 22.4% \u00b7 Source: Budzy\u0144 et al.",
+    "key_numbers": [
+     "28.4% \u2192 22.4% adenoma detection rate",
+     "-6.0 percentage points (p=0.0089)",
+     "1,443 non-AI colonoscopies (795 before, 648 after)",
+     "Odds ratio 0.69 for AI exposure",
+     "Online Aug 12, 2025; Lancet Gastroenterol Hepatol 10(10):896-903"
+    ],
+    "sources": [
+     {
+      "title": "Endoscopist deskilling risk after exposure to artificial intelligence in colonoscopy: a multicentre, observational study",
+      "publisher": "The Lancet Gastroenterology & Hepatology",
+      "url": "https://doi.org/10.1016/S2468-1253(25)00133-5",
+      "date": "2025-08-12",
+      "supporting_quote": "The ADR of standard colonoscopy decreased significantly from 28\u00b74% (226 of 795) before to 22\u00b74% (145 of 648) after exposure to AI ... Continuous exposure to AI might reduce the ADR of standard non-AI assisted colonoscopy"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified the abstract through PubMed (PMID 40816301). Changes: I removed 'experienced', because the abstract does not describe the doctors' experience level. I also reworded 'within three months' to the actual design: the 3 months before AI compared with the 3 months after. A correction was published in Sept 2025 (PMID 40946709) with no details shown, but the indexed abstract still carries these numbers. This is a retrospective observational study, so it shows an association. Some secondary sources, such as a 2026 scoping review, wrongly call it a randomized trial; do not repeat that. AI-assisted colonoscopy still finds more growths overall. Say 'skills may fade when we lean on the tool', not 'AI makes doctors worse'."
+   },
+   {
+    "id": "chekroud-exercise",
+    "user_claim": "Research brief: Chekroud et al. 2018 Lancet Psychiatry found people who exercise had ~1.5 fewer poor-mental-health days per month, ~43% fewer",
+    "verdict": "accurate",
+    "fact": "In survey data from 1.2 million Americans, people who exercised reported about 1.5 fewer days of poor mental health per month than similar people who didn't, about 43% fewer. Sessions of around 45 minutes, three to five times a week, showed the largest benefit.",
+    "evidence_card": "LANCET PSYCHIATRY, 2018 \u00b7 1.2M Americans: exercisers had 1.49 (43%) fewer bad mental-health days/month \u00b7 Source: Chekroud et al.",
+    "key_numbers": [
+     "1,237,194 adults (CDC BRFSS 2011, 2013, 2015)",
+     "1.49 fewer days per month (43.2%)",
+     "~45 min, 3-5 times per week = largest associations",
+     "Team sports -22.3%, cycling -21.6%, aerobic/gym -20.1%",
+     "Published online Aug 8, 2018"
+    ],
+    "sources": [
+     {
+      "title": "Association between physical exercise and mental health in 1.2 million individuals in the USA between 2011 and 2015: a cross-sectional study",
+      "publisher": "The Lancet Psychiatry (Chekroud et al.)",
+      "url": "https://doi.org/10.1016/S2215-0366(18)30227-X",
+      "date": "2018-08-08",
+      "supporting_quote": "Individuals who exercised had 1\u00b749 (43\u00b72%) fewer days of poor mental health in the past month than individuals who did not exercise but were otherwise matched for several physical and sociodemographic characteristics"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified against the PubMed abstract (PMID 30099000); I only added the data source and years. The study is cross-sectional and self-reported, so it shows an association, not causation. The authors also note 'More exercise was not always better.'"
+   },
+   {
+    "id": "singh-umbrella-review",
+    "user_claim": "Research brief: Singh et al. 2023 BJSM umbrella review found physical activity highly beneficial for depression and anxiety",
+    "verdict": "accurate",
+    "fact": "A 2023 umbrella review pooled 97 reviews covering more than 1,000 trials and 128,000 people. It concluded that physical activity is 'highly beneficial' for symptoms of depression, anxiety and distress, with medium-sized effects compared with usual care.",
+    "evidence_card": "BRITISH J. OF SPORTS MEDICINE, 2023 \u00b7 1,039 trials, 128,119 people: exercise 'highly beneficial' for depression & anxiety \u00b7 Source: Singh et al.",
+    "key_numbers": [
+     "97 reviews",
+     "1,039 trials",
+     "128,119 participants",
+     "Median effect size: depression -0.43, anxiety -0.42, distress -0.60",
+     "77 of 97 reviews rated critically low quality (AMSTAR)",
+     "Published online Feb 16, 2023 (BJSM 57(18):1203-1209)"
+    ],
+    "sources": [
+     {
+      "title": "Effectiveness of physical activity interventions for improving depression, anxiety and distress: an overview of systematic reviews",
+      "publisher": "British Journal of Sports Medicine (Singh et al., University of South Australia)",
+      "url": "https://doi.org/10.1136/bjsports-2022-106195",
+      "date": "2023-02-16",
+      "supporting_quote": "Physical activity is highly beneficial for improving symptoms of depression, anxiety and distress across a wide range of adult populations, including the general population, people with diagnosed mental health disorders and people with chronic disease."
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified against the PubMed abstract (PMID 36796860). Do not use the press-release line that exercise is '1.5 times more effective than counselling or medication'; the comparison was against usual care, not a head-to-head trial. Also note that 77 of the 97 included reviews were rated critically low quality, and that the benefit faded in longer-running interventions."
+   },
+   {
+    "id": "who-activity-guideline",
+    "user_claim": "Research brief: WHO adult guideline is 150-300 minutes of moderate activity per week",
+    "verdict": "accurate",
+    "fact": "The WHO recommends that adults get 150 to 300 minutes of moderate activity a week, or 75 to 150 minutes of vigorous activity, plus muscle-strengthening exercise on two or more days a week. It also stresses that some activity is better than none.",
+    "evidence_card": "WHO 2020 GUIDELINES \u00b7 150-300 min moderate (or 75-150 min vigorous) per week \u00b7 Source: World Health Organization",
+    "key_numbers": [
+     "150-300 min moderate per week",
+     "75-150 min vigorous per week",
+     "Muscle strengthening 2+ days per week",
+     "Released Nov 25, 2020"
+    ],
+    "sources": [
+     {
+      "title": "World Health Organization 2020 guidelines on physical activity and sedentary behaviour",
+      "publisher": "British Journal of Sports Medicine (Bull et al., WHO)",
+      "url": "https://doi.org/10.1136/bjsports-2020-102955",
+      "date": "2020-12",
+      "supporting_quote": "All adults should undertake 150-300 min of moderate-intensity, or 75-150 min of vigorous-intensity physical activity ... some physical activity is better than none ... muscle-strengthening activities at moderate or greater intensity on 2 or more days a week"
+     },
+     {
+      "title": "WHO guidelines on physical activity and sedentary behaviour",
+      "publisher": "World Health Organization",
+      "url": "https://www.who.int/publications/i/item/9789240015128",
+      "date": "2020-11-25"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified. Change: I confirmed 'on 2 or more days a week' for muscle strengthening in the full text of Bull et al. (PMC7719906), so it is now in the fact and the quote. The WHO publication page confirms the 25 Nov 2020 release."
+   },
+   {
+    "id": "who-inactivity-2022",
+    "user_claim": "NEW (scale of the problem)",
+    "verdict": "new-evidence",
+    "fact": "According to the WHO, nearly a third of adults worldwide (31%, about 1.8 billion people) did not get enough physical activity in 2022. If trends continue, that share is projected to reach 35% by 2030.",
+    "evidence_card": "WHO, JUNE 2024 \u00b7 1.8 BILLION adults (31%) not active enough \u00b7 Source: WHO / The Lancet Global Health",
+    "key_numbers": [
+     "31% of adults (2022)",
+     "~1.8 billion people",
+     "Up ~5 percentage points 2010-2022",
+     "Projected 35% by 2030"
+    ],
+    "sources": [
+     {
+      "title": "Nearly 1.8 billion adults at risk of disease from not doing enough physical activity",
+      "publisher": "World Health Organization",
+      "url": "https://www.who.int/news/item/26-06-2024-nearly-1.8-billion-adults-at-risk-of-disease-from-not-doing-enough-physical-activity",
+      "date": "2024-06-26",
+      "supporting_quote": "nearly one third (31%) of adults worldwide, approximately 1.8 billion people, did not meet the recommended levels of physical activity in 2022"
+     },
+     {
+      "title": "Physical activity (fact sheet)",
+      "publisher": "World Health Organization",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/physical-activity",
+      "date": "2024-06-26",
+      "supporting_quote": "nearly one third (31%) of the world's adult population, 1.8 billion adults, are physically inactive"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified against the WHO news release and fact sheet, and added the fact sheet as a source. The study was published in The Lancet Global Health. This is the latest WHO global estimate I could confirm, but I could not run new searches to check for a 2025-2026 update."
+   },
+   {
+    "id": "cdc-sleep",
+    "user_claim": "NEW (optional sleep evidence)",
+    "verdict": "new-evidence",
+    "fact": "The CDC reports that more than a third of American adults don't regularly get the recommended seven or more hours of sleep, and that share stayed about the same from 2013 to 2022. Sleeping less than seven hours is linked to obesity, diabetes, high blood pressure, heart disease, stroke and frequent mental distress.",
+    "evidence_card": "CDC \u00b7 1 in 3 U.S. adults don't get 7+ hours of sleep \u00b7 Source: CDC / BRFSS",
+    "key_numbers": [
+     "More than 1 in 3 U.S. adults (2014 BRFSS)",
+     "Unchanged 2013-2022; 2022 state range 30% (Vermont) to 46% (Hawaii)",
+     "7+ hours recommended for ages 18-60"
+    ],
+    "sources": [
+     {
+      "title": "1 in 3 adults don't get enough sleep",
+      "publisher": "U.S. Centers for Disease Control and Prevention",
+      "url": "https://archive.cdc.gov/www_cdc_gov/media/releases/2016/p0215-enough-sleep.html",
+      "date": "2016-02-18",
+      "supporting_quote": "More than a third of American adults are not getting enough sleep on a regular basis"
+     },
+     {
+      "title": "Adults Sleep Facts and Stats",
+      "publisher": "U.S. Centers for Disease Control and Prevention",
+      "url": "https://www.cdc.gov/sleep/data-research/facts-stats/adults-sleep-facts-and-stats.html",
+      "date": "2024-05-15",
+      "supporting_quote": "stayed the same from 2013 to 2022"
+     }
+    ],
+    "confidence": "high",
+    "caveats": "Verified the 2016 release, which uses 2014 BRFSS data. Changes: I added CDC's newer page, which shows the share was unchanged through 2022, so 'about 1 in 3' still holds; I raised confidence to high and added high blood pressure, which the release also lists. U.S. data only, and the links to disease are associations. Use this only if the closing needs a sleep beat; the exercise and attention evidence is stronger for this script."
+   }
+  ]
+ }
+]
