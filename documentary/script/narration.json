@@ -10,10 +10,10 @@
     0.35
    ]
   ],
-  "speed": 1.06
+  "speed": 1.08
  },
  "lead_in": 2.2,
- "tail": 5.5,
+ "tail": 4.5,
  "lines": [
   {
    "id": "co-gift",
@@ -25,8 +25,8 @@
   {
    "id": "co-billion",
    "section": "COLD_OPEN",
-   "text": "More than a billion people use it every week. The vast majority pay nothing.",
-   "caption": "More than 1 billion people use it every week. The vast majority pay nothing.",
+   "text": "OpenAI says more than a billion people use it every week. The vast majority pay nothing.",
+   "caption": "OpenAI says more than 1 billion people use it every week. The vast majority pay nothing.",
    "pause": 0.7
   },
   {
@@ -34,13 +34,13 @@
    "section": "COLD_OPEN",
    "text": "So what are you paying with?",
    "caption": "So what are you paying with?",
-   "pause": 5.8
+   "pause": 5.6
   },
   {
    "id": "a-launch",
    "section": "EXHIBIT_A",
-   "text": "Exhibit A. November thirtieth, twenty twenty-two. ChatGPT launches, free.",
-   "caption": "Exhibit A. November 30, 2022. ChatGPT launches, free.",
+   "text": "November thirtieth, twenty twenty-two. ChatGPT launches, free.",
+   "caption": "November 30, 2022. ChatGPT launches, free.",
    "pause": 0.38
   },
   {
@@ -53,29 +53,29 @@
   {
    "id": "a-why-free",
    "section": "EXHIBIT_A",
-   "text": "Why free? The launch post: to get users' feedback.",
-   "caption": "Why free? The launch post: \"to get users' feedback.\"",
-   "pause": 0.6
+   "text": "Why free? OpenAI's launch post says: to get users' feedback.",
+   "caption": "Why free? OpenAI's launch post says: \"to get users' feedback.\"",
+   "pause": 0.45
   },
   {
    "id": "a-gpt4",
    "section": "EXHIBIT_A",
-   "text": "But GPT-4 had already finished training. Three months before you said hello.",
-   "caption": "But GPT-4 had already finished training. Three months before you said hello.",
-   "pause": 0.7
+   "text": "And the next model, GPT-4, had already finished training. Three months before you said hello.",
+   "caption": "And the next model, GPT-4, had already finished training. Three months before you said hello.",
+   "pause": 0.6
   },
   {
    "id": "a-scale",
    "section": "EXHIBIT_A",
-   "text": "The scaling law built it: more data, more compute, predictably better.",
-   "caption": "The scaling law built it: more data, more compute, predictably better.",
+   "text": "Scale built it: bigger models, more data, more compute, predictably better.",
+   "caption": "Scale built it: bigger models, more data, more compute, predictably better.",
    "pause": 0.38
   },
   {
    "id": "a-refine",
    "section": "EXHIBIT_A",
-   "text": "Then OpenAI refined it with feedback submitted by ChatGPT users.",
-   "caption": "Then OpenAI refined it with \"feedback submitted by ChatGPT users.\"",
+   "text": "Then OpenAI refined it, partly with feedback submitted by ChatGPT users.",
+   "caption": "Then OpenAI refined it, partly with \"feedback submitted by ChatGPT users.\"",
    "pause": 0.5
   },
   {
@@ -83,13 +83,13 @@
    "section": "EXHIBIT_A",
    "text": "The free product was shaping the next one.",
    "caption": "The free product was shaping the next one.",
-   "pause": 1.75
+   "pause": 1.5
   },
   {
    "id": "b-name",
    "section": "EXHIBIT_B",
-   "text": "Exhibit B. It has a name: the data flywheel.",
-   "caption": "Exhibit B. It has a name: the data flywheel.",
+   "text": "It has a name: the data flywheel.",
+   "caption": "It has a name: the data flywheel.",
    "pause": 0.38
   },
   {
@@ -102,29 +102,29 @@
   {
    "id": "b-thumbs",
    "section": "EXHIBIT_B",
-   "text": "OpenAI confirmed that thumbs-up and thumbs-down data from ChatGPT became a reward signal.",
-   "caption": "OpenAI confirmed that \"thumbs-up and thumbs-down data from ChatGPT\" became a reward signal.",
+   "text": "OpenAI said thumbs-up and thumbs-down data from ChatGPT became a reward signal.",
+   "caption": "OpenAI said \"thumbs-up and thumbs-down data from ChatGPT\" became a reward signal.",
    "pause": 0.38
   },
   {
    "id": "b-flatter",
    "section": "EXHIBIT_B",
-   "text": "The model turned flattering, and was rolled back. Your clicks steer it.",
-   "caption": "The model turned flattering, and was rolled back. Your clicks steer it.",
-   "pause": 0.7
+   "text": "It helped make the model so flattering that OpenAI rolled the update back. Your clicks steer it.",
+   "caption": "It helped make the model so flattering that OpenAI rolled the update back. Your clicks steer it.",
+   "pause": 0.55
   },
   {
    "id": "b-reveal",
    "section": "EXHIBIT_B",
    "text": "You're not just the customer. You're part of the wheel.",
    "caption": "You're not just the customer. You're part of the wheel.",
-   "pause": 1.75
+   "pause": 1.5
   },
   {
    "id": "c-rush",
    "section": "EXHIBIT_C",
-   "text": "Exhibit C. Startups rush to wrap the models.",
-   "caption": "Exhibit C. Startups rush to wrap the models.",
+   "text": "Startups rush to wrap the models.",
+   "caption": "Startups rush to wrap the models.",
    "pause": 0.38
   },
   {
@@ -144,22 +144,22 @@
   {
    "id": "c-doors",
    "section": "EXHIBIT_C",
-   "text": "Each model opens doors. The next can close them.",
-   "caption": "Each model opens doors. The next can close them.",
-   "pause": 1.75
+   "text": "Each model opens doors. The next release can close them.",
+   "caption": "Each model opens doors. The next release can close them.",
+   "pause": 1.5
   },
   {
    "id": "d-coders",
    "section": "EXHIBIT_D",
-   "text": "Exhibit D. The wheel reaches the coders.",
-   "caption": "Exhibit D. The wheel reaches the coders.",
+   "text": "The wheel reaches the coders.",
+   "caption": "The wheel reaches the coders.",
    "pause": 0.38
   },
   {
    "id": "d-mandate",
    "section": "EXHIBIT_D",
-   "text": "Employers made it official: use it.",
-   "caption": "Employers made it official: use it.",
+   "text": "Big employers made it official: use AI.",
+   "caption": "Big employers made it official: use AI.",
    "pause": 0.38
   },
   {
@@ -186,15 +186,15 @@
   {
    "id": "d-code",
    "section": "EXHIBIT_D",
-   "text": "Your code can feed it too. In GitHub's words: real-world data equals smarter models.",
-   "caption": "Your code can feed it too. In GitHub's words: \"Real-world data = smarter models.\"",
-   "pause": 1.75
+   "text": "On personal plans, your code can feed the wheel too. In GitHub's words: real-world data equals smarter models.",
+   "caption": "On personal plans, your code can feed the wheel too. In GitHub's words: \"Real-world data = smarter models.\"",
+   "pause": 1.5
   },
   {
    "id": "e-why",
    "section": "EXHIBIT_E",
-   "text": "Exhibit E. So why is it nearly free?",
-   "caption": "Exhibit E. So why is it nearly free?",
+   "text": "So why is it nearly free?",
+   "caption": "So why is it nearly free?",
    "pause": 0.5
   },
   {
@@ -214,8 +214,8 @@
   {
    "id": "e-optout",
    "section": "EXHIBIT_E",
-   "text": "You can switch it off. Most people never do.",
-   "caption": "You can switch it off. Most people never do.",
+   "text": "You can switch it off. Most people never touch their defaults.",
+   "caption": "You can switch it off. Most people never touch their defaults.",
    "pause": 0.38
   },
   {
@@ -228,15 +228,15 @@
   {
    "id": "e-thin",
    "section": "EXHIBIT_E",
-   "text": "But if your plan is a thin wrapper, please, wait. The wheel won't.",
-   "caption": "But if your plan is a thin wrapper, please, wait. The wheel won't.",
+   "text": "But if your plan is a thin wrapper around someone else's model, please, wait. The wheel won't.",
+   "caption": "But if your plan is a thin wrapper around someone else's model, please, wait. The wheel won't.",
    "pause": 1.9
   },
   {
    "id": "f-build",
    "section": "CLOSING",
-   "text": "So go ahead. Build. Raise money. Ship.",
-   "caption": "So go ahead. Build. Raise money. Ship.",
+   "text": "Still, go ahead. Build. Raise money. Ship.",
+   "caption": "Still, go ahead. Build. Raise money. Ship.",
    "pause": 0.6
   },
   {
@@ -272,7 +272,7 @@
    "section": "CLOSING",
    "text": "No release will update you. Only you can.",
    "caption": "No release will update you. Only you can.",
-   "pause": 0.9
+   "pause": 0.8
   },
   {
    "id": "f-final",

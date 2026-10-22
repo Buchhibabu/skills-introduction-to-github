@@ -1,8 +1,8 @@
 # The Flywheel — a 3-minute documentary
 
-*Why AI is free — and what you pay with instead.*
+*Why AI is almost free — and what else you pay with.*
 
-- **Video:** `release/The_Flywheel.mp4` (1080p, 24 fps, about 3:05, loudness-normalised to −14 LUFS)
+- **Video:** `release/The_Flywheel.mp4` (1080p, 24 fps, about 3:08, loudness-normalised to −14 LUFS)
 - **Captions:** `release/The_Flywheel.srt`
 - **Description, chapters and sources:** `release/DESCRIPTION.md`
 - **Research:** `research/fact-sheet.md`: corrections to the original brief, the narrative evidence, a "do not say" list and every source. `research/verified-facts.json` holds 64 claims, each checked by a researcher and an independent verifier.

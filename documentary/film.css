@@ -60,7 +60,7 @@ html, body {
 
 /* chapter card */
 .chapter .label { font-family: 'IBM Plex Mono', monospace; font-size: 30px; letter-spacing: 0.5em; color: var(--amber); }
-.chapter .name { font-family: Oswald, sans-serif; font-weight: 600; font-size: 150px; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1; margin-top: 26px; }
+.chapter .name { white-space: nowrap; font-family: Oswald, sans-serif; font-weight: 600; font-size: 150px; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1; margin-top: 26px; }
 .chapter .rule { height: 3px; background: var(--amber); margin: 36px auto 0; width: 0; }
 
 /* paper documents */

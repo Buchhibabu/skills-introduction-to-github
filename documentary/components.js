@@ -304,7 +304,7 @@
   function titleCard(root, { t0, t1, title, sub }) {
     const box = el('div', 'center', root);
     const h = el('div', 'title', box);
-    css(h, { fontSize: '230px', fontWeight: 700, letterSpacing: '0.14em', lineHeight: 1, whiteSpace: 'nowrap' });
+    css(h, { fontSize: '200px', fontWeight: 700, letterSpacing: '0.12em', lineHeight: 1, whiteSpace: 'nowrap' });
     const letters = [...title].map((ch) => { const s = el('span', '', h, ch === ' ' ? '&nbsp;' : ch); s.style.display = 'inline-block'; return s; });
     const sb = el('div', 'serif', box, sub);
     css(sb, { fontSize: '44px', fontStyle: 'italic', color: 'rgba(236,230,218,0.8)', marginTop: '34px' });
@@ -320,7 +320,7 @@
         s.style.filter = `blur(${(1 - k) * 18}px)`;
         s.style.transform = `translateY(${(1 - k) * 12}px)`;
       });
-      h.style.letterSpacing = `${lerp(0.3, 0.14, prog(t, t0, t1, ease.out))}em`;
+      h.style.letterSpacing = `${lerp(0.2, 0.12, prog(t, t0, t1, ease.out))}em`;
       sb.style.opacity = prog(t, t0 + 1.2, t0 + 2.2);
       sweep.style.left = `${lerp(-600, 2200, prog(t, t0 + 0.4, t0 + 2.6, ease.inOut))}px`;
     };

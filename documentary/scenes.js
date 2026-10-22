@@ -13,7 +13,7 @@
     if (!sec[s]) sec[s] = { start: T[id].start, end: T[id].end, first: id };
     sec[s].end = T[id].end;
   });
-  const NAMES = { EXHIBIT_A: 'The Launch', EXHIBIT_B: 'The Wheel', EXHIBIT_C: 'The Graveyard', EXHIBIT_D: 'The Acceleration', EXHIBIT_E: 'The Price', CLOSING: 'The One Asset' };
+  const NAMES = { EXHIBIT_A: 'The Launch', EXHIBIT_B: 'The Wheel', EXHIBIT_C: 'The Steamroller', EXHIBIT_D: 'The Acceleration', EXHIBIT_E: 'The Price', CLOSING: 'The One Asset' };
   const LETTER = { EXHIBIT_A: 'Exhibit A', EXHIBIT_B: 'Exhibit B', EXHIBIT_C: 'Exhibit C', EXHIBIT_D: 'Exhibit D', EXHIBIT_E: 'Exhibit E', CLOSING: 'Conclusion' };
 
   const TITLE_AT = sec.COLD_OPEN.end + 1.0;          // title card lands in the pause after the cold open
@@ -40,12 +40,12 @@
   E.glitch(TITLE_AT - 0.35, 0.3);
 
   // title
-  scene(TITLE_AT, TITLE_AT + 3.4, (root) => C.titleCard(root, { t0: TITLE_AT, t1: TITLE_AT + 3.4, title: 'THE FLYWHEEL', sub: 'Why AI is free — and what you pay with instead' }), { push: 0.05 });
+  scene(TITLE_AT, TITLE_AT + 3.4, (root) => C.titleCard(root, { t0: TITLE_AT, t1: TITLE_AT + 3.4, title: 'THE FLYWHEEL', sub: 'Why AI is almost free — and what else you pay with' }), { push: 0.05 });
 
   // chapter cards in the pause before each exhibit, and a small running HUD inside each
   SECTIONS.slice(1).forEach((s) => {
     if (!sec[s]) return;
-    const a = sec[s].start - 1.75, b = sec[s].start + 0.15;
+    const a = sec[s].start - 1.5, b = sec[s].start + 0.15;
     if (s === 'CLOSING') return;  // the closing is announced by the light, not a card
     scene(a, b, (root) => C.chapterCard(root, { label: LETTER[s].toUpperCase(), name: NAMES[s], t0: a, t1: b }), { push: 0.02 });
     scene(sec[s].start, sec[s].end + 0.8, (root) => C.hud(root, { label: `${LETTER[s].toUpperCase()} · ${NAMES[s].toUpperCase()}`, from: sec[s].start, to: sec[s].end + 0.8 }), { push: 0 });
@@ -63,6 +63,8 @@
     const t0 = (spec.from ?? line.start) - 0.3;
     const next = vis[i + 1];
     let t1 = spec.until ?? (next ? (V[next].from ?? T[next].start) - 0.3 : CREDITS);
+    // clear the frame before the next exhibit's chapter card
+    if (next && T[next].section !== line.section && T[next].section !== 'CLOSING') t1 = Math.min(t1, sec[T[next].section].start - 1.5 - 0.45);
     if (spec.holdTo) t1 = T[spec.holdTo].end + 0.4;
     scene(t0, t1 + 0.4, (root) => B[spec.beat](root, { t0, t1: t1 + 0.4, line, id }, spec), { push: spec.push ?? 0.035 });
   });

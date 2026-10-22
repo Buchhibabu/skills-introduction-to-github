@@ -1,4 +1,4 @@
-# THE FLYWHEEL — Why AI is free, and what you pay with instead
+# THE FLYWHEEL — Why AI is almost free, and what else you pay with
 
 A 3-minute documentary on the AI data flywheel: why the most powerful software ever shipped is free for most people, why each new model release can wipe out the startups built on the last one, and why the asset that matters most is the one no release can update — your attention, your mind, your health.
 
@@ -6,12 +6,12 @@ Every claim on screen is sourced below. Where a number is an estimate, lab-repor
 
 ## Chapters
 - 0:00 Cold open: "It looks like a gift"
-- 0:15 Exhibit A — The Launch
-- 0:47 Exhibit B — The Wheel
-- 1:11 Exhibit C — The Graveyard
-- 1:31 Exhibit D — The Acceleration
-- 2:03 Exhibit E — The Price
-- 2:25 Conclusion — The One Asset
+- 0:16 Exhibit A — The Launch
+- 0:50 Exhibit B — The Wheel
+- 1:14 Exhibit C — The Steamroller
+- 1:33 Exhibit D — The Acceleration
+- 2:06 Exhibit E — The Price
+- 2:29 Conclusion — The One Asset
 
 ## Notes on fairness
 - Opting out is possible. ChatGPT, Claude, Gemini and GitHub Copilot all have settings that stop consumer chats from being used for training, and business/API tiers are excluded by default. Most people never change defaults.
@@ -36,7 +36,7 @@ Every claim on screen is sourced below. Where a number is an estimate, lab-repor
 - What is a Data Flywheel? — NVIDIA — https://www.nvidia.com/en-us/glossary/data-flywheel/
 - Expanding on what we missed with sycophancy — OpenAI, 2025-05-02 — https://openai.com/index/expanding-on-sycophancy/ (verbatim copy: https://simonwillison.net/2025/May/2/what-we-missed-with-sycophancy/)
 
-**Exhibit C — The Graveyard**
+**Exhibit C — The Steamroller**
 - A ChatGPT update could wreck a bunch of AI startups ("Many startups just died today") — Decrypt, 2023-10-31 — https://decrypt.co/203920/openai-pdf-chatbot-ai-startups-sherlocked
 - New models and developer products announced at DevDay — OpenAI, 2023-11-06 — https://openai.com/index/new-models-and-developer-products-announced-at-devday/
 - Sam Altman explains why OpenAI might steamroll your AI startup — The Decoder, 2024-04-17 — https://the-decoder.com/sam-altman-explains-why-openai-might-steamroll-your-ai-startup/
