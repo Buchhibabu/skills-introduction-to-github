@@ -1,0 +1,13 @@
+{
+  "name": "the-flywheel-documentary",
+  "private": true,
+  "type": "module",
+  "description": "Renders the 3-minute documentary 'The Flywheel' from an HTML timeline with Playwright + ffmpeg",
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "5.2.5",
+    "@fontsource/inter": "5.2.5",
+    "@fontsource/oswald": "5.2.5",
+    "@fontsource/playfair-display": "5.2.5",
+    "@fontsource/special-elite": "5.2.5"
+  }
+}

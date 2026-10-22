@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Flywheel</title>
+<link rel="stylesheet" href="node_modules/@fontsource/oswald/500.css">
+<link rel="stylesheet" href="node_modules/@fontsource/oswald/600.css">
+<link rel="stylesheet" href="node_modules/@fontsource/oswald/700.css">
+<link rel="stylesheet" href="node_modules/@fontsource/playfair-display/400.css">
+<link rel="stylesheet" href="node_modules/@fontsource/playfair-display/400-italic.css">
+<link rel="stylesheet" href="node_modules/@fontsource/playfair-display/700.css">
+<link rel="stylesheet" href="node_modules/@fontsource/ibm-plex-mono/400.css">
+<link rel="stylesheet" href="node_modules/@fontsource/ibm-plex-mono/600.css">
+<link rel="stylesheet" href="node_modules/@fontsource/special-elite/400.css">
+<link rel="stylesheet" href="node_modules/@fontsource/inter/400.css">
+<link rel="stylesheet" href="node_modules/@fontsource/inter/600.css">
+<link rel="stylesheet" href="film.css">
+</head>
+<body>
+<div id="stage">
+  <div id="bg"></div>
+  <div id="fog"></div>
+  <div id="scenes"></div>
+  <div id="fx">
+    <div id="scanline"></div>
+    <canvas id="grain" width="960" height="540"></canvas>
+    <div id="vignette"></div>
+    <div id="flicker"></div>
+    <div id="blackout"></div>
+  </div>
+</div>
+<script src="out/timings.js"></script>
+<script src="engine.js"></script>
+<script src="components.js"></script>
+<script src="beats.js"></script>
+<script src="script/visuals.js"></script>
+<script src="scenes.js"></script>
+<script>
+  const fonts = ['500 40px Oswald', '600 40px Oswald', '700 40px Oswald', '400 40px "Playfair Display"', 'italic 400 40px "Playfair Display"',
+    '700 40px "Playfair Display"', '400 40px "IBM Plex Mono"', '600 40px "IBM Plex Mono"', '400 40px "Special Elite"', '400 40px Inter', '600 40px Inter'];
+  window.FILM = {
+    duration: window.FILM_DURATION,
+    sfx: E.sfx,
+    ready: Promise.all(fonts.map((f) => document.fonts.load(f))).then(() => document.fonts.ready).then(() => E.seek(0)),
+    seek: (t) => E.seek(t),
+  };
+  // Live preview in a normal browser: ?play
+  if (location.search.includes('play')) {
+    const t0 = performance.now();
+    const tick = () => { E.seek(((performance.now() - t0) / 1000) % window.FILM_DURATION); requestAnimationFrame(tick); };
+    FILM.ready.then(tick);
+  }
+</script>
+</body>
+</html>
