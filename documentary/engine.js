@@ -75,22 +75,33 @@
     };
   }
 
-  // Words fade/rise in one at a time, from t0, `gap` seconds apart.
+  // Words fade/rise in one at a time, from t0, `gap` seconds apart. html may contain inline markup.
   function words(parent, html, { t0, gap = 0.12, dur = 0.5, rise = 18, cls = '', style = {} }) {
-    const box = css(el('div', cls, parent), style);
-    const tokens = html.split(/(\s+)/);
+    const box = css(el('div', cls, parent, html), style);
     const spans = [];
-    tokens.forEach((w) => {
-      if (/^\s+$/.test(w)) { box.appendChild(document.createTextNode(' ')); return; }
-      const s = el('span', '', box, w);
-      s.style.display = 'inline-block';
-      spans.push(s);
-    });
-    return (t) => spans.forEach((s, i) => {
+    const walk = (node) => {
+      [...node.childNodes].forEach((n) => {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach((w) => {
+            if (!w) return;
+            if (/^\s+$/.test(w)) { frag.appendChild(document.createTextNode(' ')); return; }
+            const sp = document.createElement('span');
+            sp.textContent = w;
+            sp.style.display = 'inline-block';
+            spans.push(sp);
+            frag.appendChild(sp);
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1) walk(n);
+      });
+    };
+    walk(box);
+    return (t) => spans.forEach((sp, i) => {
       const k = prog(t, t0 + i * gap, t0 + i * gap + dur, ease.out);
-      s.style.opacity = k;
-      s.style.transform = `translateY(${(1 - k) * rise}px)`;
-      s.style.filter = `blur(${(1 - k) * 6}px)`;
+      sp.style.opacity = k;
+      sp.style.transform = `translateY(${(1 - k) * rise}px)`;
+      sp.style.filter = `blur(${(1 - k) * 6}px)`;
     });
   }
 

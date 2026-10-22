@@ -22,28 +22,31 @@
 
   // Paper document with optional highlight sweep and redaction bars.
   // html may contain <span class="hl"><span class="mark"></span>...</span> and <span class="redact"><span class="bar"></span>...</span>
-  function docCard(root, { head, date, html, foot, t0, t1, x = 260, y = 180, w = 1400, rot = -1.1, hl = [], redact = [], quoteSize, stamp }) {
+  function docCard(root, { head, date, html, foot, t0, t1, x = 260, y, w = 1400, rot = -1.1, hl = [], redact = [], quoteSize, stamp }) {
     const d = el('div', 'doc', root);
-    css(d, { left: x + 'px', top: y + 'px', width: w + 'px' });
+    css(d, { left: x + 'px', top: (y ?? 200) + 'px', width: w + 'px' });
+    let placed = y !== undefined;
     d.innerHTML = `<div class="head"><span>${head}</span><span>${date || ''}</span></div><div class="quote">${html}</div>${foot ? `<div class="foot">${foot}</div>` : ''}`;
     if (quoteSize) d.querySelector('.quote').style.fontSize = quoteSize + 'px';
-    const marks = [...d.querySelectorAll('.mark')];
+    const marks = [...d.querySelectorAll('.hl')];
+    d.querySelectorAll('.mark').forEach((m) => m.remove());
     const bars = [...d.querySelectorAll('.bar')];
     let st = null;
     if (stamp) {
       st = el('div', 'stamp', d, stamp.text);
-      css(st, { right: (stamp.right ?? 60) + 'px', bottom: (stamp.bottom ?? 40) + 'px', transform: `rotate(${stamp.rot ?? -8}deg)` });
+      css(st, { right: (stamp.right ?? 60) + 'px', bottom: (stamp.bottom ?? -34) + 'px', fontSize: (stamp.size ?? 56) + 'px', whiteSpace: 'nowrap', background: 'rgba(239,231,214,.92)', transform: `rotate(${stamp.rot ?? -8}deg)` });
       cue(stamp.t, 'stamp');
     }
     cue(t0, 'shutter');
     hl.forEach((h) => cue(h[0], 'tick', { gain: 0.5 }));
     redact.forEach((r) => cue(r, 'glitch', { dur: 0.25, gain: 0.7 }));
     return (t) => {
+      if (!placed) { d.style.top = Math.max(120, (1080 - d.offsetHeight) / 2 - 30) + 'px'; placed = true; }
       const a = env(t, t0, t1, 0.45, 0.5);
       const k = prog(t, t0, t0 + 0.7, ease.out);
       d.style.opacity = a;
       d.style.transform = `translateY(${(1 - k) * 60}px) rotate(${rot}deg) scale(${lerp(0.97, 1.0, k) + 0.025 * prog(t, t0, t1, ease.linear)})`;
-      marks.forEach((m, i) => { const [a0, a1] = hl[i] || [t0 + 1, t0 + 2]; m.style.width = `calc(${prog(t, a0, a1) * 100}% + 12px)`; });
+      marks.forEach((m, i) => { const [a0, a1] = hl[i] || [t0 + 1, t0 + 2]; m.style.backgroundSize = `${prog(t, a0, a1, ease.linear) * 100}% 78%`; });
       bars.forEach((b, i) => { const r0 = redact[i] ?? t0 + 1; b.style.transform = `scaleX(${1 - prog(t, r0, r0 + 0.35, ease.in)})`; });
       if (st) {
         const s = prog(t, stamp.t, stamp.t + 0.18, ease.out);
@@ -171,7 +174,7 @@
   // Grid of illustrative startup cards that get absorbed by releases.
   function startupGrid(root, { t0, t1, cards, releases }) {
     const cols = 4, cw = 380, ch = 168, gx = 40, gy = 36;
-    const ox = (1920 - (cols * cw + (cols - 1) * gx)) / 2, oy = 250;
+    const ox = (1920 - (cols * cw + (cols - 1) * gx)) / 2, oy = 380;
     const R = rng(77);
     const nodes = cards.map((c, i) => {
       const n = el('div', 'card', root);
@@ -184,18 +187,18 @@
       return { n, tag, c, appear, drift: R() * 2 - 1 };
     });
     const ticker = el('div', 'abs', root);
-    css(ticker, { left: '0', right: '0', top: '120px', textAlign: 'center' });
+    css(ticker, { left: '0', right: '0', top: '200px', textAlign: 'center' });
     const tLines = releases.map((r) => {
       const d = el('div', 'abs', ticker);
       css(d, { left: '0', right: '0', top: '0' });
       d.innerHTML = `<span class="mono" style="font-size:30px;color:var(--amber);letter-spacing:.25em">${r.date}</span><span class="title" style="font-size:46px;margin-left:30px">${r.title}</span>`;
-      cue(r.t, 'hit', { gain: 0.55 });
+      if (r.t >= t0) cue(r.t, 'hit', { gain: 0.55 });
       return { d, r };
     });
     nodes.forEach((nd) => {
       const rel = releases.find((r) => r.kills.includes(nd.c.name));
       nd.kill = rel ? rel.t + 0.25 + 0.12 * rel.kills.indexOf(nd.c.name) : null;
-      if (nd.kill) cue(nd.kill, 'stamp', { gain: 0.35 });
+      if (nd.kill && nd.kill >= t0) cue(nd.kill, 'stamp', { gain: 0.35 });
     });
     return (t) => {
       root.style.opacity = env(t, t0, t1, 0.5, 0.6);
@@ -245,7 +248,7 @@
     const dots = points.map((p, i) => {
       const c = mk('circle', { cx: P[i][0], cy: P[i][1], r: 14, fill: '#fff', stroke: '#f0a63a', 'stroke-width': 5 });
       const lab = el('div', 'abs', root);
-      css(lab, { left: P[i][0] + (p.dx ?? 0) + 'px', top: P[i][1] + (p.dy ?? -150) + 'px', transform: 'translateX(-50%)', textAlign: 'center', whiteSpace: 'nowrap' });
+      css(lab, { left: P[i][0] + (p.dx ?? 0) + 'px', top: P[i][1] + (p.dy ?? -180) + 'px', transform: 'translateX(-50%)', textAlign: 'center', whiteSpace: 'nowrap' });
       lab.innerHTML = `<div class="title" style="font-size:64px;color:#fff">${p.label}</div><div class="mono" style="font-size:24px;color:var(--dim);margin-top:4px">${p.sub}</div>`;
       return { c, lab, t: p.t };
     });
@@ -338,7 +341,7 @@
       css(col, { left: 160 + i * 560 + 'px', top: '250px', width: '480px', textAlign: 'center' });
       col.innerHTML = `<div style="height:150px;display:flex;align-items:center;justify-content:center">${it.icon}</div>
         <div class="mono" style="font-size:28px;letter-spacing:.4em;color:#7a4b1c;margin-top:18px">${it.label}</div>
-        <div class="title" style="font-size:110px;color:#2a1d14;margin-top:16px;line-height:1">${it.stat}</div>
+        <div class="title" style="font-size:${it.statSize || 110}px;color:#2a1d14;margin-top:16px;line-height:1;white-space:nowrap">${it.stat}</div>
         <div style="font-size:30px;color:#4a3a2c;margin-top:18px;line-height:1.35">${it.text}</div>
         <div class="mono" style="font-size:19px;color:rgba(74,58,44,.75);margin-top:22px;line-height:1.4">${it.source}</div>`;
       cue(it.t, 'pop', { freq: 523.25 * [1, 1.25, 1.5][i] });

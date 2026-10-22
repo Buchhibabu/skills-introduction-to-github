@@ -1,0 +1,285 @@
+{
+ "voice": {
+  "blend": [
+   [
+    "am_michael",
+    0.65
+   ],
+   [
+    "am_onyx",
+    0.35
+   ]
+  ],
+  "speed": 1.06
+ },
+ "lead_in": 2.2,
+ "tail": 5.5,
+ "lines": [
+  {
+   "id": "co-gift",
+   "section": "COLD_OPEN",
+   "text": "It looks like a gift.",
+   "caption": "It looks like a gift.",
+   "pause": 0.7
+  },
+  {
+   "id": "co-billion",
+   "section": "COLD_OPEN",
+   "text": "More than a billion people use it every week. The vast majority pay nothing.",
+   "caption": "More than 1 billion people use it every week. The vast majority pay nothing.",
+   "pause": 0.7
+  },
+  {
+   "id": "co-question",
+   "section": "COLD_OPEN",
+   "text": "So what are you paying with?",
+   "caption": "So what are you paying with?",
+   "pause": 5.8
+  },
+  {
+   "id": "a-launch",
+   "section": "EXHIBIT_A",
+   "text": "Exhibit A. November thirtieth, twenty twenty-two. ChatGPT launches, free.",
+   "caption": "Exhibit A. November 30, 2022. ChatGPT launches, free.",
+   "pause": 0.38
+  },
+  {
+   "id": "a-critics",
+   "section": "EXHIBIT_A",
+   "text": "Critics called it unreliable. A million users came in five days.",
+   "caption": "Critics called it unreliable. A million users came in 5 days.",
+   "pause": 0.38
+  },
+  {
+   "id": "a-why-free",
+   "section": "EXHIBIT_A",
+   "text": "Why free? The launch post: to get users' feedback.",
+   "caption": "Why free? The launch post: \"to get users' feedback.\"",
+   "pause": 0.6
+  },
+  {
+   "id": "a-gpt4",
+   "section": "EXHIBIT_A",
+   "text": "But GPT-4 had already finished training. Three months before you said hello.",
+   "caption": "But GPT-4 had already finished training. Three months before you said hello.",
+   "pause": 0.7
+  },
+  {
+   "id": "a-scale",
+   "section": "EXHIBIT_A",
+   "text": "The scaling law built it: more data, more compute, predictably better.",
+   "caption": "The scaling law built it: more data, more compute, predictably better.",
+   "pause": 0.38
+  },
+  {
+   "id": "a-refine",
+   "section": "EXHIBIT_A",
+   "text": "Then OpenAI refined it with feedback submitted by ChatGPT users.",
+   "caption": "Then OpenAI refined it with \"feedback submitted by ChatGPT users.\"",
+   "pause": 0.5
+  },
+  {
+   "id": "a-reveal",
+   "section": "EXHIBIT_A",
+   "text": "The free product was shaping the next one.",
+   "caption": "The free product was shaping the next one.",
+   "pause": 1.75
+  },
+  {
+   "id": "b-name",
+   "section": "EXHIBIT_B",
+   "text": "Exhibit B. It has a name: the data flywheel.",
+   "caption": "Exhibit B. It has a name: the data flywheel.",
+   "pause": 0.38
+  },
+  {
+   "id": "b-loop",
+   "section": "EXHIBIT_B",
+   "text": "You use it. Your feedback becomes signal. The model improves. More people come.",
+   "caption": "You use it. Your feedback becomes signal. The model improves. More people come.",
+   "pause": 0.5
+  },
+  {
+   "id": "b-thumbs",
+   "section": "EXHIBIT_B",
+   "text": "OpenAI confirmed that thumbs-up and thumbs-down data from ChatGPT became a reward signal.",
+   "caption": "OpenAI confirmed that \"thumbs-up and thumbs-down data from ChatGPT\" became a reward signal.",
+   "pause": 0.38
+  },
+  {
+   "id": "b-flatter",
+   "section": "EXHIBIT_B",
+   "text": "The model turned flattering, and was rolled back. Your clicks steer it.",
+   "caption": "The model turned flattering, and was rolled back. Your clicks steer it.",
+   "pause": 0.7
+  },
+  {
+   "id": "b-reveal",
+   "section": "EXHIBIT_B",
+   "text": "You're not just the customer. You're part of the wheel.",
+   "caption": "You're not just the customer. You're part of the wheel.",
+   "pause": 1.75
+  },
+  {
+   "id": "c-rush",
+   "section": "EXHIBIT_C",
+   "text": "Exhibit C. Startups rush to wrap the models.",
+   "caption": "Exhibit C. Startups rush to wrap the models.",
+   "pause": 0.38
+  },
+  {
+   "id": "c-pdf",
+   "section": "EXHIBIT_C",
+   "text": "Then ChatGPT learned to read PDFs. One reaction: many startups just died today.",
+   "caption": "Then ChatGPT learned to read PDFs. One reaction: \"Many startups just died today.\"",
+   "pause": 0.5
+  },
+  {
+   "id": "c-steamroll",
+   "section": "EXHIBIT_C",
+   "text": "Sam Altman's warning: bet that the models won't improve, and you'll get steamrolled.",
+   "caption": "Sam Altman's warning: bet that the models won't improve, and you'll get \"steamrolled.\"",
+   "pause": 0.5
+  },
+  {
+   "id": "c-doors",
+   "section": "EXHIBIT_C",
+   "text": "Each model opens doors. The next can close them.",
+   "caption": "Each model opens doors. The next can close them.",
+   "pause": 1.75
+  },
+  {
+   "id": "d-coders",
+   "section": "EXHIBIT_D",
+   "text": "Exhibit D. The wheel reaches the coders.",
+   "caption": "Exhibit D. The wheel reaches the coders.",
+   "pause": 0.38
+  },
+  {
+   "id": "d-mandate",
+   "section": "EXHIBIT_D",
+   "text": "Employers made it official: use it.",
+   "caption": "Employers made it official: use it.",
+   "pause": 0.38
+  },
+  {
+   "id": "d-2pct",
+   "section": "EXHIBIT_D",
+   "text": "In twenty twenty-three, AI could solve two percent of real GitHub issues on a benchmark.",
+   "caption": "In 2023, AI could solve 2% of real GitHub issues on a benchmark.",
+   "pause": 0.38
+  },
+  {
+   "id": "d-80pct",
+   "section": "EXHIBIT_D",
+   "text": "By February twenty twenty-six, Anthropic reported about eighty percent for Claude Opus four point six.",
+   "caption": "By February 2026, Anthropic reported about 80% for Claude Opus 4.6.",
+   "pause": 0.38
+  },
+  {
+   "id": "d-opus55",
+   "section": "EXHIBIT_D",
+   "text": "Then Claude Opus five point five, which Anthropic puts at the level of its bigger Fable model on most work.",
+   "caption": "Then Claude Opus 5.5, which Anthropic puts at the level of its bigger Fable model on most work.",
+   "pause": 0.5
+  },
+  {
+   "id": "d-code",
+   "section": "EXHIBIT_D",
+   "text": "Your code can feed it too. In GitHub's words: real-world data equals smarter models.",
+   "caption": "Your code can feed it too. In GitHub's words: \"Real-world data = smarter models.\"",
+   "pause": 1.75
+  },
+  {
+   "id": "e-why",
+   "section": "EXHIBIT_E",
+   "text": "Exhibit E. So why is it nearly free?",
+   "caption": "Exhibit E. So why is it nearly free?",
+   "pause": 0.5
+  },
+  {
+   "id": "e-list",
+   "section": "EXHIBIT_E",
+   "text": "Investor billions. A race for users. Ads. Falling costs.",
+   "caption": "Investor billions. A race for users. Ads. Falling costs.",
+   "pause": 0.5
+  },
+  {
+   "id": "e-data",
+   "section": "EXHIBIT_E",
+   "text": "And part of the price is paid in data. Yours.",
+   "caption": "And part of the price is paid in data. Yours.",
+   "pause": 0.75
+  },
+  {
+   "id": "e-optout",
+   "section": "EXHIBIT_E",
+   "text": "You can switch it off. Most people never do.",
+   "caption": "You can switch it off. Most people never do.",
+   "pause": 0.38
+  },
+  {
+   "id": "e-trade",
+   "section": "EXHIBIT_E",
+   "text": "It's a trade, and often a good one.",
+   "caption": "It's a trade, and often a good one.",
+   "pause": 0.38
+  },
+  {
+   "id": "e-thin",
+   "section": "EXHIBIT_E",
+   "text": "But if your plan is a thin wrapper, please, wait. The wheel won't.",
+   "caption": "But if your plan is a thin wrapper, please, wait. The wheel won't.",
+   "pause": 1.9
+  },
+  {
+   "id": "f-build",
+   "section": "CLOSING",
+   "text": "So go ahead. Build. Raise money. Ship.",
+   "caption": "So go ahead. Build. Raise money. Ship.",
+   "pause": 0.6
+  },
+  {
+   "id": "f-asset",
+   "section": "CLOSING",
+   "text": "But your biggest asset is not on that list.",
+   "caption": "But your biggest asset is not on that list.",
+   "pause": 0.6
+  },
+  {
+   "id": "f-attention",
+   "section": "CLOSING",
+   "text": "Your attention. We now stay on one screen about forty-seven seconds before switching. Guard it.",
+   "caption": "Your attention. We now stay on one screen about 47 seconds before switching. Guard it.",
+   "pause": 0.55
+  },
+  {
+   "id": "f-mind",
+   "section": "CLOSING",
+   "text": "Your mind. In Anthropic's own trial, coders learning with AI scored seventeen points lower on what they'd just learned. Train it.",
+   "caption": "Your mind. In Anthropic's own trial, coders learning with AI scored 17 points lower on what they'd just learned. Train it.",
+   "pause": 0.55
+  },
+  {
+   "id": "f-body",
+   "section": "CLOSING",
+   "text": "Your body, and your mental health. People who exercise report forty-three percent fewer bad mental-health days. Move it.",
+   "caption": "Your body, and your mental health. People who exercise report 43% fewer bad mental-health days. Move it.",
+   "pause": 0.6
+  },
+  {
+   "id": "f-update",
+   "section": "CLOSING",
+   "text": "No release will update you. Only you can.",
+   "caption": "No release will update you. Only you can.",
+   "pause": 0.9
+  },
+  {
+   "id": "f-final",
+   "section": "CLOSING",
+   "text": "Invest consciously.",
+   "caption": "Invest consciously.",
+   "pause": 0.0
+  }
+ ]
+}

@@ -122,7 +122,7 @@ for s in cues["music"]:
         while t < s["t1"]:
             n = int(0.03 * SR)
             click = filt(rng.standard_normal(n), "band", [2500, 6500] if i % 2 else [1800, 4500]) * np.exp(-np.arange(n) / SR * 260)
-            place(perc, click, t, 0.22); t += 0.5; i += 1
+            place(perc, click, t, 0.12); t += 0.5; i += 1
 
 music += np.stack([perc, perc], 1)
 
@@ -235,18 +235,35 @@ for c in cues["sfx"]:
     SFX[c["type"]](c["t"], c)
 
 # ---------------- mix ----------------
+def rms_db(x):
+    return 20 * np.log10(np.sqrt(np.mean(x ** 2)) + 1e-12)
+
+
+def gain_to(x, target_db, mask=None):
+    ref = x[mask] if mask is not None else x
+    return x * 10 ** ((target_db - rms_db(ref)) / 20)
+
+
 hall = reverb_ir(2.8, 5), reverb_ir(2.8, 6)
 wet = np.stack([fftconvolve(music[:, i] + 0.4 * fx[:, i], hall[i])[:N] for i in range(2)], 1)
 bed = music + 0.28 * wet
 
-# duck the music under the voice (about -8 dB while speaking)
+# voice-activity envelope from the narration
 env = np.sqrt(np.maximum(filt(narr ** 2, "low", 3), 0))
-env = np.clip(env / (np.percentile(env[env > 1e-4], 60) + 1e-9), 0, 1)
-duck = 1 - 0.6 * np.clip(filt(env, "low", 2), 0, 1)
-bed *= duck[:, None]
+speaking = env > 0.02
+env = np.clip(env / (np.percentile(env[speaking], 60) + 1e-9), 0, 1)
+vad = np.clip(filt(env, "low", 2), 0, 1)
+
+# levels: voice ~-21 dBFS RMS while speaking; music bed ~-30 dBFS in the gaps, ducked ~11 dB under the voice;
+# sound effects peak around -8 dBFS
+voice = gain_to(narr, -21.0, speaking)
+bed = gain_to(bed, -31.0)
+bed *= (1 - 0.85 * vad)[:, None]
+fx = fx * (0.4 / (np.max(np.abs(fx)) + 1e-9)) * (1 - 0.45 * vad)[:, None]
 
 fade = np.clip((DUR - T) / 2.5, 0, 1) * np.clip(T / 0.3, 0, 1)
-mix = (bed * 0.55 + fx * 0.9) * fade[:, None] + np.stack([narr, narr], 1)
-mix /= max(1.0, np.max(np.abs(mix)) / 0.95)
+mix = (bed + fx) * fade[:, None] + np.stack([voice, voice], 1)
+mix /= max(1.0, np.max(np.abs(mix)) / 0.97)
 sf.write(f"{out}/mix.wav", mix.astype(np.float32), SR, subtype="FLOAT")
+sf.write(f"{out}/bed.wav", ((bed + fx) * fade[:, None]).astype(np.float32), SR, subtype="FLOAT")
 print(f"mix {DUR:.1f}s, peak {np.max(np.abs(mix)):.2f}")

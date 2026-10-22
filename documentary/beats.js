@@ -97,6 +97,36 @@
     };
   };
 
+
+  // Several beats layered in one scene.
+  B.combo = (root, ctx, { parts }) => {
+    const ups = parts.map((p) => { const layer = el('div', 'abs', root); css(layer, { inset: '0' }); return B[p.beat](layer, ctx, p); });
+    return (t) => { root.style.opacity = env(t, ctx.t0, ctx.t1, 0.3, 0.5); ups.forEach((u) => u(t)); };
+  };
+
+  // Closing pillars with a spoken verb under each.
+  B.pillars = (root, { t0, t1 }, { items }) => {
+    const p = C.pillars(root, { items: items.map((it) => ({ ...it, t1 })) });
+    const verbs = items.map((it, i) => {
+      const v = el('div', 'abs serif', root, it.verb);
+      css(v, { left: 160 + i * 560 + 'px', width: '480px', top: '830px', textAlign: 'center', fontSize: '58px', fontStyle: 'italic', color: '#7a3f12' });
+      return { v, t: it.verbT };
+    });
+    return (t) => {
+      root.style.opacity = env(t, t0, t1, 0.3, 0.6);
+      p(t);
+      verbs.forEach(({ v, t: vt }) => { const k = prog(t, vt, vt + 0.5, ease.out); v.style.opacity = k; v.style.transform = `translateY(${(1 - k) * 16}px)`; });
+    };
+  };
+
+  // Static end card.
+  B.endcard = (root, { t0, t1 }, { title, lines }) => {
+    const box = el('div', 'center', root);
+    box.innerHTML = `<div class="title" style="font-size:64px;letter-spacing:.3em;color:#2a1d14">${title}</div>` +
+      lines.map((l) => `<div class="mono" style="font-size:24px;color:rgba(42,29,20,.8);margin-top:22px;letter-spacing:.06em">${l}</div>`).join('');
+    return (t) => { box.style.opacity = env(t, t0, t1, 0.8, 0.8); };
+  };
+
   window.B = B;
   window.W = W;
 })();

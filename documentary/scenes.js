@@ -18,7 +18,7 @@
 
   const TITLE_AT = sec.COLD_OPEN.end + 1.0;          // title card lands in the pause after the cold open
   const DAWN = sec.CLOSING.start - 1.6;               // light starts to come up as the closing begins
-  const CREDITS = window.CREDITS_AT || (sec.CLOSING.end + 3.2);
+  const CREDITS = window.CREDITS_AT || (sec.CLOSING.end + 2.6);
   window.FILM_SECTIONS = { ...sec, TITLE_AT, DAWN, CREDITS };
 
   // ---- global look ----
@@ -40,7 +40,7 @@
   E.glitch(TITLE_AT - 0.35, 0.3);
 
   // title
-  scene(TITLE_AT, TITLE_AT + 4.2, (root) => C.titleCard(root, { t0: TITLE_AT, t1: TITLE_AT + 4.2, title: 'THE FLYWHEEL', sub: 'Why AI is free — and what you pay with instead' }), { push: 0.05 });
+  scene(TITLE_AT, TITLE_AT + 3.4, (root) => C.titleCard(root, { t0: TITLE_AT, t1: TITLE_AT + 3.4, title: 'THE FLYWHEEL', sub: 'Why AI is free — and what you pay with instead' }), { push: 0.05 });
 
   // chapter cards in the pause before each exhibit, and a small running HUD inside each
   SECTIONS.slice(1).forEach((s) => {
@@ -68,7 +68,7 @@
   });
 
   // ---- credits ----
-  scene(CREDITS, DUR, (root) => C.credits(root, { t0: CREDITS, t1: DUR, heading: 'Sources', color: 'rgba(42,29,20,.88)', lines: window.SOURCES || [] }), { push: 0 });
+  scene(CREDITS, DUR, (root) => B.endcard(root, { t0: CREDITS, t1: DUR }, window.ENDCARD), { push: 0.02 });
 
   // ---- music plan (read by build/score.py via build/cues.mjs) ----
   const M = [];
