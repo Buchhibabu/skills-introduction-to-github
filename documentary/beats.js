@@ -59,7 +59,11 @@
 
   B.timeline = (root, { t0, t1 }, o) => C.timeline(root, { t0, t1, ...o });
   B.flywheel = (root, { t0, t1 }, o) => C.flywheel(root, { t0, t1, ...o });
-  B.grid = (root, { t0, t1 }, o) => C.startupGrid(root, { t0, t1, ...o });
+  B.grid = (root, { t0, t1 }, o) => {
+    const g = C.startupGrid(root, { t0, t1, ...o });
+    const so = o.src ? source(root, o.src, { t0: t0 + 0.5, t1 }) : null;
+    return (t) => { g(t); so && so(t); };
+  };
   B.ledger = (root, { t0, t1 }, o) => {
     const l = C.ledger(root, { t0, t1, ...o });
     const so = o.src ? source(root, o.src, { t0: t0 + 0.5, t1 }) : null;
@@ -99,12 +103,13 @@
 
 
   // Several beats layered in one scene.
-  B.combo = (root, ctx, { parts }) => {
+  B.combo = (root, ctx, { parts, src }) => {
     const ups = parts.map((p) => {
-      const layer = el('div', 'abs', root); css(layer, { inset: '0' });
+      const layer = el('div', 'abs', root); css(layer, { inset: '0', ...(p.layer || {}) });
       return B[p.beat](layer, { ...ctx, t0: p.at ?? ctx.t0, t1: p.until ?? ctx.t1 }, p);
     });
-    return (t) => { root.style.opacity = env(t, ctx.t0, ctx.t1, 0.3, 0.5); ups.forEach((u) => u(t)); };
+    const so = src ? source(root, src, { t0: ctx.t0 + 0.5, t1: ctx.t1 }) : null;
+    return (t) => { root.style.opacity = env(t, ctx.t0, ctx.t1, 0.3, 0.5); ups.forEach((u) => u(t)); so && so(t); };
   };
 
   // Closing pillars with a spoken verb under each.

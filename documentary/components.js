@@ -22,8 +22,13 @@
 
   // Paper document with optional highlight sweep and redaction bars.
   // html may contain <span class="hl"><span class="mark"></span>...</span> and <span class="redact"><span class="bar"></span>...</span>
-  function docCard(root, { head, date, html, foot, t0: tIn, t1, x = 260, y, w = 1400, rot = -1.1, hl = [], redact = [], quoteSize, stamp, at, label, isolate, gloss, clean }) {
+  function docCard(root, { head, date, html, foot, t0: tIn, t1, x = 260, y, w = 1400, rot = -1.1, hl = [], redact = [], quoteSize, stamp, at, label, isolate, gloss, clean, flash }) {
     const t0 = at ?? tIn;
+    let fl = null;
+    if (flash) {
+      fl = el('div', 'abs mono', root, flash.text);
+      css(fl, { right: '96px', top: '96px', fontSize: '44px', letterSpacing: '0.3em', color: 'var(--red)', opacity: 0 });
+    }
     const d = el('div', 'doc', root);
     css(d, { left: x + 'px', top: (y ?? 200) + 'px', width: w + 'px' });
     let placed = y !== undefined;
@@ -66,6 +71,7 @@
       }
       if (lab) lab.style.opacity = prog(t, t0 + 0.4, t0 + 0.9);
       if (gl) gl.style.opacity = prog(t, gloss.t, gloss.t + 0.5);
+      if (fl) fl.style.opacity = t >= flash.t && t < flash.t + 0.9 ? (Math.floor((t - flash.t) * 8) % 2 ? 0.55 : 1) : 0;
       bars.forEach((b, i) => { const r0 = redact[i] ?? t0 + 1; b.style.transform = `scaleX(${1 - prog(t, r0, r0 + 0.35, ease.in)})`; });
       if (st) {
         const s = prog(t, stamp.t, stamp.t + 0.18, ease.out);
@@ -322,13 +328,15 @@
 
 
   // Big title card: THE FLYWHEEL, letters resolving out of blur with a light sweep.
-  function titleCard(root, { t0, t1, title, sub }) {
+  function titleCard(root, { t0, t1, title, sub, typewriter: typed = false, typeAt = 0.35, typeGap = 0.12 }) {
     const box = el('div', 'center', root);
     const h = el('div', 'title', box);
     css(h, { fontSize: '200px', fontWeight: 700, letterSpacing: '0.12em', lineHeight: 1, whiteSpace: 'nowrap' });
     const letters = [...title].map((ch) => { const s = el('span', '', h, ch === ' ' ? '&nbsp;' : ch); s.style.display = 'inline-block'; return s; });
-    const sb = el('div', 'serif', box, sub);
-    css(sb, { fontSize: '44px', fontStyle: 'italic', color: 'rgba(236,230,218,0.8)', marginTop: '34px' });
+    const sb = el('div', typed ? 'mono' : 'serif', box, sub);
+    css(sb, typed ? { fontSize: '30px', letterSpacing: '0.3em', color: 'rgba(236,230,218,0.8)', marginTop: '34px', textTransform: 'uppercase' }
+      : { fontSize: '44px', fontStyle: 'italic', color: 'rgba(236,230,218,0.8)', marginTop: '34px' });
+    if (typed) css(h, { fontFamily: "'Special Elite'", fontWeight: 400, textTransform: 'uppercase', fontSize: '170px' });
     const sweep = el('div', 'abs', root);
     css(sweep, { top: '0', bottom: '0', width: '420px', background: 'linear-gradient(90deg, transparent, rgba(255,240,210,0.10), transparent)', transform: 'skewX(-18deg)' });
     cue(t0, 'hit', { gain: 1.0 });
@@ -336,13 +344,14 @@
     return (t) => {
       box.style.opacity = env(t, t0, t1, 0.05, 0.9);
       letters.forEach((s, i) => {
+        if (typed) { s.style.opacity = t >= t0 + typeAt + i * typeGap ? 1 : 0; return; }
         const k = prog(t, t0 + i * 0.035, t0 + 0.9 + i * 0.035, ease.out);
         s.style.opacity = k;
         s.style.filter = `blur(${(1 - k) * 18}px)`;
         s.style.transform = `translateY(${(1 - k) * 12}px)`;
       });
-      h.style.letterSpacing = `${lerp(0.2, 0.12, prog(t, t0, t1, ease.out))}em`;
-      sb.style.opacity = prog(t, t0 + 1.2, t0 + 2.2);
+      if (!typed) h.style.letterSpacing = `${lerp(0.2, 0.12, prog(t, t0, t1, ease.out))}em`;
+      sb.style.opacity = typed ? prog(t, t0 + typeAt + letters.length * typeGap + 0.2, t0 + typeAt + letters.length * typeGap + 0.9) : prog(t, t0 + 1.2, t0 + 2.2);
       sweep.style.left = `${lerp(-600, 2200, prog(t, t0 + 0.4, t0 + 2.6, ease.inOut))}px`;
     };
   }
@@ -421,7 +430,7 @@
 
 
   // A ledger of reasons that tick in one by one; the last row can be emphasised.
-  function ledger(root, { t0, t1, title, rows, x = 460, y = 230, w = 1000 }) {
+  function ledger(root, { t0, t1, title, rows, x = 460, y = 230, w = 1000, isolateAt }) {
     const box = el('div', 'abs', root);
     css(box, { left: x + 'px', top: y + 'px', width: w + 'px' });
     const h = el('div', 'kicker', box, title);
@@ -429,6 +438,7 @@
     const nodes = rows.map((r) => {
       const row = el('div', '', box);
       css(row, { display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', borderBottom: '1px solid rgba(236,230,218,.14)', padding: '22px 0' });
+      if (r.big) row.style.borderBottom = '5px double var(--amber)';
       row.innerHTML = `<span style="font-size:${r.big ? 60 : 46}px;font-family:${r.big ? "'Playfair Display'" : 'Inter'};font-weight:${r.big ? 700 : 400};color:${r.big ? 'var(--amber)' : 'var(--text)'}">${r.text}</span>
         <span class="mono" style="font-size:22px;color:var(--dim)">${r.note || ''}</span>`;
       cue(r.t, r.big ? 'hit' : 'tick', { gain: r.big ? 0.6 : 0.8 });
@@ -438,7 +448,7 @@
       root.style.opacity = env(t, t0, t1, 0.4, 0.5);
       nodes.forEach(({ row, r }) => {
         const k = prog(t, r.t, r.t + 0.5, ease.out);
-        row.style.opacity = k;
+        row.style.opacity = k * (isolateAt !== undefined && !r.big ? 1 - 0.78 * prog(t, isolateAt, isolateAt + 0.8) : 1);
         row.style.transform = `translateX(${(1 - k) * -40}px)`;
       });
     };
@@ -597,11 +607,11 @@
   // A grid of generic settings icons: almost all untouched.
   function settingsGrid(root, { t0, t1, changed = [7, 31, 58, 86], label, quote }) {
     const grid = el('div', 'abs', root);
-    css(grid, { left: '510px', top: '170px', width: '900px', display: 'grid', gridTemplateColumns: 'repeat(10, 1fr)', gap: '18px' });
+    css(grid, { left: '580px', top: '120px', width: '760px', display: 'grid', gridTemplateColumns: 'repeat(10, 1fr)', gap: '12px' });
     const cells = Array.from({ length: 100 }, (_, i) => {
       const c = el('div', '', grid);
       const on = changed.includes(i);
-      c.innerHTML = `<svg viewBox="0 0 24 24" width="62" height="62"><circle cx="12" cy="12" r="3.2" fill="none" stroke="${on ? '#f0a63a' : '#56606e'}" stroke-width="1.6"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" stroke="${on ? '#f0a63a' : '#56606e'}" stroke-width="1.6"/></svg>`;
+      c.innerHTML = `<svg viewBox="0 0 24 24" width="54" height="54"><circle cx="12" cy="12" r="3.2" fill="none" stroke="${on ? '#f0a63a' : '#56606e'}" stroke-width="1.6"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" stroke="${on ? '#f0a63a' : '#56606e'}" stroke-width="1.6"/></svg>`;
       return { c, i };
     });
     const lab = el('div', 'abs mono', root, label);

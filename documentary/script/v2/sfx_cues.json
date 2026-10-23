@@ -34,7 +34,7 @@
  },
  {
   "sfx": "sfx_stamp",
-  "at": "line:co-question:end+0.15",
+  "at": "word:co-question:with+0.17",
   "gain_db": -12
  },
  {
@@ -220,7 +220,7 @@
  },
  {
   "sfx": "sfx_paper_slide",
-  "at": "line:c-steamroll:start-0.3",
+  "at": "word:c-steamroll:bet-0.5",
   "gain_db": -22
  },
  {
@@ -245,7 +245,7 @@
  },
  {
   "sfx": "sfx_door",
-  "at": "line:c-doors:end-2.35",
+  "at": "line:c-doors:end-0.62",
   "gain_db": -18
  },
  {
