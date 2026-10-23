@@ -1,0 +1,348 @@
+1
+00:00:09,774 --> 00:00:11,101
+It looks like a gift.
+
+2
+00:00:11,901 --> 00:00:16,200
+OpenAI says more than 1 billion people use it every week.
+
+3
+00:00:16,200 --> 00:00:18,462
+The vast majority pay nothing.
+
+4
+00:00:19,362 --> 00:00:22,228
+So… what are you paying with?
+
+5
+00:00:30,528 --> 00:00:32,915
+November 30, 2022.
+
+6
+00:00:32,915 --> 00:00:35,169
+ChatGPT launches.
+
+7
+00:00:35,169 --> 00:00:35,832
+Free.
+
+8
+00:00:36,132 --> 00:00:38,631
+Critics called it unreliable.
+
+9
+00:00:38,631 --> 00:00:41,302
+1 million users came in 5 days.
+
+10
+00:00:41,602 --> 00:00:42,472
+Why free?
+
+11
+00:00:42,772 --> 00:00:47,072
+“We are excited to introduce ChatGPT to get users’ feedback…”
+
+12
+00:00:48,072 --> 00:00:50,292
+And the next model, GPT-4?
+
+13
+00:00:50,292 --> 00:00:51,659
+Already trained.
+
+14
+00:00:51,659 --> 00:00:54,306
+3 months before you said hello.
+
+15
+00:00:54,706 --> 00:00:55,838
+Scale built it.
+
+16
+00:00:55,838 --> 00:00:58,782
+Bigger models, more data, more compute.
+
+17
+00:00:58,782 --> 00:01:00,216
+Predictably better.
+
+18
+00:01:00,516 --> 00:01:02,433
+Then OpenAI refined it.
+
+19
+00:01:02,683 --> 00:01:06,468
+“…including feedback submitted by ChatGPT users…”
+
+20
+00:01:06,768 --> 00:01:09,460
+The free product was shaping the next one.
+
+21
+00:01:09,760 --> 00:01:14,958
+For the record: the documents mention user feedback and flagged answers.
+
+22
+00:01:14,958 --> 00:01:16,041
+Not every chat.
+
+23
+00:01:18,441 --> 00:01:21,578
+It has a name: the data flywheel.
+
+24
+00:01:21,878 --> 00:01:22,733
+You use it.
+
+25
+00:01:24,051 --> 00:01:25,784
+Your feedback becomes signal.
+
+26
+00:01:28,554 --> 00:01:29,961
+The model improves.
+
+27
+00:01:29,961 --> 00:01:31,220
+More people come.
+
+28
+00:01:31,520 --> 00:01:33,085
+Even your thumbs-up counts.
+
+29
+00:01:33,335 --> 00:01:39,308
+“…an additional reward signal based on user feedback—thumbs-up and thumbs-down data
+
+30
+00:01:39,308 --> 00:01:40,316
+from ChatGPT.”
+
+31
+00:01:40,616 --> 00:01:44,917
+It helped make the model so flattering that OpenAI rolled the update back.
+
+32
+00:01:45,217 --> 00:01:46,915
+You're not just the customer.
+
+33
+00:01:46,915 --> 00:01:48,378
+You're part of the wheel.
+
+34
+00:01:50,578 --> 00:01:52,701
+Startups rushed to wrap the models.
+
+35
+00:01:53,001 --> 00:01:55,767
+Then ChatGPT learned to read PDFs.
+
+36
+00:01:56,067 --> 00:01:59,348
+One reaction: “Many startups just died today.”
+
+37
+00:01:59,648 --> 00:02:02,789
+For the record: a reaction, not a count.
+
+38
+00:02:02,789 --> 00:02:04,909
+Thin wrappers felt it most.
+
+39
+00:02:04,909 --> 00:02:08,129
+Strong companies got squeezed, or bought.
+
+40
+00:02:08,429 --> 00:02:13,465
+Sam Altman's warning: bet that the models won't improve, and you'll get steamrolled.
+
+41
+00:02:13,765 --> 00:02:15,342
+Each model opens doors.
+
+42
+00:02:15,342 --> 00:02:17,536
+The next release can close them.
+
+43
+00:02:19,636 --> 00:02:21,357
+The wheel reaches the coders.
+
+44
+00:02:21,657 --> 00:02:23,696
+Then the memos came.
+
+45
+00:02:23,696 --> 00:02:24,410
+Use AI.
+
+46
+00:02:25,710 --> 00:02:31,230
+In 2023, AI could solve about 2% of real GitHub issues on a benchmark.
+
+47
+00:02:31,530 --> 00:02:38,076
+By February 2026, Anthropic reported about 80%, for Claude Opus 4.6.
+
+48
+00:02:38,376 --> 00:02:44,107
+Then Claude Opus 5.5, which Anthropic puts at the level of its larger Fable model,
+
+49
+00:02:44,107 --> 00:02:45,016
+on most work.
+
+50
+00:02:45,316 --> 00:02:47,850
+And your code, on personal plans?
+
+51
+00:02:48,150 --> 00:02:53,554
+“We believe the future of AI-assisted development depends on real-world interaction
+
+52
+00:02:53,554 --> 00:02:55,573
+data from developers like you.”
+
+53
+00:02:58,873 --> 00:03:01,145
+So why is it nearly free?
+
+54
+00:03:01,445 --> 00:03:03,286
+Investor billions.
+
+55
+00:03:03,286 --> 00:03:05,026
+A race for users.
+
+56
+00:03:05,026 --> 00:03:05,435
+Ads.
+
+57
+00:03:05,435 --> 00:03:06,867
+Falling costs.
+
+58
+00:03:07,167 --> 00:03:09,895
+And part of the price is paid in data.
+
+59
+00:03:11,195 --> 00:03:12,132
+Yours.
+
+60
+00:03:14,032 --> 00:03:16,630
+For the record: there is a switch.
+
+61
+00:03:16,930 --> 00:03:19,177
+Most people never touch their defaults.
+
+62
+00:03:19,477 --> 00:03:20,488
+It's a trade.
+
+63
+00:03:20,488 --> 00:03:21,810
+Often a good one.
+
+64
+00:03:22,210 --> 00:03:24,483
+So our app just calls the model—
+
+65
+00:03:24,483 --> 00:03:29,204
+But if your plan is a thin wrapper around someone else's model...
+
+66
+00:03:29,204 --> 00:03:29,712
+please.
+
+67
+00:03:29,712 --> 00:03:30,075
+Wait.
+
+68
+00:03:30,375 --> 00:03:31,424
+The wheel won't.
+
+69
+00:03:35,424 --> 00:03:36,234
+Still.
+
+70
+00:03:36,234 --> 00:03:37,448
+Go ahead.
+
+71
+00:03:37,448 --> 00:03:38,258
+Build.
+
+72
+00:03:38,258 --> 00:03:39,877
+Raise money.
+
+73
+00:03:39,877 --> 00:03:40,552
+Ship.
+
+74
+00:03:40,852 --> 00:03:43,802
+But your biggest asset isn't on that list.
+
+75
+00:03:44,202 --> 00:03:45,333
+Your attention.
+
+76
+00:03:45,333 --> 00:03:49,857
+We now stay on one screen about 47 seconds before switching.
+
+77
+00:03:49,857 --> 00:03:50,536
+Guard it.
+
+78
+00:03:52,828 --> 00:03:53,579
+Your mind.
+
+79
+00:03:53,579 --> 00:03:59,583
+In Anthropic's own trial, coders learning with AI scored 17 points lower on what
+
+80
+00:03:59,583 --> 00:04:01,084
+they'd just learned.
+
+81
+00:04:01,084 --> 00:04:01,759
+Train it.
+
+82
+00:04:03,921 --> 00:04:06,431
+Your body, your mental health.
+
+83
+00:04:06,431 --> 00:04:11,451
+People who exercise report 43% fewer bad mental-health days.
+
+84
+00:04:11,451 --> 00:04:12,120
+Move it.
+
+85
+00:04:14,457 --> 00:04:16,666
+No release will update you.
+
+86
+00:04:16,666 --> 00:04:17,730
+Only you can.
+
+87
+00:04:19,730 --> 00:04:21,268
+Invest consciously.
+
