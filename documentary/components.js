@@ -3,7 +3,8 @@
   const { el, css, env, prog, keys, ease, clamp, lerp, noise, cue, rng } = E;
 
   // "EXHIBIT A" style chapter card.
-  function chapterCard(root, { label, name, t0, t1 }) {
+  // slam: the card hits in on the impact (fast in, overshooting scale) instead of fading up
+  function chapterCard(root, { label, name, t0, t1, slam = false }) {
     const box = el('div', 'center chapter', root);
     const l = el('div', 'label', box, label);
     const n = el('div', 'name', box, name);
@@ -11,11 +12,11 @@
     cue(t0, 'whoosh', { dur: 1.2 });
     cue(t0 + 0.35, 'stamp', { gain: 0.6 });
     return (t) => {
-      const a = env(t, t0, t1, 0.5, 0.5);
+      const a = env(t, t0, t1, slam ? 0.06 : 0.5, slam ? 0.25 : 0.5);
       box.style.opacity = a;
-      l.style.letterSpacing = `${lerp(0.9, 0.5, prog(t, t0, t0 + 1.5, ease.out))}em`;
-      n.style.transform = `scale(${lerp(1.12, 1, prog(t, t0, t0 + 0.8, ease.out))})`;
-      n.style.filter = `blur(${(1 - prog(t, t0, t0 + 0.6, ease.out)) * 10}px)`;
+      l.style.letterSpacing = `${lerp(0.9, 0.5, prog(t, t0, t0 + (slam ? 0.8 : 1.5), ease.out))}em`;
+      n.style.transform = `scale(${slam ? lerp(1.35, 1, prog(t, t0, t0 + 0.22, ease.out)) : lerp(1.12, 1, prog(t, t0, t0 + 0.8, ease.out))})`;
+      n.style.filter = `blur(${(1 - prog(t, t0, t0 + (slam ? 0.18 : 0.6), ease.out)) * 10}px)`;
       r.style.width = `${prog(t, t0 + 0.4, t0 + 1.4, ease.inOut) * 520}px`;
     };
   }

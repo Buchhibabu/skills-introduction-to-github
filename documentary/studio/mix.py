@@ -1,8 +1,12 @@
 """Mix voices, score and sound effects into the final soundtrack.
 
-Usage: python3 studio/mix.py out/v2 [script/v2/mutes.json]
-Reads out/v2/voices.wav, out/v2/music/placements.json, out/v2/sfx/placements.json.
-Writes out/v2/mix.wav (48 kHz stereo) plus stems (dialog/music/sfx) for checking levels.
+Usage: python3 studio/mix.py out/v3 [script/v3/mutes.json]
+Reads <out>/voices.wav, <out>/music/placements.json, <out>/sfx/placements.json.
+Writes <out>/mix.wav (48 kHz stereo) plus stems (dialog/music/sfx) for checking levels.
+
+The score is ducked in three bands: the speech band (250 Hz-4 kHz) makes room for the voice, while the
+low end (drums, sub) and the top (shimmer, cymbals) duck only a little, so the music keeps its drive
+under the narration instead of disappearing.
 """
 import json, subprocess, sys
 from pathlib import Path
@@ -68,12 +72,13 @@ def follow(x, attack_s, release_s, rate=1000):
 vad = follow(np.clip(env / (np.percentile(env[speaking], 35) + 1e-9), 0, 1), 0.04, 0.8)
 
 # ---------- music ----------
+MUSIC_DB = -18.0
 music = np.zeros_like(voices)
 for p in json.loads((out / "music" / "placements.json").read_text()):
     a = decode(p["file"])
     length = int((p["t1"] - p["t0"] + p.get("fade_out", 2.0)) * SR)
     a = a[:length]
-    a *= db(-19.0 + p.get("gain_db", 0) - rms_db(a))
+    a *= db(MUSIC_DB + p.get("gain_db", 0) - rms_db(a))
     fi, fo = int(p.get("fade_in", 1.5) * SR), int(p.get("fade_out", 2.0) * SR)
     ramp = np.ones(len(a), np.float32)
     ramp[:fi] = np.linspace(0, 1, min(fi, len(a)))[:len(ramp[:fi])]
@@ -90,12 +95,20 @@ def short_rms(x, win_s=0.3):
 
 
 dial_env = short_rms(dialog.mean(1), 0.6)
-mus_env = short_rms(music.mean(1), 0.6)
-target = dial_env * db(-17.0)
-want = np.clip(target / np.maximum(mus_env, 1e-9), db(-30), 1.0)
-duck = 1 - vad * (1 - np.minimum(want, db(-11)))  # at least 11 dB of duck under speech, more if the cue is loud
-duck = 1 - follow(1 - duck, 0.05, 0.9)
-music *= duck[:, None]
+lo_sos, hi_sos = butter(4, 250, "low", fs=SR, output="sos"), butter(4, 4000, "high", fs=SR, output="sos")
+m_lo = sosfiltfilt(lo_sos, music, axis=0).astype(np.float32)
+m_hi = sosfiltfilt(hi_sos, music, axis=0).astype(np.float32)
+m_mid = music - m_lo - m_hi
+mid_env = short_rms(m_mid.mean(1), 0.6)
+# speech band: hold the music's mids about 14 dB under the voice (at least 8 dB of duck while anyone speaks)
+want = np.clip(dial_env * db(-14.0) / np.maximum(mid_env, 1e-9), db(-30), 1.0)
+duck_mid = 1 - vad * (1 - np.minimum(want, db(-8)))
+duck_mid = 1 - follow(1 - duck_mid, 0.05, 0.7)
+duck_lo = 1 - vad * (1 - db(-3.5))
+duck_lo = 1 - follow(1 - duck_lo, 0.05, 0.7)
+duck_hi = 1 - vad * (1 - db(-6))
+duck_hi = 1 - follow(1 - duck_hi, 0.05, 0.7)
+music = m_lo * duck_lo[:, None] + m_mid * duck_mid[:, None] + m_hi * duck_hi[:, None]
 
 # directed silences: hard mutes on music and beds (10 ms ramps), e.g. the cold-open cut and the price reveal
 def t_of(ref):
@@ -134,6 +147,11 @@ for p in (json.loads(sfx_path.read_text()) if sfx_path.exists() else []):
     if len(a) > fi > 0:
         a[:fi] *= np.linspace(0, 1, fi)[:, None]
     a *= db(level)
+    # effects step back under the voice; impacts only a little, so they still punch through
+    duck_amt = p.get("duck", 0.15 if "hit" in p["sfx"] or p["sfx"] in ("sfx_braam", "sfx_sub_drop") else 0.45)
+    i = int(p["t"] * SR)
+    v = np.pad(vad[i:i + len(a)], (0, max(0, len(a) - len(vad[i:i + len(a)]))))
+    a *= (1 - duck_amt * v)[:, None]
     pan = p.get("pan", 0.0)
     a[:, 0] *= np.sqrt((1 - pan) / 2) * np.sqrt(2)
     a[:, 1] *= np.sqrt((1 + pan) / 2) * np.sqrt(2)
@@ -141,7 +159,6 @@ for p in (json.loads(sfx_path.read_text()) if sfx_path.exists() else []):
         i = int(p["t"] * SR)
         a *= mute[i:i + len(a)][:, None] if i + len(a) <= N else np.pad(mute[i:], (0, i + len(a) - N), constant_values=1)[:, None]
     place(sfx, a, p["t"])
-sfx *= (1 - 0.45 * vad)[:, None]
 
 # ---------- master ----------
 total = timings["total"]

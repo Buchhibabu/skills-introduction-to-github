@@ -1,8 +1,13 @@
-"""Cast the voices and perform every line of the v2 production bible with ElevenLabs.
+"""Cast the voices and perform every line of a production bible with ElevenLabs.
 
-Usage: python3 studio/voices.py script/v2/bible.json out/v2
-Writes out/v2/cast.json, out/v2/lines/<id>.mp3 (+ .json alignment), out/v2/timings.json,
-out/v2/words.json, out/v2/voices.wav (all lines placed on the timeline, 48 kHz stereo).
+Usage: python3 studio/voices.py script/v3/bible.json out/v3
+Writes <out>/cast.json, <out>/lines/<id>.mp3 (+ .json alignment), <out>/timings.json,
+<out>/words.json, <out>/voices.wav (all lines placed on the timeline, 48 kHz stereo).
+
+Each line is performed several times ("takes", default 4); the kept take is the most expressive
+(widest pitch movement) among those the speech recogniser hears correctly, so no line is read flat.
+A line can "reuse" an earlier recording, pin its start ("at_s") or its end ("end_at_s"), and be
+panned ("pan" on the line or its role). Panning happens here, not in the TTS request.
 
 Generated assets are cached: re-running only performs lines whose text/voice changed.
 """
@@ -20,7 +25,9 @@ SR = 48000
 bible_path, out = Path(sys.argv[1]), Path(sys.argv[2])
 bible = json.loads(bible_path.read_text())
 (out / "lines").mkdir(parents=True, exist_ok=True)
-ledger_path = out / "ledger.json"
+# SHARD=i/n records only every n-th line (run n copies in parallel), then a plain run builds the timeline
+SHARD = tuple(int(v) for v in __import__("os").environ.get("SHARD", "0/1").split("/"))
+ledger_path = out / ("ledger.json" if SHARD[1] == 1 else f"ledger_shard{SHARD[0]}.json")
 ledger = json.loads(ledger_path.read_text()) if ledger_path.exists() else []
 
 
@@ -99,6 +106,27 @@ def match(a, b):
     return difflib.SequenceMatcher(None, letters(a), letters(b), autojunk=False).ratio()
 
 
+def pitch_sd(audio):
+    """Spread of the voice's pitch in semitones (autocorrelation F0 per 10 ms); low values sound flat."""
+    x = audio.mean(1)[::3].astype(np.float64)
+    sr, fr, hop, f0 = SR // 3, int(0.04 * SR / 3), int(0.01 * SR / 3), []
+    for i in range(0, len(x) - fr, hop):
+        w = x[i:i + fr] * np.hanning(fr)
+        if np.sqrt(np.mean(w ** 2)) < 0.01:
+            continue
+        ac = np.correlate(w, w, "full")[fr - 1:]
+        lo, hi = int(sr / 400), int(sr / 60)
+        k = lo + np.argmax(ac[lo:hi])
+        if ac[k] > 0.4 * ac[0]:
+            f0.append(sr / k)
+    if len(f0) < 10:
+        return 0.0, 0.0, 0.0
+    voiced = len(f0) / max(1, (len(x) - fr) // hop)
+    f0 = np.array(f0)
+    st = 12 * np.log2(f0 / np.median(f0))
+    return float(np.median(f0)), float(np.std(st[np.abs(st) < 12])), float(voiced)
+
+
 # ---------------- cast ----------------
 cast_path = out / "cast.json"
 cast = json.loads(cast_path.read_text()) if cast_path.exists() else {}
@@ -133,44 +161,65 @@ cast_path.write_text(json.dumps(cast, indent=1))
 
 # ---------------- lines ----------------
 lines = bible["lines"]
+default_takes = bible.get("default_takes", 4)
 for i, ln in enumerate(lines):
+    if i % SHARD[1] != SHARD[0]:
+        continue
     spec = roles[ln["speaker"]]
     voice_id = cast[ln["speaker"]]["voice_id"]
+    mp3, meta = out / "lines" / f"{ln['id']}.mp3", out / "lines" / f"{ln['id']}.json"
+    if ln.get("reuse"):  # an earlier recording kept as is (e.g. the v2 cold open)
+        src = Path(ln["reuse"])
+        h = "reuse:" + hashlib.sha1(src.with_suffix(".mp3").read_bytes()).hexdigest()[:12]
+        if not (meta.exists() and json.loads(meta.read_text()).get("hash") == h):
+            m = json.loads(src.with_suffix(".json").read_text())
+            mp3.write_bytes(src.with_suffix(".mp3").read_bytes())
+            meta.write_text(json.dumps({**m, "hash": h, "reused_from": str(src)}, indent=0))
+        continue
+    stab = ln.get("stability", spec["stability"])
     eff = {k: v for k, v in (spec.get("effects") or {}).items() if v not in (None, "", 0) or k == "pan"}
     eff = {k: v for k, v in eff.items() if not (k == "pan" and not v)}
-    payload = {"text": ln["text"], "voice": voice_id, "stab": spec["stability"], "sim": spec["similarity_boost"], "eff": eff}
+    takes = ln.get("takes", default_takes)
+    payload = {"text": ln["text"], "voice": voice_id, "stab": stab, "sim": spec["similarity_boost"], "eff": eff, "takes": takes}
     h = hashlib.sha1(json.dumps(payload, sort_keys=True).encode()).hexdigest()[:12]
-    mp3, meta = out / "lines" / f"{ln['id']}.mp3", out / "lines" / f"{ln['id']}.json"
     if meta.exists() and json.loads(meta.read_text()).get("hash") == h:
         continue
     same = [l for l in lines if l["speaker"] == ln["speaker"]]
     k = same.index(ln)
     prev_t = spoken(same[k - 1]["text"]) if k > 0 else None
     next_t = spoken(same[k + 1]["text"]) if k + 1 < len(same) else None
-    best = None
-    for take in range(3):
-        before, _ = credits_used()
+    results = []
+    before, _ = credits_used()
+    for take in range(takes):
         kwargs = dict(voice_id=voice_id, text=ln["text"], model_id="eleven_v4", output_format="mp3_44100_192",
-                      voice_settings=VoiceSettings(stability=spec["stability"], similarity_boost=spec["similarity_boost"]),
+                      voice_settings=VoiceSettings(stability=stab, similarity_boost=spec["similarity_boost"]),
                       previous_text=prev_t, next_text=next_t, seed=1000 + take)
         if eff:
             from elevenlabs import EffectsSpecInput
             kwargs["audio_effects"] = EffectsSpecInput(**eff)
         r = retry(client.text_to_speech.convert_with_timestamps, **kwargs)
-        log_cost(f"line {ln['id']} take {take + 1}", before)
         tmp = out / "lines" / f"_{ln['id']}_take{take + 1}.mp3"
         tmp.write_bytes(base64.b64decode(r.audio_base_64))
-        heard = transcribe(decode(tmp))
+        audio = decode(tmp)
+        heard = transcribe(audio)
         score = match(spoken(ln["text"]), heard)
+        f0, sd, voiced = pitch_sd(audio)
         al = r.alignment.model_dump() if r.alignment else None
-        if best is None or score > best[0]:
-            best = (score, tmp, al, heard)
-        print(f"  {ln['id']:14s} take {take + 1}: match {score:.2f} | {heard.strip()[:90]}")
-        if score >= 0.9:
-            break
-    score, tmp, al, heard = best
-    mp3.write_bytes(tmp.read_bytes())
-    meta.write_text(json.dumps({"hash": h, "match": round(score, 3), "heard": heard, "alignment": al}, indent=0))
+        results.append({"take": take + 1, "match": score, "f0": f0, "pitch_sd": sd, "voiced": voiced, "tmp": tmp, "al": al, "heard": heard})
+        print(f"  {ln['id']:14s} take {take + 1}: match {score:.2f} | F0 {f0:4.0f} Hz | pitch sd {sd:4.2f} st | {heard.strip()[:70]}")
+    log_cost(f"line {ln['id']} ({takes} takes)", before)
+    best_match = max(r["match"] for r in results)
+    ok = [r for r in results if r["match"] >= best_match - 0.03]
+    # a whisper should be a real whisper (least voiced); anything else, the liveliest pitch
+    best = min(ok, key=lambda r: r["voiced"]) if "[whispers]" in ln["text"] else max(ok, key=lambda r: r["pitch_sd"])
+    mp3.write_bytes(best["tmp"].read_bytes())
+    meta.write_text(json.dumps({"hash": h, "match": round(best["match"], 3), "heard": best["heard"], "take": best["take"],
+                                "f0": round(best["f0"], 1), "pitch_sd": round(best["pitch_sd"], 2),
+                                "takes": [{k: (round(v, 3) if isinstance(v, float) else v) for k, v in r.items() if k in ("take", "match", "f0", "pitch_sd")} for r in results],
+                                "alignment": best["al"]}, indent=0))
+
+if SHARD[1] > 1:
+    sys.exit(0)
 
 # ---------------- timeline ----------------
 def trim_bounds(a, thresh=0.003):
@@ -188,7 +237,13 @@ for ln in lines:
     start = prev_start + ln.get("overlap_offset_s", 0.8) if ln.get("overlap_with_previous") else cursor
     if ln.get("at_s") is not None:
         start = max(start, ln["at_s"])
+    if ln.get("end_at_s") is not None:
+        start = ln["end_at_s"] - len(a) / SR
     end = start + len(a) / SR
+    pan = ln.get("pan", roles[ln["speaker"]].get("pan", 0.0))
+    if pan:  # equal-power pan of the mono-compatible line
+        m = a.mean(1)
+        a = np.stack([m * np.cos((pan + 1) * np.pi / 4), m * np.sin((pan + 1) * np.pi / 4)], 1) * np.sqrt(2)
     placed.append((start, a))
     meta = json.loads((out / "lines" / f"{ln['id']}.json").read_text())
     al = meta.get("alignment") or {}

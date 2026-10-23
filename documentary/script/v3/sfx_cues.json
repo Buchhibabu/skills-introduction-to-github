@@ -1,0 +1,542 @@
+[
+ {
+  "sfx": "sfx_projector_start",
+  "at": 0,
+  "gain_db": -18,
+  "cut": "line:co-v3:start",
+  "fade_out": 1.0
+ },
+ {
+  "sfx": "sfx_tape_hiss",
+  "at": 0,
+  "gain_db": -34,
+  "until": "line:d-github:start",
+  "fade_in": 1.2,
+  "fade_out": 1.0
+ },
+ {
+  "sfx": "sfx_whisper_crowd",
+  "at": "line:co-v1:start-0.3",
+  "gain_db": -26,
+  "cut": "line:co-v6:end",
+  "fade_in": 1.5,
+  "fade_out": 0.02
+ },
+ {
+  "sfx": "sfx_typewriter_keys",
+  "at": "line:co-gift:start",
+  "gain_db": -20
+ },
+ {
+  "sfx": "sfx_counter_roll",
+  "at": "word:co-billion:billion",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "word:co-question:with+0.17",
+  "gain_db": -12
+ },
+ {
+  "sfx": "sfx_braam",
+  "at": "line:co-question:end+0.45",
+  "gain_db": -10
+ },
+ {
+  "sfx": "sfx_typewriter_line",
+  "at": "line:co-question:end+0.8",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_whoosh",
+  "at": "line:a-launch:start-2.0",
+  "gain_db": -15
+ },
+ {
+  "sfx": "sfx_hit",
+  "at": "line:a-launch:start-1.8",
+  "gain_db": -7
+ },
+ {
+  "sfx": "sfx_projector_loop",
+  "at": "line:a-launch:start-1.8",
+  "gain_db": -32,
+  "until": "line:a-reveal:end+0.25",
+  "fade_in": 0.4,
+  "fade_out": 0.3
+ },
+ {
+  "sfx": "sfx_typewriter_line",
+  "at": "line:a-launch:start",
+  "gain_db": -20
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:a-launch:free",
+  "gain_db": -11
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "line:a-critics:start-0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "word:a-critics:unreliable+0.6",
+  "gain_db": -15
+ },
+ {
+  "sfx": "sfx_counter_roll",
+  "at": "word:a-critics:million",
+  "gain_db": -24
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:a-critics:million",
+  "gain_db": -12
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "line:a-whyfree:start-0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_highlighter",
+  "at": "word:a-whyfree:get",
+  "gain_db": -24
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:a-whyfree:feedback",
+  "gain_db": -12
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "line:a-gpt4:start-0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_highlighter",
+  "at": "word:a-gpt4:trained",
+  "gain_db": -24
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "word:a-gpt4:months+0.2",
+  "gain_db": -13
+ },
+ {
+  "sfx": "sfx_hit",
+  "at": "word:a-gpt4:months+0.2",
+  "gain_db": -9
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:a-scale:engine",
+  "gain_db": -12
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:a-scale:compute",
+  "gain_db": -12
+ },
+ {
+  "sfx": "sfx_highlighter",
+  "at": "word:a-refine:feedback",
+  "gain_db": -24
+ },
+ {
+  "sfx": "sfx_braam",
+  "at": "line:a-reveal:start",
+  "gain_db": -14
+ },
+ {
+  "sfx": "sfx_typewriter_keys",
+  "at": "line:a-reveal:end-0.4",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_riser",
+  "at": "line:a-reveal:end-2.75",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_whoosh",
+  "at": "line:a-reveal:end+0.05",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_hit",
+  "at": "line:a-reveal:end+0.25",
+  "gain_db": -7
+ },
+ {
+  "sfx": "sfx_flywheel_spinup",
+  "at": "line:a-reveal:end+0.1",
+  "gain_db": -18
+ },
+ {
+  "sfx": "sfx_server_hum",
+  "at": "line:a-reveal:end+0.25",
+  "gain_db": -32,
+  "until": "line:d-github:end",
+  "fade_in": 1.5,
+  "fade_out": 0.02
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:b-name:flywheel",
+  "gain_db": -10
+ },
+ {
+  "sfx": "sfx_thumb_tap",
+  "at": "word:b-signal-v:thumbs",
+  "gain_db": -20
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:b-more:faster",
+  "gain_db": -11
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "line:b-thumbs:start-0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_highlighter",
+  "at": "word:b-thumbs:reward",
+  "gain_db": -24
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "word:b-flatter:rolled+0.1",
+  "gain_db": -13
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:b-flatter:rolled+0.1",
+  "gain_db": -12
+ },
+ {
+  "sfx": "sfx_braam",
+  "at": "line:b-reveal:start",
+  "gain_db": -14
+ },
+ {
+  "sfx": "sfx_hit",
+  "at": "word:b-reveal:wheel",
+  "gain_db": -8
+ },
+ {
+  "sfx": "sfx_riser",
+  "at": "line:b-reveal:end-2.75",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_whoosh",
+  "at": "line:b-reveal:end+0.05",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_hit",
+  "at": "line:b-reveal:end+0.25",
+  "gain_db": -7
+ },
+ {
+  "sfx": "sfx_glitch",
+  "at": "line:b-reveal:end+0.15",
+  "gain_db": -15
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "word:c-pdf:PDFs+0.3",
+  "gain_db": -15
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:c-pdf:PDFs+0.3",
+  "gain_db": -11
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "line:c-died:start-0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:c-died:died",
+  "gain_db": -11
+ },
+ {
+  "sfx": "sfx_typewriter_keys",
+  "at": "line:c-hedge:start+0.2",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:c-hedge:squeezed",
+  "gain_db": -12
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "word:c-steamroll:bet-0.5",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "word:c-steamroll:steamrolled",
+  "gain_db": -11
+ },
+ {
+  "sfx": "sfx_hit",
+  "at": "word:c-steamroll:steamrolled",
+  "gain_db": -8
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "word:c-doors:doors+0.3",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:c-doors:close",
+  "gain_db": -11
+ },
+ {
+  "sfx": "sfx_door",
+  "at": "line:c-doors:end-0.62",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_keyboard_storm",
+  "at": "line:c-doors:end+0.3",
+  "gain_db": -22,
+  "cut": "line:d-memos:start+0.6",
+  "fade_in": 0.6,
+  "fade_out": 0.8
+ },
+ {
+  "sfx": "sfx_hit",
+  "at": "line:c-doors:end+0.3",
+  "gain_db": -7
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "word:d-memos:memos+0.2",
+  "gain_db": -20
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "word:d-memos:memos+0.7",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "word:d-memos:optional+0.3",
+  "gain_db": -13
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:d-memos:optional+0.3",
+  "gain_db": -11
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:d-2pct:two",
+  "gain_db": -12
+ },
+ {
+  "sfx": "sfx_hit",
+  "at": "word:d-80pct:eighty",
+  "gain_db": -8
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "line:d-opus55:start-0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:d-opus55:five",
+  "gain_db": -11
+ },
+ {
+  "sfx": "sfx_highlighter",
+  "at": "word:d-opus55:level-0.2",
+  "gain_db": -24
+ },
+ {
+  "sfx": "sfx_flywheel_spinup",
+  "at": "line:d-code:start",
+  "gain_db": -26
+ },
+ {
+  "sfx": "sfx_highlighter",
+  "at": "word:d-github:developers",
+  "gain_db": -24
+ },
+ {
+  "sfx": "sfx_riser",
+  "at": "line:d-github:end-2.95",
+  "gain_db": -14
+ },
+ {
+  "sfx": "sfx_hit",
+  "at": "line:d-github:end+0.6",
+  "gain_db": -7
+ },
+ {
+  "sfx": "sfx_clock_tick",
+  "at": "line:d-github:end+0.6",
+  "gain_db": -26,
+  "until": "line:e-data:end+0.05",
+  "fade_out": 0.02
+ },
+ {
+  "sfx": "sfx_ledger_pen",
+  "at": "word:e-list:investor",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:e-list:investor",
+  "gain_db": -11
+ },
+ {
+  "sfx": "sfx_ledger_pen",
+  "at": "word:e-list:race",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:e-list:race",
+  "gain_db": -11
+ },
+ {
+  "sfx": "sfx_ledger_pen",
+  "at": "word:e-list:ads",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:e-list:ads",
+  "gain_db": -11
+ },
+ {
+  "sfx": "sfx_ledger_pen",
+  "at": "word:e-list:falling",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:e-list:falling",
+  "gain_db": -11
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "word:e-data:data+0.25",
+  "gain_db": -13
+ },
+ {
+  "sfx": "sfx_sub_drop",
+  "at": "line:e-yours:end+0.15",
+  "gain_db": -8
+ },
+ {
+  "sfx": "sfx_toggle",
+  "at": "word:e-switch:switch",
+  "gain_db": -17
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:e-trade:trading",
+  "gain_db": -11
+ },
+ {
+  "sfx": "sfx_whoosh",
+  "at": "line:v-founder:start-0.3",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_projector_loop",
+  "at": "line:v-thin:start",
+  "gain_db": -34,
+  "until": "line:v-wheel:end+2.6",
+  "fade_in": 1.0,
+  "fade_out": 0.3
+ },
+ {
+  "sfx": "sfx_hit",
+  "at": "word:v-thin:wait",
+  "gain_db": -9
+ },
+ {
+  "sfx": "sfx_braam",
+  "at": "word:v-wheel:won",
+  "gain_db": -9
+ },
+ {
+  "sfx": "sfx_hit",
+  "at": "word:v-wheel:won",
+  "gain_db": -6
+ },
+ {
+  "sfx": "sfx_reel_runout",
+  "at": "line:v-wheel:end+0.6",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_film_burn",
+  "at": "line:v-wheel:end+2.5",
+  "gain_db": -17
+ },
+ {
+  "sfx": "sfx_shutters_dawn",
+  "at": "line:f-build:start-0.6",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_dawn_birds",
+  "at": "line:f-build:start-0.8",
+  "gain_db": -30,
+  "until": "line:f-final:end+5.5",
+  "fade_in": 2.0,
+  "fade_out": 3.0
+ },
+ {
+  "sfx": "sfx_reverse_swell",
+  "at": "line:f-attention:start-2.0",
+  "gain_db": -18
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:f-attention:guard",
+  "gain_db": -13
+ },
+ {
+  "sfx": "sfx_hit_small",
+  "at": "word:f-mind:train",
+  "gain_db": -12
+ },
+ {
+  "sfx": "sfx_hit",
+  "at": "word:f-body:move",
+  "gain_db": -10
+ },
+ {
+  "sfx": "sfx_reverse_swell",
+  "at": "line:f-final:start-2.0",
+  "gain_db": -17
+ },
+ {
+  "sfx": "sfx_hit",
+  "at": "line:f-final:end+0.3",
+  "gain_db": -12
+ },
+ {
+  "sfx": "sfx_pen_down",
+  "at": "line:f-final:end+2.2",
+  "gain_db": -22
+ }
+]

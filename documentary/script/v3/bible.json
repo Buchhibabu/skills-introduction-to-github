@@ -1,0 +1,1887 @@
+{
+ "title": "The Flywheel (v3 recut)",
+ "logline": "A case built exhibit by exhibit from public documents: why ChatGPT, which OpenAI says more than a billion people use every week, is nearly free, how your clicks, chats and code help train the next model, who gets steamrolled when the wheel turns, and the one asset no release can upgrade for you.",
+ "director_statement": "v3 keeps the v2 concept, look, structure, narrator and cold open, and fixes two things the creator called out: (1) robotic voices: the archive reader and the 'for the record' reader are gone, no voice uses a filter preset or ElevenLabs effect, and no voices are stacked; quotes are shown on screen and the narrator reads the key phrase himself; (2) the energy dying in the middle: the cut is tighter, the narrator is performed forward-leaning, every exhibit gets its own score cue that steps up in tempo and weight, every chapter card and reveal lands on an impact, the music stays big under the voice (multiband ducking), and the only silence left is the 'Yours.' beat.",
+ "runtime_target_s": 225,
+ "cast": [
+  {
+   "role": "NARRATOR",
+   "voice_source": "premade",
+   "voice_id": "7ZuF1SzofP5iouCLMo7p",
+   "stability": 0.42,
+   "similarity_boost": 0.85,
+   "pan": 0,
+   "purpose": "The designed v2 narrator (kept: the creator loved it). Investigator building the case; in v3 he carries every claim AND every quote. Exhibits are performed [confident]: forward-leaning and propulsive, never shouting. Dry, no effects.",
+   "design_prompt_v2": "Male, mid-fifties, neutral General American accent. Warm, low baritone with a light natural grain and clear, precise consonants. A calm, plain-spoken documentary narrator, like an investigative journalist laying out evidence to one listener: quietly serious, measured, with natural pauses and a little warmth. Never theatrical, never a movie-trailer, announcer or detective-pastiche read, never gravelly for effect, never shouting. Can drop to a soft, clean whisper. Recorded close to a large-diaphragm microphone in an acoustically dead room: intimate and dry, with no reverb, no music and no background noise. An original voice that must not imitate any real actor, narrator or public figure."
+  },
+  {
+   "role": "VOICES_1",
+   "voice_source": "premade",
+   "voice_id": "cgSgspJ2msm6clMCkdW9",
+   "stability": 0.4,
+   "similarity_boost": 0.8,
+   "pan": -0.55,
+   "purpose": "A user in the dark: a real, close whisper. No filter."
+  },
+  {
+   "role": "VOICES_2",
+   "voice_source": "premade",
+   "voice_id": "bIHbv24MWmeRgasZH58o",
+   "stability": 0.4,
+   "similarity_boost": 0.8,
+   "pan": 0.6,
+   "purpose": "A tired young coder; returns in the closing to answer 'Train it.' in his own clear voice."
+  },
+  {
+   "role": "VOICES_3",
+   "voice_source": "premade",
+   "voice_id": "XrExE9yKIg1WjnnlVkGX",
+   "stability": 0.4,
+   "similarity_boost": 0.8,
+   "pan": -0.3,
+   "purpose": "A worried user, whispering."
+  },
+  {
+   "role": "VOICES_4",
+   "voice_source": "premade",
+   "voice_id": "iP95p4xoKVk53GoZ742B",
+   "stability": 0.4,
+   "similarity_boost": 0.8,
+   "pan": 0.7,
+   "purpose": "A busy user; also asks 'Summarize this.' in Exhibit B."
+  },
+  {
+   "role": "VOICES_5",
+   "voice_source": "premade",
+   "voice_id": "FGY2WhTYpPnrIDTdsKH5",
+   "stability": 0.4,
+   "similarity_boost": 0.8,
+   "pan": -0.6,
+   "purpose": "The user who whispered 'Help me say sorry.'; returns in the closing to answer 'Guard it.'"
+  },
+  {
+   "role": "VOICES_6",
+   "voice_source": "premade",
+   "voice_id": "TX3LPaxmHKxFdv7VOQHJ",
+   "stability": 0.4,
+   "similarity_boost": 0.8,
+   "pan": 0.25,
+   "purpose": "The user who asked 'Am I doing this right?'; returns in the closing to answer 'Move it.'"
+  },
+  {
+   "role": "FOUNDER",
+   "voice_source": "premade",
+   "voice_id": "cjVigY5qzO86Huf0OWal",
+   "stability": 0.4,
+   "similarity_boost": 0.8,
+   "pan": 0.2,
+   "purpose": "An illustrative, excited founder pitching a thin wrapper; cut off mid-sentence. Dry."
+  }
+ ],
+ "lines": [
+  {
+   "id": "co-v1",
+   "sequence": "COLD_OPEN",
+   "speaker": "VOICES_1",
+   "text": "[whispers] Fix my cover letter?",
+   "caption": "Fix my cover letter?",
+   "pause_after_s": 0,
+   "fact_ids": [],
+   "at_s": 1.5,
+   "overlap_with_previous": false,
+   "overlap_offset_s": 0.0,
+   "takes": 3
+  },
+  {
+   "id": "co-v2",
+   "sequence": "COLD_OPEN",
+   "speaker": "VOICES_2",
+   "text": "[sighs] Why won't my code run?",
+   "caption": "Why won't my code run?",
+   "pause_after_s": 0,
+   "fact_ids": [],
+   "at_s": 2.4,
+   "overlap_with_previous": true,
+   "overlap_offset_s": 0.0,
+   "takes": 3
+  },
+  {
+   "id": "co-v3",
+   "sequence": "COLD_OPEN",
+   "speaker": "VOICES_3",
+   "text": "[whispers] Is this contract fair?",
+   "caption": "Is this contract fair?",
+   "pause_after_s": 0,
+   "fact_ids": [],
+   "at_s": 3.4,
+   "overlap_with_previous": true,
+   "overlap_offset_s": 0.0,
+   "takes": 3
+  },
+  {
+   "id": "co-v4",
+   "sequence": "COLD_OPEN",
+   "speaker": "VOICES_4",
+   "text": "[softly] Plan my week.",
+   "caption": "Plan my week.",
+   "pause_after_s": 0,
+   "fact_ids": [],
+   "at_s": 4.3,
+   "overlap_with_previous": true,
+   "overlap_offset_s": 0.0,
+   "takes": 3
+  },
+  {
+   "id": "co-v5",
+   "sequence": "COLD_OPEN",
+   "speaker": "VOICES_5",
+   "text": "[whispers] Help me say sorry.",
+   "caption": "Help me say sorry.",
+   "pause_after_s": 0,
+   "fact_ids": [],
+   "at_s": 5.3,
+   "overlap_with_previous": true,
+   "overlap_offset_s": 0.0,
+   "takes": 3
+  },
+  {
+   "id": "co-v6",
+   "sequence": "COLD_OPEN",
+   "speaker": "VOICES_6",
+   "text": "[hesitates] Am I doing this right?",
+   "caption": "Am I doing this right?",
+   "pause_after_s": 1.4,
+   "fact_ids": [],
+   "overlap_with_previous": true,
+   "overlap_offset_s": 0.0,
+   "takes": 3,
+   "end_at_s": 8.374
+  },
+  {
+   "id": "co-gift",
+   "sequence": "COLD_OPEN",
+   "speaker": "NARRATOR",
+   "text": "[softly] It looks like a gift.",
+   "caption": "It looks like a gift.",
+   "pause_after_s": 0.8,
+   "fact_ids": [],
+   "reuse": "out/v2/lines/co-gift",
+   "at_s": 9.774
+  },
+  {
+   "id": "co-billion",
+   "sequence": "COLD_OPEN",
+   "speaker": "NARRATOR",
+   "text": "OpenAI says more than a billion people use it every week. The vast majority pay nothing.",
+   "caption": "OpenAI says more than 1 billion people use it every week. The vast majority pay nothing.",
+   "pause_after_s": 0.9,
+   "fact_ids": [
+    "flywheel-scale-2026",
+    "only-5-percent-pay",
+    "chatgpt-user-scale"
+   ],
+   "reuse": "out/v2/lines/co-billion",
+   "at_s": 11.901
+  },
+  {
+   "id": "co-question",
+   "sequence": "COLD_OPEN",
+   "speaker": "NARRATOR",
+   "text": "[slowly] So... what are you paying with?",
+   "caption": "So… what are you paying with?",
+   "pause_after_s": 8.3,
+   "fact_ids": [
+    "only-5-percent-pay",
+    "subsidy-thesis-verdict"
+   ],
+   "reuse": "out/v2/lines/co-question",
+   "at_s": 19.362
+  },
+  {
+   "id": "a-launch",
+   "sequence": "EXHIBIT_A",
+   "speaker": "NARRATOR",
+   "text": "[confident] November thirtieth, twenty twenty-two. ChatGPT launches. Free.",
+   "caption": "November 30, 2022. ChatGPT launches. Free.",
+   "pause_after_s": 0.25,
+   "fact_ids": [
+    "chatgpt-launch-free-for-feedback"
+   ]
+  },
+  {
+   "id": "a-critics",
+   "sequence": "EXHIBIT_A",
+   "speaker": "NARRATOR",
+   "text": "[confident] A million users in five days. Critics called it unreliable. Users kept coming.",
+   "caption": "A million users in five days. Critics called it unreliable. Users kept coming.",
+   "pause_after_s": 0.25,
+   "fact_ids": [
+    "chatgpt-early-skepticism",
+    "chatgpt-user-explosion",
+    "early-skepticism-not-everyone"
+   ]
+  },
+  {
+   "id": "a-whyfree",
+   "sequence": "EXHIBIT_A",
+   "speaker": "NARRATOR",
+   "text": "[confident] Why free? OpenAI's launch post said it: to get users' feedback.",
+   "caption": "Why free? OpenAI's launch post said it: “to get users’ feedback.”",
+   "pause_after_s": 0.25,
+   "fact_ids": [
+    "chatgpt-launch-free-for-feedback",
+    "chatgpt-launch-was-a-feedback-collector"
+   ]
+  },
+  {
+   "id": "a-gpt4",
+   "sequence": "EXHIBIT_A",
+   "speaker": "NARRATOR",
+   "text": "[confident] And the next model, GPT four? Already trained. Three months before you said hello.",
+   "caption": "And the next model, GPT-4? Already trained. Three months before you said hello.",
+   "pause_after_s": 0.25,
+   "fact_ids": [
+    "gpt4-trained-before-chatgpt"
+   ]
+  },
+  {
+   "id": "a-scale",
+   "sequence": "EXHIBIT_A",
+   "speaker": "NARRATOR",
+   "text": "[confident] Scale built the engine. Bigger models. More data. More compute.",
+   "caption": "Scale built the engine. Bigger models. More data. More compute.",
+   "pause_after_s": 0.25,
+   "fact_ids": [
+    "not-just-scaling-laws",
+    "scaling-laws"
+   ]
+  },
+  {
+   "id": "a-refine",
+   "sequence": "EXHIBIT_A",
+   "speaker": "NARRATOR",
+   "text": "[confident] Then OpenAI tuned it with human feedback. Including feedback submitted by ChatGPT users.",
+   "caption": "Then OpenAI tuned it with human feedback. “Including feedback submitted by ChatGPT users.”",
+   "pause_after_s": 0.25,
+   "fact_ids": [
+    "gpt4-aligned-using-chatgpt",
+    "gpt4-improved-with-chatgpt-user-feedback"
+   ]
+  },
+  {
+   "id": "a-reveal",
+   "sequence": "EXHIBIT_A",
+   "speaker": "NARRATOR",
+   "text": "[confident] The free product was shaping the next one.",
+   "caption": "The free product was shaping the next one.",
+   "pause_after_s": 1.9,
+   "fact_ids": [
+    "chatgpt-launch-free-for-feedback",
+    "gpt4-aligned-using-chatgpt",
+    "gpt4-improved-with-chatgpt-user-feedback",
+    "gpt4-trained-before-chatgpt"
+   ]
+  },
+  {
+   "id": "b-name",
+   "sequence": "EXHIBIT_B",
+   "speaker": "NARRATOR",
+   "text": "[confident] It has a name. The data flywheel.",
+   "caption": "It has a name. The data flywheel.",
+   "pause_after_s": 0.2,
+   "fact_ids": [
+    "flywheel-definition"
+   ]
+  },
+  {
+   "id": "b-use",
+   "sequence": "EXHIBIT_B",
+   "speaker": "NARRATOR",
+   "text": "You use it.",
+   "caption": "You use it.",
+   "pause_after_s": 0.1,
+   "fact_ids": [
+    "flywheel-definition"
+   ]
+  },
+  {
+   "id": "b-use-v",
+   "sequence": "EXHIBIT_B",
+   "speaker": "VOICES_4",
+   "text": "Summarize this.",
+   "caption": "Summarize this.",
+   "pause_after_s": 0.15,
+   "fact_ids": [],
+   "takes": 3
+  },
+  {
+   "id": "b-signal",
+   "sequence": "EXHIBIT_B",
+   "speaker": "NARRATOR",
+   "text": "Your feedback becomes signal.",
+   "caption": "Your feedback becomes signal.",
+   "pause_after_s": 0.1,
+   "fact_ids": [
+    "flywheel-definition",
+    "your-chats-train-models"
+   ]
+  },
+  {
+   "id": "b-signal-v",
+   "sequence": "EXHIBIT_B",
+   "speaker": "VOICES_2",
+   "text": "[laughs] Perfect. Thumbs up.",
+   "caption": "Perfect. Thumbs up.",
+   "pause_after_s": 0.15,
+   "fact_ids": [],
+   "takes": 3
+  },
+  {
+   "id": "b-more",
+   "sequence": "EXHIBIT_B",
+   "speaker": "NARRATOR",
+   "text": "The model improves. More people come. The wheel spins faster.",
+   "caption": "The model improves. More people come. The wheel spins faster.",
+   "pause_after_s": 0.25,
+   "fact_ids": [
+    "chatgpt-user-scale",
+    "flywheel-definition"
+   ]
+  },
+  {
+   "id": "b-thumbs",
+   "sequence": "EXHIBIT_B",
+   "speaker": "NARRATOR",
+   "text": "[confident] Even your thumbs-up counts. In twenty twenty-five, a ChatGPT update added a reward signal from thumbs-up and thumbs-down data.",
+   "caption": "Even your thumbs-up counts. In 2025, a ChatGPT update added a reward signal from thumbs-up and thumbs-down data.",
+   "pause_after_s": 0.2,
+   "fact_ids": [
+    "gpt4o-sycophancy-thumbs-reward",
+    "thumbs-feedback-in-reward"
+   ]
+  },
+  {
+   "id": "b-flatter",
+   "sequence": "EXHIBIT_B",
+   "speaker": "NARRATOR",
+   "text": "It helped make the model so flattering that OpenAI rolled the update back.",
+   "caption": "It helped make the model so flattering that OpenAI rolled the update back.",
+   "pause_after_s": 0.25,
+   "fact_ids": [
+    "gpt4o-sycophancy-thumbs-reward",
+    "thumbs-feedback-in-reward"
+   ]
+  },
+  {
+   "id": "b-reveal",
+   "sequence": "EXHIBIT_B",
+   "speaker": "NARRATOR",
+   "text": "[confident] You're not just the customer. You're part of the wheel.",
+   "caption": "You're not just the customer. You're part of the wheel.",
+   "pause_after_s": 1.7,
+   "fact_ids": [
+    "flywheel-definition",
+    "your-chats-train-models"
+   ]
+  },
+  {
+   "id": "c-rush",
+   "sequence": "EXHIBIT_C",
+   "speaker": "NARRATOR",
+   "text": "[confident] Startups rushed to wrap the models.",
+   "caption": "Startups rushed to wrap the models.",
+   "pause_after_s": 0.15,
+   "fact_ids": [
+    "devday-2023-wrapper-shock",
+    "pdf-upload-sherlock"
+   ]
+  },
+  {
+   "id": "c-pdf",
+   "sequence": "EXHIBIT_C",
+   "speaker": "NARRATOR",
+   "text": "Then ChatGPT learned to read PDFs.",
+   "caption": "Then ChatGPT learned to read PDFs.",
+   "pause_after_s": 0.2,
+   "fact_ids": [
+    "pdf-upload-sherlock"
+   ]
+  },
+  {
+   "id": "c-died",
+   "sequence": "EXHIBIT_C",
+   "speaker": "NARRATOR",
+   "text": "One reaction online: many startups just died today.",
+   "caption": "One reaction online: “Many startups just died today.”",
+   "pause_after_s": 0.15,
+   "fact_ids": [
+    "pdf-upload-sherlock"
+   ]
+  },
+  {
+   "id": "c-hedge",
+   "sequence": "EXHIBIT_C",
+   "speaker": "NARRATOR",
+   "text": "[confident] A reaction, not a verdict. Thin wrappers were exposed. Strong companies got squeezed, or bought.",
+   "caption": "A reaction, not a verdict. Thin wrappers were exposed. Strong companies got squeezed, or bought.",
+   "pause_after_s": 0.25,
+   "fact_ids": [
+    "app-layer-survivors",
+    "devday-2023-wrapper-shock",
+    "jasper-chatgpt-squeeze",
+    "pdf-upload-sherlock"
+   ]
+  },
+  {
+   "id": "c-steamroll",
+   "sequence": "EXHIBIT_C",
+   "speaker": "NARRATOR",
+   "text": "[confident] Sam Altman's warning: bet that the models won't improve, and you'll get steamrolled.",
+   "caption": "Sam Altman's warning: bet that the models won't improve, and you'll get steamrolled.",
+   "pause_after_s": 0.2,
+   "fact_ids": [
+    "altman-steamroll-20vc"
+   ]
+  },
+  {
+   "id": "c-doors",
+   "sequence": "EXHIBIT_C",
+   "speaker": "NARRATOR",
+   "text": "Each model opens doors. The next release can close them.",
+   "caption": "Each model opens doors. The next release can close them.",
+   "pause_after_s": 1.7,
+   "fact_ids": [
+    "devday-2023-wrapper-shock",
+    "openai-2025-product-absorption"
+   ]
+  },
+  {
+   "id": "d-coders",
+   "sequence": "EXHIBIT_D",
+   "speaker": "NARRATOR",
+   "text": "[confident] Then the wheel turned to the coders.",
+   "caption": "Then the wheel turned to the coders.",
+   "pause_after_s": 0.15,
+   "fact_ids": [
+    "coding-agents-go-public",
+    "copilot-timeline"
+   ]
+  },
+  {
+   "id": "d-memos",
+   "sequence": "EXHIBIT_D",
+   "speaker": "NARRATOR",
+   "text": "[confident] The memos came. Use AI. Shopify: a baseline expectation. Microsoft, reportedly: no longer optional.",
+   "caption": "The memos came. Use AI. Shopify: a baseline expectation. Microsoft, reportedly: no longer optional.",
+   "pause_after_s": 0.6,
+   "fact_ids": [
+    "mandates-microsoft-coinbase",
+    "mandates-shopify-duolingo"
+   ]
+  },
+  {
+   "id": "d-2pct",
+   "sequence": "EXHIBIT_D",
+   "speaker": "NARRATOR",
+   "text": "[confident] In twenty twenty-three, AI could fix about two percent of real GitHub issues on a benchmark.",
+   "caption": "In 2023, AI could fix about 2% of real GitHub issues on a benchmark.",
+   "pause_after_s": 0.15,
+   "fact_ids": [
+    "swe-bench-steep-curve"
+   ]
+  },
+  {
+   "id": "d-80pct",
+   "sequence": "EXHIBIT_D",
+   "speaker": "NARRATOR",
+   "text": "[confident] By February twenty twenty-six, Anthropic reported about eighty percent, for Claude Opus four point six.",
+   "caption": "By February 2026, Anthropic reported about 80%, for Claude Opus 4.6.",
+   "pause_after_s": 0.2,
+   "fact_ids": [
+    "naming-correction-4-6",
+    "swe-bench-steep-curve"
+   ]
+  },
+  {
+   "id": "d-opus55",
+   "sequence": "EXHIBIT_D",
+   "speaker": "NARRATOR",
+   "text": "[confident] Then Claude Opus five point five. Anthropic puts it at the level of its larger Fable model, on most work.",
+   "caption": "Then Claude Opus 5.5. Anthropic puts it at the level of its larger Fable model, on most work.",
+   "pause_after_s": 0.25,
+   "fact_ids": [
+    "opus-5-5-and-gpt-5-5"
+   ]
+  },
+  {
+   "id": "d-code",
+   "sequence": "EXHIBIT_D",
+   "speaker": "NARRATOR",
+   "text": "[curious] And your code, on personal plans?",
+   "caption": "And your code, on personal plans?",
+   "pause_after_s": 0.15,
+   "fact_ids": [
+    "anthropic-consumer-terms-2025",
+    "api-business-not-trained-by-default",
+    "github-copilot-2026-training"
+   ]
+  },
+  {
+   "id": "d-github",
+   "sequence": "EXHIBIT_D",
+   "speaker": "NARRATOR",
+   "text": "[confident] GitHub believes the future of AI-assisted development depends on real-world interaction data. From developers like you.",
+   "caption": "GitHub believes the future of AI-assisted development depends on real-world interaction data. From developers like you.",
+   "pause_after_s": 1.9,
+   "fact_ids": [
+    "anthropic-consumer-terms-2025",
+    "api-business-not-trained-by-default",
+    "github-copilot-2026-training"
+   ]
+  },
+  {
+   "id": "e-why",
+   "sequence": "EXHIBIT_E",
+   "speaker": "NARRATOR",
+   "text": "[serious] So why is it nearly free?",
+   "caption": "So why is it nearly free?",
+   "pause_after_s": 0.15,
+   "fact_ids": [
+    "subsidy-is-not-only-data",
+    "subsidy-thesis-verdict"
+   ]
+  },
+  {
+   "id": "e-list",
+   "sequence": "EXHIBIT_E",
+   "speaker": "NARRATOR",
+   "text": "[confident] Investor billions. A race for users. Ads. Falling costs.",
+   "caption": "Investor billions. A race for users. Ads. Falling costs.",
+   "pause_after_s": 0.2,
+   "fact_ids": [
+    "ads-in-chatgpt",
+    "free-tier-land-grab",
+    "llmflation-cost-collapse",
+    "subsidy-is-not-only-data"
+   ]
+  },
+  {
+   "id": "e-data",
+   "sequence": "EXHIBIT_E",
+   "speaker": "NARRATOR",
+   "text": "[serious] And part of the price is paid in data.",
+   "caption": "And part of the price is paid in data.",
+   "pause_after_s": 0.55,
+   "fact_ids": [
+    "openai-consumer-default-training",
+    "subsidy-thesis-verdict",
+    "your-chats-train-models"
+   ]
+  },
+  {
+   "id": "e-yours",
+   "sequence": "EXHIBIT_E",
+   "speaker": "NARRATOR",
+   "text": "[whispers] Yours.",
+   "caption": "Yours.",
+   "pause_after_s": 1.0,
+   "fact_ids": [
+    "stanford-all-six-train-by-default",
+    "your-chats-train-models"
+   ]
+  },
+  {
+   "id": "e-switch",
+   "sequence": "EXHIBIT_E",
+   "speaker": "NARRATOR",
+   "text": "[confident] There's a switch. But most people never touch their defaults.",
+   "caption": "There's a switch. But most people never touch their defaults.",
+   "pause_after_s": 0.2,
+   "fact_ids": [
+    "api-business-not-trained-by-default",
+    "no-other-option-defaults",
+    "openai-consumer-default-training"
+   ]
+  },
+  {
+   "id": "e-trade",
+   "sequence": "EXHIBIT_E",
+   "speaker": "NARRATOR",
+   "text": "[confident] It's a trade. Often a good one. Just know what you're trading.",
+   "caption": "It's a trade. Often a good one. Just know what you're trading.",
+   "pause_after_s": 0.6,
+   "fact_ids": [
+    "subsidy-thesis-verdict",
+    "your-chats-train-models"
+   ]
+  },
+  {
+   "id": "v-founder",
+   "sequence": "VERDICT",
+   "speaker": "FOUNDER",
+   "text": "[excited] So our app just calls the model—",
+   "caption": "So our app just calls the model—",
+   "pause_after_s": 0.0,
+   "fact_ids": [],
+   "takes": 3
+  },
+  {
+   "id": "v-thin",
+   "sequence": "VERDICT",
+   "speaker": "NARRATOR",
+   "text": "[confident] But if your plan is a thin wrapper on someone else's model... wait.",
+   "caption": "But if your plan is a thin wrapper on someone else's model... wait.",
+   "pause_after_s": 0.25,
+   "fact_ids": [
+    "altman-steamroll-20vc",
+    "app-layer-survivors",
+    "pdf-upload-sherlock"
+   ]
+  },
+  {
+   "id": "v-wheel",
+   "sequence": "VERDICT",
+   "speaker": "NARRATOR",
+   "text": "[serious] The wheel won't.",
+   "caption": "The wheel won't.",
+   "pause_after_s": 3.3,
+   "fact_ids": [
+    "altman-steamroll-20vc"
+   ]
+  },
+  {
+   "id": "f-build",
+   "sequence": "CLOSING",
+   "speaker": "NARRATOR",
+   "text": "[warmly] Still. Go ahead. Build. Raise money. Ship.",
+   "caption": "Still. Go ahead. Build. Raise money. Ship.",
+   "pause_after_s": 0.3,
+   "fact_ids": []
+  },
+  {
+   "id": "f-asset",
+   "sequence": "CLOSING",
+   "speaker": "NARRATOR",
+   "text": "[warmly] But your biggest asset isn't on that list.",
+   "caption": "But your biggest asset isn't on that list.",
+   "pause_after_s": 0.35,
+   "fact_ids": []
+  },
+  {
+   "id": "f-attention",
+   "sequence": "CLOSING",
+   "speaker": "NARRATOR",
+   "text": "Your attention. We now stay on one screen about forty-seven seconds before switching. Guard it.",
+   "caption": "Your attention. We now stay on one screen about 47 seconds before switching. Guard it.",
+   "pause_after_s": 0.3,
+   "fact_ids": [
+    "mark-47-seconds",
+    "mark-measure-caveat"
+   ]
+  },
+  {
+   "id": "f-echo1",
+   "sequence": "CLOSING",
+   "speaker": "VOICES_5",
+   "text": "Guard it.",
+   "caption": "Guard it.",
+   "pause_after_s": 0.35,
+   "fact_ids": [],
+   "takes": 4
+  },
+  {
+   "id": "f-mind",
+   "sequence": "CLOSING",
+   "speaker": "NARRATOR",
+   "text": "Your mind. In Anthropic's own trial, coders learning with AI scored seventeen points lower on what they'd just learned. Train it.",
+   "caption": "Your mind. In Anthropic's own trial, coders learning with AI scored 17 points lower on what they'd just learned. Train it.",
+   "pause_after_s": 0.3,
+   "fact_ids": [
+    "anthropic-coding-skills"
+   ]
+  },
+  {
+   "id": "f-echo2",
+   "sequence": "CLOSING",
+   "speaker": "VOICES_2",
+   "text": "Train it.",
+   "caption": "Train it.",
+   "pause_after_s": 0.35,
+   "fact_ids": [],
+   "takes": 4
+  },
+  {
+   "id": "f-body",
+   "sequence": "CLOSING",
+   "speaker": "NARRATOR",
+   "text": "Your body. Your mental health. People who exercise report forty-three percent fewer bad mental-health days. Move it.",
+   "caption": "Your body. Your mental health. People who exercise report 43% fewer bad mental-health days. Move it.",
+   "pause_after_s": 0.3,
+   "fact_ids": [
+    "chekroud-exercise"
+   ]
+  },
+  {
+   "id": "f-echo3",
+   "sequence": "CLOSING",
+   "speaker": "VOICES_6",
+   "text": "Move it.",
+   "caption": "Move it.",
+   "pause_after_s": 0.5,
+   "fact_ids": [],
+   "takes": 4
+  },
+  {
+   "id": "f-update",
+   "sequence": "CLOSING",
+   "speaker": "NARRATOR",
+   "text": "No release will update you. Only you can.",
+   "caption": "No release will update you. Only you can.",
+   "pause_after_s": 1.0,
+   "fact_ids": []
+  },
+  {
+   "id": "f-final",
+   "sequence": "CLOSING",
+   "speaker": "NARRATOR",
+   "text": "[softly] Invest consciously.",
+   "caption": "Invest consciously.",
+   "pause_after_s": 6.0,
+   "fact_ids": []
+  }
+ ],
+ "lead_in_s": 1.5,
+ "tail_s": 3.2,
+ "spoken_word_count": 493,
+ "music_cues": [
+  {
+   "id": "M1_CASE_OPENS",
+   "covers": "COLD_OPEN + TITLE: the v2 cue, kept (the creator loved the opening)",
+   "reuse": "out/v2/music/M1_CASE_OPENS_c4dc6b659a86.mp3",
+   "chunks": [],
+   "approx_duration_s": null
+  },
+  {
+   "id": "M2A_GIFT",
+   "covers": "EXHIBIT A: a steady ticking pulse that tightens to the reveal",
+   "variants": 3,
+   "chunks": [
+    {
+     "text": "[Verse]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "cinematic trailer underscore",
+      "opens on a deep impact",
+      "ticking clock percussion",
+      "pulsing low string ostinato",
+      "steady low kick on every beat",
+      "felt piano two-note falling motif",
+      "96 BPM",
+      "suspense",
+      "D minor",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dubstep",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "rap",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    },
+    {
+     "text": "[Build]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "taiko drums enter",
+      "rising cellos and violas",
+      "tension building bar by bar",
+      "driving",
+      "96 BPM",
+      "cinematic trailer",
+      "D minor",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "ambient",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dubstep",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "quiet",
+      "rap",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    },
+    {
+     "text": "[Climax]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "big low string swell",
+      "deep braam",
+      "cymbal swell rising",
+      "trailer hit then a riser",
+      "96 BPM",
+      "D minor",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dubstep",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "quiet",
+      "rap",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    }
+   ],
+   "approx_duration_s": null
+  },
+  {
+   "id": "M2B_WHEEL",
+   "covers": "EXHIBIT B: a mechanical loop that spins faster",
+   "variants": 3,
+   "chunks": [
+    {
+     "text": "[Verse]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "hypnotic mechanical rhythm",
+      "clockwork percussion loop",
+      "spinning synth arpeggio",
+      "pulsing synth bass",
+      "104 BPM",
+      "dark cinematic trailer score",
+      "driving",
+      "D minor",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dubstep",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "rap",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    },
+    {
+     "text": "[Build]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "big drums enter",
+      "staccato strings",
+      "rising intensity",
+      "arpeggio speeds up",
+      "104 BPM",
+      "cinematic trailer",
+      "D minor",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "ambient",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dubstep",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "quiet",
+      "rap",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    },
+    {
+     "text": "[Climax]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "huge orchestral and synth hit",
+      "full drums",
+      "wide brass",
+      "peak intensity",
+      "104 BPM",
+      "D minor",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dubstep",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "quiet",
+      "rap",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    }
+   ],
+   "approx_duration_s": null
+  },
+  {
+   "id": "M2C_STEAMROLLER",
+   "covers": "EXHIBIT C: heavy and relentless, hard stop on the door",
+   "variants": 3,
+   "chunks": [
+    {
+     "text": "[Verse]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "aggressive hybrid trailer percussion",
+      "staccato low strings",
+      "distorted synth bass",
+      "menacing",
+      "relentless",
+      "112 BPM",
+      "D minor",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "ambient",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dubstep",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "piano solo",
+      "quiet",
+      "rap",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    },
+    {
+     "text": "[Climax]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "massive braams",
+      "war drums",
+      "full orchestra",
+      "maximum weight",
+      "112 BPM",
+      "D minor",
+      "ends on a hard stop",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dubstep",
+      "fade out",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "quiet",
+      "rap",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    }
+   ],
+   "approx_duration_s": null
+  },
+  {
+   "id": "M2D_ACCELERATION",
+   "covers": "EXHIBIT D: the fastest cue, racing to a hard cut",
+   "variants": 3,
+   "chunks": [
+    {
+     "text": "[Verse]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "fast hybrid trailer score",
+      "racing sixteenth-note string ostinato",
+      "ticking synth pulse",
+      "tight snare",
+      "urgent",
+      "124 BPM",
+      "D minor",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "ambient",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dubstep",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "quiet",
+      "rap",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    },
+    {
+     "text": "[Build]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "epic drums enter",
+      "rising brass",
+      "accelerating intensity",
+      "124 BPM",
+      "cinematic trailer",
+      "D minor",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dubstep",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "quiet",
+      "rap",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    },
+    {
+     "text": "[Climax]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "full epic trailer climax",
+      "huge drums",
+      "soaring strings",
+      "maximum intensity",
+      "124 BPM",
+      "D minor",
+      "ends abruptly",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dubstep",
+      "fade out",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "quiet",
+      "rap",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    }
+   ],
+   "approx_duration_s": null
+  },
+  {
+   "id": "M3A_PRICE",
+   "covers": "EXHIBIT E ledger: a heartbeat pulse under the list, cut dead before 'Yours.'",
+   "variants": 3,
+   "chunks": [
+    {
+     "text": "[Verse]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "tense ticking pulse",
+      "heavy heartbeat kick drum",
+      "low string tremolo",
+      "120 BPM half-time",
+      "suspense building",
+      "cinematic trailer",
+      "D minor",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "ambient",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dubstep",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "quiet",
+      "rap",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    }
+   ],
+   "approx_duration_s": null
+  },
+  {
+   "id": "M3B_VERDICT",
+   "covers": "EXHIBIT E fairness + VERDICT: from the sub drop after 'Yours.' to the peak on 'The wheel won't.'",
+   "variants": 3,
+   "chunks": [
+    {
+     "text": "[Build]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "rising tension",
+      "pulsing strings building",
+      "steady big drums",
+      "Shepard tone rising",
+      "120 BPM",
+      "cinematic trailer build",
+      "D minor",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "ambient",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dubstep",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "quiet",
+      "rap",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    },
+    {
+     "text": "[Climax]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "maximum intensity",
+      "epic drums",
+      "soaring strings",
+      "rising brass",
+      "final massive hit",
+      "120 BPM",
+      "D minor",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dubstep",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "quiet",
+      "rap",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    }
+   ],
+   "approx_duration_s": null
+  },
+  {
+   "id": "M4_DAWN",
+   "covers": "CLOSING + END: an anthem, not a lullaby",
+   "variants": 3,
+   "chunks": [
+    {
+     "text": "[Intro]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "warm uplifting piano arpeggios",
+      "soft strings",
+      "hopeful",
+      "sunrise",
+      "100 BPM",
+      "cinematic",
+      "D major",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dark",
+      "dubstep",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "rap",
+      "sad",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    },
+    {
+     "text": "[Build]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "drums enter",
+      "building",
+      "uplifting",
+      "warm strings swell",
+      "100 BPM",
+      "cinematic",
+      "D major",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dark",
+      "dubstep",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "rap",
+      "sad",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    },
+    {
+     "text": "[Chorus]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "anthemic",
+      "inspiring",
+      "full orchestra",
+      "big drums",
+      "soaring strings and piano",
+      "triumphant",
+      "100 BPM",
+      "D major",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dark",
+      "dubstep",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "quiet",
+      "rap",
+      "sad",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    },
+    {
+     "text": "[Outro]",
+     "duration_ms": 10000,
+     "positive_styles": [
+      "triumphant peak then resolve",
+      "wide sustained final chord",
+      "warm",
+      "hopeful",
+      "D major",
+      "instrumental"
+     ],
+     "negative_styles": [
+      "EDM drop",
+      "cheerful",
+      "choir",
+      "comedy",
+      "dark",
+      "dubstep",
+      "humming",
+      "jazz",
+      "lo-fi",
+      "lyrics",
+      "rap",
+      "sad",
+      "singing",
+      "spoken word",
+      "vocals",
+      "whistling"
+     ]
+    }
+   ],
+   "approx_duration_s": null
+  }
+ ],
+ "sfx": [
+  {
+   "id": "sfx_projector_start",
+   "prompt": "16mm film projector switching on: motor whir spinning up and sprocket clatter settling into a steady rhythm, close",
+   "duration_s": 4,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -18,
+   "placement": "0:00, under the 1.5 s pre-roll and the first whisper; fades under the hiss by co-v4."
+  },
+  {
+   "id": "sfx_tape_hiss",
+   "prompt": "Analog reel-to-reel tape hiss with faint wow and flutter and soft crackle, steady, no tones, no music",
+   "duration_s": 20,
+   "loop": true,
+   "prompt_influence": 0.6,
+   "gain_db": -32,
+   "placement": "Bed from 0:00 to d-code, where it drops out for good (the record is clear now). Ducked under dialogue; muted for the 0.8 s cold-open cut."
+  },
+  {
+   "id": "sfx_projector_loop",
+   "prompt": "16mm film projector running steadily, rhythmic sprocket clatter and fan hum, close, dry",
+   "duration_s": 20,
+   "loop": true,
+   "prompt_influence": 0.6,
+   "gain_db": -30,
+   "placement": "Under EXHIBIT_A (archive reel) from a-launch to the A→B morph. Returns faintly (-34 dB) under VERDICT from v-thin and runs until sfx_reel_runout."
+  },
+  {
+   "id": "sfx_whisper_crowd",
+   "prompt": "Hundreds of overlapping hushed voices whispering indistinct requests in a dark space, slowly building in density, no intelligible words",
+   "duration_s": 6,
+   "loop": false,
+   "prompt_influence": 0.5,
+   "gain_db": -22,
+   "placement": "co-v1 to co-v6, building under the chorus; peaks on co-v6, then HARD CUT with everything else."
+  },
+  {
+   "id": "sfx_typewriter_keys",
+   "prompt": "Four or five manual typewriter keystrokes, close and dry",
+   "duration_s": 1,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -20,
+   "placement": "co-gift text; the FOR THE RECORD cards in a-record and c-record (e-record uses the toggle click instead)."
+  },
+  {
+   "id": "sfx_typewriter_line",
+   "prompt": "Manual typewriter typing a short line quickly, then a carriage return and bell ding, close",
+   "duration_s": 4,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -16,
+   "placement": "TITLE card ('THE FLYWHEEL'); the a-launch date card at -20 dB."
+  },
+  {
+   "id": "sfx_stamp",
+   "prompt": "Heavy rubber stamp slammed onto paper on a solid wooden desk, close and dry",
+   "duration_s": 1,
+   "loop": false,
+   "prompt_influence": 0.7,
+   "gain_db": -14,
+   "placement": "CASE OPENED (co-question); TEMPORARY BAN (a-critics, 0.8 s after 'unreliable'); 3 MONTHS BEFORE CHATGPT (a-gpt4); ROLLED BACK (b-flatter); NOW A FEATURE (c-pdf, and once each on 'doors' and 'next' in c-doors, one combined stamp per release); STEAMROLLED (c-steamroll); REPORTED (d-memos). Vary pitch by ±1 semitone. Chapter cards get a low hit, not a stamp."
+  },
+  {
+   "id": "sfx_braam",
+   "prompt": "Deep cinematic sub-bass braam, distorted brass and synth layered, dark, long five-second decay",
+   "duration_s": 6,
+   "loop": false,
+   "prompt_influence": 0.7,
+   "gain_db": -10,
+   "placement": "TITLE downbeat after the case-file slam at -10 dB; softer on a-reveal (-18 dB) and b-reveal (-16 dB)."
+  },
+  {
+   "id": "sfx_low_hit",
+   "prompt": "Short low cinematic impact boom with a tight dark reverb tail",
+   "duration_s": 2,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -16,
+   "placement": "Chapter cards A, B, C and D (card E has only the clock); a-gpt4 stamp; c-steamroll stamp; d-80pct on 'eighty'."
+  },
+  {
+   "id": "sfx_paper_slide",
+   "prompt": "Paper document slid across a wooden desk and set down, soft friction, close",
+   "duration_s": 2,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -22,
+   "placement": "Each new document entering frame, about 0.3 s before its line: a-critics, a-whyfree, a-gpt4, a-scale, a-refine, b-thumbs, c-steamroll, d-memos (three soft slaps at -26 dB), d-opus55, d-code."
+  },
+  {
+   "id": "sfx_highlighter",
+   "prompt": "Felt-tip highlighter marker swiping across paper, a short soft squeak",
+   "duration_s": 1,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -26,
+   "placement": "Each word-synced highlighter sweep: a-critics, a-whyfree-doc, a-gpt4, a-scale, a-refine-doc, b-thumbs-doc, d-opus55, d-code, d-code-doc."
+  },
+  {
+   "id": "sfx_counter_roll",
+   "prompt": "Mechanical counter digits rolling rapidly with clicks, slowing to a stop",
+   "duration_s": 2.5,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -22,
+   "placement": "co-billion (1,200,000,000) and the a-critics 1,000,000 counter."
+  },
+  {
+   "id": "sfx_flywheel_spinup",
+   "prompt": "Heavy steel flywheel spinning up from rest, low mechanical whir rising in pitch with a metallic hum",
+   "duration_s": 5,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -18,
+   "placement": "The A→B morph, as the timeline dots become the rim; a faint reprise (-28 dB) under d-code as the wheel reappears behind the GitHub page."
+  },
+  {
+   "id": "sfx_server_hum",
+   "prompt": "Large data-center server room hum with cooling fans, steady and slightly ominous",
+   "duration_s": 20,
+   "loop": true,
+   "prompt_influence": 0.5,
+   "gain_db": -30,
+   "placement": "Low bed through EXHIBIT_B, C and D (we have left the archive). Cut dead at the D→E hard cut."
+  },
+  {
+   "id": "sfx_thumb_tap",
+   "prompt": "Soft single tap on a smartphone glass screen with a tiny UI click",
+   "duration_s": 0.5,
+   "loop": false,
+   "prompt_influence": 0.7,
+   "gain_db": -22,
+   "placement": "b-signal-v on 'Thumbs up', synced to the icon dropping into station 2."
+  },
+  {
+   "id": "sfx_glitch",
+   "prompt": "Short crunchy digital glitch stutter",
+   "duration_s": 0.6,
+   "loop": false,
+   "prompt_influence": 0.7,
+   "gain_db": -16,
+   "placement": "EXHIBIT_B → EXHIBIT_C glitch tear."
+  },
+  {
+   "id": "sfx_door",
+   "prompt": "A heavy wooden door swinging shut in a large empty room, ending in a firm metal latch click, distant and dry",
+   "duration_s": 2.5,
+   "loop": false,
+   "prompt_influence": 0.7,
+   "gain_db": -18,
+   "placement": "c-doors: the swing starts on 'close'; the latch click lands at the end of 'them' and IS the hard cut to black (C → D)."
+  },
+  {
+   "id": "sfx_keyboard_storm",
+   "prompt": "Dozens of mechanical keyboards typing fast at once in a big open-plan office, intense and building",
+   "duration_s": 5,
+   "loop": false,
+   "prompt_influence": 0.5,
+   "gain_db": -22,
+   "placement": "Rises out of nothing under the EXHIBIT D card and d-coders; ducks out under d-memos."
+  },
+  {
+   "id": "sfx_clock_tick",
+   "prompt": "Single mechanical clock ticking at one tick per second in a silent room, dry and close",
+   "duration_s": 10,
+   "loop": true,
+   "prompt_influence": 0.7,
+   "gain_db": -24,
+   "placement": "Starts after the 1.5 s D→E digital silence, ALONE under the E card; continues under e-why and e-list; STOPS DEAD 0.4 s before e-data."
+  },
+  {
+   "id": "sfx_ledger_pen",
+   "prompt": "Fountain pen scratching a short line on paper",
+   "duration_s": 1,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -22,
+   "placement": "Each of the four ledger rows in e-list. NOT on the 'Your data' row, which writes in silence."
+  },
+  {
+   "id": "sfx_piano_note",
+   "prompt": "A single soft low felt-piano note, close and intimate, with a long natural decay and no other sound",
+   "duration_s": 6,
+   "loop": false,
+   "prompt_influence": 0.7,
+   "gain_db": -14,
+   "placement": "About 0.5 s after the whispered 'Yours.' (e-yours): the first sound after the silence. Pitch it to D in the edit if needed, so it is the first note of the gift motif. Replaces the low hit."
+  },
+  {
+   "id": "sfx_toggle",
+   "prompt": "Small plastic toggle switch flipped, one crisp click",
+   "duration_s": 0.5,
+   "loop": false,
+   "prompt_influence": 0.7,
+   "gain_db": -18,
+   "placement": "e-record on 'switch', synced to the illustrated toggle flipping OFF."
+  },
+  {
+   "id": "sfx_reel_runout",
+   "prompt": "Film reel running out: the tail end flapping against the projector, motor winding down to a stop",
+   "duration_s": 4,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -16,
+   "placement": "VERDICT breath, right after v-wheel. Only the reel runs out; the flywheel on screen keeps turning."
+  },
+  {
+   "id": "sfx_film_burn",
+   "prompt": "Film catching and burning in a projector gate, crackle and flutter, ending in a soft rush of air",
+   "duration_s": 2,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -18,
+   "placement": "End of the VERDICT breath, synced to the burn-through into warm white."
+  },
+  {
+   "id": "sfx_shutters_dawn",
+   "prompt": "Old wooden window shutters creaking open onto a quiet morning, light breeze",
+   "duration_s": 3,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -22,
+   "placement": "First frame of CLOSING, under '[exhales] Still.'"
+  },
+  {
+   "id": "sfx_dawn_birds",
+   "prompt": "Gentle distant dawn birdsong, soft morning air, peaceful and sparse, no voices",
+   "duration_s": 20,
+   "loop": true,
+   "prompt_influence": 0.5,
+   "gain_db": -28,
+   "placement": "CLOSING through END, fading out with the final chord."
+  },
+  {
+   "id": "sfx_pen_down",
+   "prompt": "A pen set down gently on a wooden desk, one soft tap",
+   "duration_s": 0.6,
+   "loop": false,
+   "prompt_influence": 0.7,
+   "gain_db": -22,
+   "placement": "As the END card settles: the film's last diegetic sound (the case notes are put down). It replaces v1/noir's 'CASE: OPEN' stamp."
+  },
+  {
+   "id": "sfx_hit",
+   "prompt": "Huge cinematic movie-trailer impact: a deep sub-bass boom layered with a metallic slam and a short dark reverb tail",
+   "duration_s": 2.5,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -7
+  },
+  {
+   "id": "sfx_hit_small",
+   "prompt": "Punchy cinematic low drum hit, tight and dry, with a short sub-bass tail",
+   "duration_s": 1.2,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -12
+  },
+  {
+   "id": "sfx_riser",
+   "prompt": "Cinematic tension riser: strings and white noise swelling upward for three seconds and stopping dead",
+   "duration_s": 3.0,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -15
+  },
+  {
+   "id": "sfx_whoosh",
+   "prompt": "Fast deep cinematic whoosh passing quickly, airy, with a low rumble",
+   "duration_s": 1.0,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -15
+  },
+  {
+   "id": "sfx_sub_drop",
+   "prompt": "Deep cinematic sub-bass drop boom with a long rumbling decay",
+   "duration_s": 4.0,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -9
+  },
+  {
+   "id": "sfx_reverse_swell",
+   "prompt": "Reversed cymbal and reversed piano chord swelling up over two seconds into silence",
+   "duration_s": 2.0,
+   "loop": false,
+   "prompt_influence": 0.6,
+   "gain_db": -17
+  }
+ ],
+ "transitions": [
+  {
+   "between": "COLD_OPEN > TITLE > EXHIBIT_A",
+   "type": "as v2",
+   "description": "Kept exactly: whispers, cut to silence, 'It looks like a gift', case file slam, braam, typewriter title."
+  },
+  {
+   "between": "every chapter card",
+   "type": "riser > whoosh > slam",
+   "description": "A riser builds under the last line of each exhibit, a whoosh clears the frame, and the chapter card slams in on a trailer hit with a white flash and a camera punch. The next cue starts on the hit."
+  },
+  {
+   "between": "EXHIBIT_C > EXHIBIT_D",
+   "type": "sound-motivated hard cut",
+   "description": "The door latch cuts to 0.25 s of black; the D card slams in with a keyboard storm."
+  },
+  {
+   "between": "EXHIBIT_D > EXHIBIT_E",
+   "type": "hard cut",
+   "description": "A riser ends dead on 'like you.'; 0.5 s of black and silence; the E card slams in on a hit with a lone clock tick."
+  },
+  {
+   "between": "EXHIBIT_E (internal)",
+   "type": "the one silence",
+   "description": "The ledger pulse cuts dead after 'paid in data'; 'Yours.' is whispered in silence; a sub drop restarts the score, which then builds without a break to the verdict."
+  },
+  {
+   "between": "VERDICT > CLOSING",
+   "type": "burn to daylight",
+   "description": "'The wheel won't.' lands on the biggest hit of the film; reel runout; the film burns through to dawn."
+  }
+ ],
+ "sequences": [
+  {
+   "id": "COLD_OPEN",
+   "title": "Cold open: a billion whispers (0:00.0-0:21.1)",
+   "mood": "Darkness and intimate unease: a sea of private requests, then dead silence, then one quiet voice and a question.",
+   "music_cue": "M1_CASE_OPENS",
+   "transition_in": "Fade up from black on the projector motor starting (1.5 s pre-roll); the first bubble and the first whisper arrive together."
+  },
+  {
+   "id": "TITLE",
+   "title": "Main title: THE FLYWHEEL (0:21.1-0:27.1, music only)",
+   "mood": "Weight and ceremony: the case file is opened, and it is made of public documents.",
+   "music_cue": "M1_CASE_OPENS",
+   "transition_in": "The case file slams shut, then a hard cut to black; braam; the typewriter title with the sub-line 'A CASE IN FIVE EXHIBITS · ALL FROM PUBLIC SOURCES'."
+  },
+  {
+   "id": "EXHIBIT_A",
+   "title": "Exhibit A: The Gift (0:27.1-1:10.0)",
+   "mood": "Archival, slow-burn suspicion: sepia 16mm, with documents surfacing one by one.",
+   "music_cue": "M2_THE_CASE",
+   "transition_in": "Projector-gate flicker into the archive-reel grade; chapter card 'EXHIBIT A · THE GIFT' (1.8 s)."
+  },
+  {
+   "id": "EXHIBIT_B",
+   "title": "Exhibit B: The Wheel (1:10.0-1:42.9)",
+   "mood": "Mechanical and hypnotic: a loop closing, now with human voices in it; colder grade.",
+   "music_cue": "M2_THE_CASE",
+   "transition_in": "Match-cut morph: the three timeline dots curve into the flywheel rim; a reel-change cue mark flashes twice; the grade shifts sepia to cold blue-grey."
+  },
+  {
+   "id": "EXHIBIT_C",
+   "title": "Exhibit C: The Steamroller (1:42.9-2:11.9)",
+   "mood": "Pressure, kept fair: reactions versus outcomes.",
+   "music_cue": "M2_THE_CASE",
+   "transition_in": "The spinning wheel tears in a 0.4 s digital glitch into the chapter card."
+  },
+  {
+   "id": "EXHIBIT_D",
+   "title": "Exhibit D: The Acceleration (2:11.9-2:51.9)",
+   "mood": "Velocity: the tightest pulse, in a clean present-day look, ending in the company's own words to 'you'.",
+   "music_cue": "M2_THE_CASE",
+   "transition_in": "Sound-motivated hard cut: a door's latch click cuts to black; the card appears as a keyboard storm rises out of nothing."
+  },
+  {
+   "id": "EXHIBIT_E",
+   "title": "Exhibit E: The Price (2:51.9-3:17.8)",
+   "mood": "A quiet ledger, then the price revealed in total silence ('Yours.'), then fairness: there is a switch, and it is a trade.",
+   "music_cue": "M3A_LEDGER + M3B_AFTER_THE_SILENCE",
+   "transition_in": "Hard cut to 1.5 s of digital silence and black; a lone clock tick under the card 'EXHIBIT E · THE PRICE'."
+  },
+  {
+   "id": "VERDICT",
+   "title": "The Verdict, a warning to builders: please, wait (3:17.8-3:33.2)",
+   "mood": "Stillness and care: one illustrative founder is gently interrupted; the wheel keeps turning without us.",
+   "music_cue": "M3B_AFTER_THE_SILENCE",
+   "transition_in": "No cut: a slow continuous push-in from the 'trade' statement onto an illustrative 'YOUR APP' card; HUD 'A WARNING TO BUILDERS'."
+  },
+  {
+   "id": "CLOSING",
+   "title": "The One Asset (3:33.2-4:15.7)",
+   "mood": "Light breaks in: warmth, the human scale, hope; the chorus answers itself.",
+   "music_cue": "M4_DAWN",
+   "transition_in": "Reel runout and film burn-through into warm white; light leak; dark-to-dawn palette shift; shutters open onto birdsong."
+  },
+  {
+   "id": "END",
+   "title": "End card (4:15.7-4:21.2)",
+   "mood": "Resolution and quiet confidence; warm, with no stamp.",
+   "music_cue": "M4_DAWN",
+   "transition_in": "Fade through warm white from 'Invest consciously.'; a pen is set down."
+  }
+ ],
+ "score_slots": [
+  {
+   "cue": "M1_CASE_OPENS",
+   "from": 0,
+   "to": "line:a-launch:start-1.8",
+   "tail_s": 0.4,
+   "fade_in": 1.0,
+   "fade_out": 0.5
+  },
+  {
+   "cue": "M2A_GIFT",
+   "from": "line:a-launch:start-1.8",
+   "to": "line:a-reveal:end+0.25",
+   "bounds": [
+    "line:a-gpt4:start",
+    "line:a-reveal:start"
+   ],
+   "tail_s": 0.3,
+   "fade_in": 0.02,
+   "fade_out": 0.08,
+   "gain_db": -1.0
+  },
+  {
+   "cue": "M2B_WHEEL",
+   "from": "line:a-reveal:end+0.25",
+   "to": "line:b-reveal:end+0.25",
+   "bounds": [
+    "line:b-thumbs:start",
+    "line:b-reveal:start"
+   ],
+   "tail_s": 0.3,
+   "fade_in": 0.02,
+   "fade_out": 0.08,
+   "gain_db": 0.0
+  },
+  {
+   "cue": "M2C_STEAMROLLER",
+   "from": "line:b-reveal:end+0.25",
+   "to": "line:c-doors:end+0.05",
+   "bounds": [
+    "line:c-steamroll:start"
+   ],
+   "tail_s": 0.2,
+   "fade_in": 0.02,
+   "fade_out": 0.02,
+   "gain_db": 1.0
+  },
+  {
+   "cue": "M2D_ACCELERATION",
+   "from": "line:c-doors:end+0.3",
+   "to": "line:d-github:end+0.05",
+   "bounds": [
+    "line:d-2pct:start",
+    "line:d-opus55:start"
+   ],
+   "tail_s": 0.2,
+   "fade_in": 0.02,
+   "fade_out": 0.02,
+   "gain_db": 2.0
+  },
+  {
+   "cue": "M3A_PRICE",
+   "from": "line:d-github:end+0.6",
+   "to": "line:e-data:end+0.05",
+   "tail_s": 0.2,
+   "fade_in": 0.02,
+   "fade_out": 0.02,
+   "gain_db": 1.5
+  },
+  {
+   "cue": "M3B_VERDICT",
+   "from": "line:e-yours:end+0.15",
+   "to": "line:v-wheel:end+1.4",
+   "bounds": [
+    "line:v-founder:start"
+   ],
+   "tail_s": 0.5,
+   "fade_in": 0.05,
+   "fade_out": 1.2,
+   "gain_db": 2.5
+  },
+  {
+   "cue": "M4_DAWN",
+   "from": "line:f-build:start-0.6",
+   "to": "end",
+   "bounds": [
+    "line:f-attention:start",
+    "line:f-mind:start",
+    "line:f-update:start"
+   ],
+   "tail_s": 0.0,
+   "fade_in": 0.8,
+   "fade_out": 0.01,
+   "gain_db": 2.0
+  }
+ ],
+ "notes": [
+  "Time refs: line:<id>:start|end±s, word:<line>:<word>±s, or seconds.",
+  "v3 rules: no filter presets or ElevenLabs effects on any voice; no stacked voices; quotes on screen, read by the narrator; the score never sags; only one silence (Yours.)."
+ ]
+}

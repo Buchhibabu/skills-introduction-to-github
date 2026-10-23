@@ -1,0 +1,96 @@
+[
+ {
+  "cue": "M1_CASE_OPENS",
+  "from": 0,
+  "to": "line:a-launch:start-1.8",
+  "tail_s": 0.4,
+  "fade_in": 1.0,
+  "fade_out": 0.5
+ },
+ {
+  "cue": "M2A_GIFT",
+  "from": "line:a-launch:start-1.8",
+  "to": "line:a-reveal:end+0.25",
+  "bounds": [
+   "line:a-gpt4:start",
+   "line:a-reveal:start"
+  ],
+  "tail_s": 0.3,
+  "fade_in": 0.02,
+  "fade_out": 0.08,
+  "gain_db": -1.0
+ },
+ {
+  "cue": "M2B_WHEEL",
+  "from": "line:a-reveal:end+0.25",
+  "to": "line:b-reveal:end+0.25",
+  "bounds": [
+   "line:b-thumbs:start",
+   "line:b-reveal:start"
+  ],
+  "tail_s": 0.3,
+  "fade_in": 0.02,
+  "fade_out": 0.08,
+  "gain_db": 0.0
+ },
+ {
+  "cue": "M2C_STEAMROLLER",
+  "from": "line:b-reveal:end+0.25",
+  "to": "line:c-doors:end+0.05",
+  "bounds": [
+   "line:c-steamroll:start"
+  ],
+  "tail_s": 0.2,
+  "fade_in": 0.02,
+  "fade_out": 0.02,
+  "gain_db": 1.0
+ },
+ {
+  "cue": "M2D_ACCELERATION",
+  "from": "line:c-doors:end+0.3",
+  "to": "line:d-github:end+0.05",
+  "bounds": [
+   "line:d-2pct:start",
+   "line:d-opus55:start"
+  ],
+  "tail_s": 0.2,
+  "fade_in": 0.02,
+  "fade_out": 0.02,
+  "gain_db": 2.0
+ },
+ {
+  "cue": "M3A_PRICE",
+  "from": "line:d-github:end+0.6",
+  "to": "line:e-data:end+0.05",
+  "tail_s": 0.2,
+  "fade_in": 0.02,
+  "fade_out": 0.02,
+  "gain_db": 1.5
+ },
+ {
+  "cue": "M3B_VERDICT",
+  "from": "line:e-yours:end+0.15",
+  "to": "line:v-wheel:end+1.4",
+  "bounds": [
+   "line:v-founder:start"
+  ],
+  "tail_s": 0.5,
+  "fade_in": 0.05,
+  "fade_out": 1.2,
+  "gain_db": 2.5
+ },
+ {
+  "cue": "M4_DAWN",
+  "from": "line:f-build:start-0.6",
+  "to": "end",
+  "bounds": [
+   "line:f-attention:start",
+   "line:f-mind:start",
+   "line:f-update:start"
+  ],
+  "tail_s": 0.0,
+  "fade_in": 0.8,
+  "fade_out": 0.01,
+  "gain_db": 2.0
+ }
+]
