@@ -473,12 +473,12 @@
  },
  {
   "sfx": "sfx_braam",
-  "at": "word:v-wheel:won",
+  "at": "line:v-wheel:end-0.04",
   "gain_db": -9
  },
  {
   "sfx": "sfx_hit",
-  "at": "word:v-wheel:won",
+  "at": "line:v-wheel:end-0.04",
   "gain_db": -6
  },
  {
