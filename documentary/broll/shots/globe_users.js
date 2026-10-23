@@ -1,14 +1,19 @@
 // globe_users: "The model improves. More people come." / "A race for users."
 // A dark planet drawn as a dotted data globe: land dots from a hand-encoded coastline mask (rasterised at runtime
 // to an equirectangular 720x360 bitmap), thousands of warm user lights appearing over the populated regions, arcs
-// of light from cities streaming toward one bright hub, cold atmosphere on the limb. Camera: slow orbit and push.
+// of light from cities streaming toward one bright hub (the Bay Area), cold atmosphere on the limb.
+// Camera: a high view over the northern hemisphere (the Arctic in the upper centre, Europe at the top, East Asia on
+// the left, North America on the right), the planet turning slowly under a pushing camera. The hub and the
+// trans-Pacific arcs sit in the lower half of the frame; the upper centre (where a list or card sits) stays quiet.
 //
 // opts
 //   growFrom  0..1 of shot progress when the first user lights appear (default 0.05)
 //   growTo    0..1 of shot progress when all user lights are on (default 0.9)
 //   arcs      true/false: draw the arcs streaming toward the hub (default true)
 //   seed      layout seed for users and arcs (default 4)
-import { THREE, register, rng, noise, ease, prog, clamp, lerp, glowTexture } from '../kit.js';
+//   band      0..1 how much a soft horizontal band behind centre text (y about 470-600) is darkened (default 0.45)
+//   bandUntil local seconds after which that band fades away (default: never), e.g. 1.6 when only a short card sits there
+import { THREE, register, rng, noise, ease, prog, clamp, lerp, smooth, glowTexture } from '../kit.js';
 
 // ---------------- coastline polygons, [lon, lat] degrees ----------------
 export const LAND = [
@@ -108,6 +113,7 @@ const v3 = (lo, la, r = 1) => {
 
 register('globe_users', (opts) => {
   const growFrom = opts.growFrom ?? 0.05, growTo = opts.growTo ?? 0.9, showArcs = opts.arcs ?? true, seed = opts.seed ?? 4;
+  const band = opts.band ?? 0.45, bandUntil = opts.bandUntil ?? 1e9;
   const R = rng(seed * 104729 + 17);
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x020306);
@@ -115,7 +121,9 @@ register('globe_users', (opts) => {
   const mask = landMask();
   const globe = new THREE.Group();
   scene.add(globe);
-  const U = { uT: { value: 0 }, uK: { value: 0 }, uScale: { value: 1 }, uSun: { value: new THREE.Vector3(-0.55, 0.35, -0.75).normalize() } };
+  const U = { uT: { value: 0 }, uK: { value: 0 }, uScale: { value: 1 }, uSun: { value: new THREE.Vector3(-0.55, 0.35, -0.75).normalize() }, uBandK: { value: 0 } };
+  // lights, arcs and dots dim inside the soft band behind centre text (screen y about 470-600)
+  const BANDF = 'float bandF(){ float y = (gl_FragCoord.y - 545.0) / 85.0; return 1.0 - uBandK * exp(-y * y); }';
 
   // ---- planet body: near-black with a soft cold fresnel rim ----
   const body = new THREE.Mesh(new THREE.SphereGeometry(0.995, 96, 64), new THREE.ShaderMaterial({
@@ -141,10 +149,11 @@ register('globe_users', (opts) => {
       for (let i = 0; i < n; i++) {
         const lo = -180 + (i + 0.5) * 360 / n;
         const land = mask.at(lo, la);
-        if (!land) continue;
+        // the ocean carries a much fainter, sparser dot field so the empty Pacific still has texture
+        if (!land && (i % 2 || Math.round((la + 84) / step) % 2)) continue;
         const p = v3(lo, la, 1.0);
         P.push(p.x, p.y, p.z);
-        A.push(0.75 + R() * 0.5);
+        A.push(land ? 0.75 + R() * 0.5 : 0.10 + R() * 0.05);
       }
     }
     const g = new THREE.BufferGeometry();
@@ -162,10 +171,10 @@ register('globe_users', (opts) => {
           float sun = max(dot(n, uSun), 0.0);
           gl_PointSize = clamp(0.0062 * uScale / -mv.z, 1.0, 7.0);
           float limb = smoothstep(0.0, 0.35, facing);
-          vC = (vec3(0.13, 0.26, 0.31) + vec3(0.16, 0.26, 0.28) * sun) * aB * limb;
+          vC = (vec3(0.22, 0.42, 0.50) + vec3(0.22, 0.36, 0.38) * sun) * aB * limb;
           gl_Position = projectionMatrix * mv;
         }`,
-      fragmentShader: /* glsl */`varying vec3 vC; void main(){ vec2 q = gl_PointCoord - 0.5; float r = length(q); float a = 1.0 - smoothstep(0.30, 0.5, r); if (a < 0.01) discard; gl_FragColor = vec4(vC * a, 1.0); }`,
+      fragmentShader: /* glsl */`uniform float uBandK; ${BANDF} varying vec3 vC; void main(){ vec2 q = gl_PointCoord - 0.5; float r = length(q); float a = 1.0 - smoothstep(0.30, 0.5, r); if (a < 0.01) discard; gl_FragColor = vec4(vC * a * mix(1.0, bandF(), 0.5), 1.0); }`,
     });
     const dots = new THREE.Points(g, mat);
     dots.renderOrder = 2;
@@ -218,7 +227,7 @@ register('globe_users', (opts) => {
           vC = c * (0.9 + 0.8 * aS) * flash * tw * on * smoothstep(0.0, 0.25, facing);
           gl_Position = projectionMatrix * mv;
         }`,
-      fragmentShader: /* glsl */`varying vec3 vC; void main(){ vec2 q = gl_PointCoord - 0.5; float r = length(q) * 2.0; float a = exp(-r * r * 5.0); if (a < 0.02) discard; gl_FragColor = vec4(vC * a, 1.0); }`,
+      fragmentShader: /* glsl */`uniform float uBandK; ${BANDF} varying vec3 vC; void main(){ vec2 q = gl_PointCoord - 0.5; float r = length(q) * 2.0; float a = exp(-r * r * 5.0); if (a < 0.02) discard; gl_FragColor = vec4(vC * a * bandF(), 1.0); }`,
     });
     var userMat = mat;
     const pts = new THREE.Points(g, mat);
@@ -227,7 +236,7 @@ register('globe_users', (opts) => {
   }
 
   // ---- the hub and the arcs streaming into it ----
-  const HUB = [-80, 40];
+  const HUB = [-122.4, 37.8];   // the Bay Area
   const hubN = v3(HUB[0], HUB[1], 1).normalize();
   const hubP = hubN.clone().multiplyScalar(1.006);
   const hubGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture('rgba(255,240,215,1)'), color: 0xffffff, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true }));
@@ -236,42 +245,40 @@ register('globe_users', (opts) => {
   const hubHalo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture('rgba(240,166,58,1)'), color: 0xffffff, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0.5 }));
   hubHalo.position.copy(hubP); hubHalo.renderOrder = 6;
   globe.add(hubHalo);
-  // sonar-like rings spreading over the surface from the hub
-  const rings = [];
-  for (let i = 0; i < 3; i++) {
-    const rm = new THREE.Mesh(new THREE.RingGeometry(0.965, 1.0, 96), new THREE.MeshBasicMaterial({ color: 0xf0b060, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide }));
-    rm.position.copy(hubN.clone().multiplyScalar(1.004));
-    rm.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), hubN);
-    rm.renderOrder = 5;
-    globe.add(rm); rings.push(rm);
-  }
 
   const arcMat = new THREE.ShaderMaterial({
     uniforms: { ...U, uGrow: userMat.uniforms.uGrow },
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
-    vertexShader: /* glsl */`attribute float aT; attribute vec3 aArc; varying float vT; varying vec3 vArc;
-      void main(){ vT = aT; vArc = aArc; gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0); }`,
-    fragmentShader: /* glsl */`uniform float uT; uniform float uGrow; varying float vT; varying vec3 vArc;
+    vertexShader: /* glsl */`attribute float aT; attribute vec3 aArc; varying float vT; varying vec3 vArc; varying float vFace;
+      void main(){ vT = aT; vArc = aArc; vec4 wp = modelMatrix * vec4(position, 1.0);
+        // arcs over the far hemisphere fade out instead of ringing the limb
+        vFace = smoothstep(0.12, 0.38, dot(normalize(wp.xyz), normalize(cameraPosition)));
+        gl_Position = projectionMatrix * viewMatrix * wp; }`,
+    fragmentShader: /* glsl */`uniform float uT; uniform float uGrow; uniform float uBandK; ${BANDF} varying float vT; varying vec3 vArc; varying float vFace;
       void main(){
+        if (vFace < 0.01) discard;
         // vArc.x = this arc's start (grow units), vArc.y = phase, vArc.z = 1 for arcs into the hub, 0 city-to-city
         float age = uGrow - vArc.x;
         if (age < 0.0) discard;
-        float head = clamp(age * 3.0, 0.0, 1.0);      // the arc draws itself from the city toward its target
-        if (vT > head) discard;
         float hub = vArc.z;
+        float head = clamp(age * 4.0, 0.0, 1.0);      // the arc draws itself from the city toward its target
+        if (vT > head) discard;
+        // after its life the tail retracts into the target: only a few dozen arcs are ever on screen at once
+        float tail = clamp((age - mix(0.24, 0.32, hub)) * 4.0, 0.0, 1.0);
+        if (vT < tail) discard;
         float base = mix(0.035, 0.06, hub);
         float pulse = pow(fract(vT * 2.0 - uT * 0.45 + vArc.y), 12.0) * mix(0.5, 1.2, hub);
-        float tip = exp(-pow((vT - head) / 0.03, 2.0)) * 2.0 * step(head, 0.999);
+        float tip = exp(-pow((vT - head) / 0.03, 2.0)) * 1.6 * step(head, 0.999);
         vec3 c = mix(vec3(0.42, 0.76, 0.74), vec3(1.0, 0.75, 0.42), smoothstep(0.55, 1.0, vT) * hub);
         float fade = smoothstep(0.0, 0.06, vT) * (1.0 - mix(0.0, 0.75, hub) * smoothstep(0.82, 1.0, vT)) * mix(smoothstep(1.0, 0.9, vT), 1.0, hub);
-        gl_FragColor = vec4(c * (base + pulse + tip) * fade, 1.0);
+        gl_FragColor = vec4(c * (base + pulse + tip) * fade * vFace * bandF(), 1.0);
       }`,
   });
   if (showArcs) {
     const arcGeo = [];
     const mk = (A0, B0, start, kind) => {
       const ang = A0.angleTo(B0);
-      const curve = [], N = 48, lift = 0.015 + ang * 0.12, s = Math.sin(ang);
+      const curve = [], N = 48, lift = 0.010 + ang * 0.045, s = Math.sin(ang);   // low arches: long routes hug the surface
       for (let i = 0; i <= N; i++) {
         const t = i / N;
         // slerp on the unit sphere, lifted by a sine arch
@@ -287,13 +294,13 @@ register('globe_users', (opts) => {
       tg.setAttribute('aArc', new THREE.BufferAttribute(aArc, 3));
       arcGeo.push(tg);
     };
-    for (let a = 0, guard = 0; a < 80 && guard < 5000; guard++) {
+    for (let a = 0, guard = 0; a < 56 && guard < 5000; guard++) {
       const u = users[Math.floor(R() * users.length)];
       const A0 = v3(u[0], u[1], 1.0), ang = A0.angleTo(hubN);
-      if (ang < 0.15 || ang > 2.0) continue;
-      mk(A0, hubN, 0.02 + Math.pow(R(), 0.8) * 0.85, 1); a++;
+      if (ang < 0.2 || ang > 2.2) continue;
+      mk(A0, hubN, 0.02 + Math.pow(R(), 0.75) * 0.9, 1); a++;
     }
-    for (let a = 0, guard = 0; a < 40 && guard < 5000; guard++) {
+    for (let a = 0, guard = 0; a < 26 && guard < 5000; guard++) {
       const u = users[Math.floor(R() * users.length)], w = users[Math.floor(R() * users.length)];
       const A0 = v3(u[0], u[1], 1.0), B0 = v3(w[0], w[1], 1.0), ang = A0.angleTo(B0);
       if (ang < 0.25 || ang > 1.2) continue;
@@ -372,6 +379,18 @@ register('globe_users', (opts) => {
     scene.add(st);
   }
 
+  // a soft dark band behind centre text, in screen space (a quad riding on the camera, drawn last)
+  const bandMat = new THREE.ShaderMaterial({
+    uniforms: { uBand: { value: band } },
+    transparent: true, depthTest: false, depthWrite: false,
+    vertexShader: /* glsl */`void main(){ gl_Position = vec4(position.xy * 2.0, 0.0, 1.0); }`,
+    fragmentShader: /* glsl */`uniform float uBand;
+      void main(){ float y = (gl_FragCoord.y - 545.0) / 95.0; gl_FragColor = vec4(0.0, 0.0, 0.0, uBand * exp(-y * y)); }`,
+  });
+  const bandQuad = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), bandMat);
+  bandQuad.frustumCulled = false; bandQuad.renderOrder = 100;
+  scene.add(bandQuad);
+
   return {
     scene, camera,
     bloom: { strength: 0.7, radius: 0.45, threshold: 0.45 },
@@ -379,28 +398,30 @@ register('globe_users', (opts) => {
     update(lt, c) {
       const k = c.k;
       U.uT.value = lt; U.uK.value = k;
+      U.uBandK.value = band * 1.7 * (1 - smooth((lt - bandUntil) / 0.6));   // 0.45 -> lights at about 25% in the band centre
+      bandMat.uniforms.uBand.value = band * 0.55 * (1 - smooth((lt - bandUntil) / 0.6));
+      bandQuad.visible = bandMat.uniforms.uBand.value > 0.002;
       userMat.uniforms.uGrow.value = clamp((k - growFrom) / Math.max(0.01, growTo - growFrom), -1, 1.5);
       userMat.uniforms.uDurG.value = c.dur * (growTo - growFrom);
-      const m = ease.inOut(k);
-      // slow orbit (the globe turns under a drifting camera) and push
-      globe.rotation.y = THREE.MathUtils.degToRad(lerp(40, 58, m));
-      const dist = lerp(5.4, 4.25, m);
-      const el = lerp(0.42, 0.30, m);
-      const az = lerp(-0.10, 0.08, m);
+      // moving from frame 1 (half linear, half eased) so a 3 s use still turns
+      const m = lerp(k, ease.inOut(k), 0.5);
+      // elevated view over the northern hemisphere; the planet turns west under the camera (Asia comes round)
+      // and the camera pushes in, ending with the whole limb and its glow in frame
+      globe.rotation.y = THREE.MathUtils.degToRad(lerp(148, 176, m));
+      const dist = lerp(5.75, 4.8, m);
+      const el = lerp(1.30, 1.20, m);
+      const az = lerp(-0.06, 0.06, m);
       camera.position.set(Math.sin(az) * Math.cos(el) * dist, Math.sin(el) * dist, Math.cos(az) * Math.cos(el) * dist);
-      camera.lookAt(0, lerp(0.12, 0.05, m), 0);
-      camera.rotateZ(lerp(0.03, -0.01, m));
+      camera.lookAt(0, 0, 0);
+      camera.rotateZ(lerp(0.02, -0.03, m));
       U.uScale.value = 1080 / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)));
-      const pulse = 1 + 0.08 * Math.sin(lt * 2.4);
+      const pulse = 1 + 0.06 * Math.sin(lt * 2.4);
       const hubOn = clamp((userMat.uniforms.uGrow.value + 0.05) * 4);
-      hubGlow.scale.setScalar(0.075 * pulse * (0.4 + 0.6 * hubOn));
-      hubHalo.scale.setScalar(0.32 * pulse * (0.3 + 0.7 * hubOn));
-      hubHalo.material.opacity = 0.35 * hubOn;
-      rings.forEach((rm, i) => {
-        const ph = ((lt / 1.6 + i / 3) % 1 + 1) % 1;
-        rm.scale.setScalar(0.02 + 0.26 * ease.out(ph));
-        rm.material.opacity = 0.32 * (1 - ph) * (1 - ph) * hubOn;
-      });
+      // the hub stays a point: a small warm core and a faint halo, breathing slowly
+      hubGlow.scale.setScalar(0.040 * pulse * (0.5 + 0.5 * hubOn));
+      hubGlow.material.opacity = 0.75;
+      hubHalo.scale.setScalar(0.13 * pulse * (0.4 + 0.6 * hubOn));
+      hubHalo.material.opacity = 0.18 * hubOn;
     },
   };
 });

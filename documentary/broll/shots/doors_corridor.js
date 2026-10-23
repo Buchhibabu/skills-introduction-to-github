@@ -4,8 +4,14 @@
 // its wedge of light narrows to nothing, until only a thin red exit glow is left at the end.
 //
 // opts:
-//   closeAt   local seconds when the farthest door starts to slam (default 1.4)
-//   closeDur  seconds from the first slam to the last (nearest) one (default 1.6)
+//   closeAt   local seconds when the farthest door starts to swing shut (default 1.4)
+//   closeDur  seconds from that first swing to the latch of the last (nearest, in-frame) door (default 1.6).
+//             The far doors ripple shut quickly, the near ones land as separate hits; the last latch lands
+//             exactly at closeAt + closeDur (the film's hard cut to black sits there).
+//   seed      layout seed (default 5)
+//
+// The nearest slams kick the camera (a few px of per-frame shake and a small push-in) and make the remaining
+// lights stutter for a frame.
 //
 // Light is analytic: for every door near a surface point, a ray from the room lamp through the doorway is
 // tested against the opening that the door leaf leaves free at its current angle (soft penumbra), so the
@@ -37,6 +43,14 @@ const float DH = ${DH.toFixed(3)};
 const float LD = ${LD.toFixed(3)};
 const float LY = ${LY.toFixed(3)};
 float h21(vec2 p){ vec3 p3 = fract(vec3(p.xyx) * .1031); p3 += dot(p3, p3.yzx + 33.33); return fract((p3.x + p3.y) * p3.z); }
+// smooth 2D value noise (interpolated in both axes) and a small fbm for the plaster
+float vn(vec2 p){
+  vec2 i = floor(p), f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(h21(i), h21(i + vec2(1.0, 0.0)), f.x), mix(h21(i + vec2(0.0, 1.0)), h21(i + vec2(1.0, 1.0)), f.x), f.y);
+}
+float fbm(vec2 p){ return 0.5 * vn(p) + 0.3 * vn(p * 2.31 + vec2(7.1, 3.7)) + 0.2 * vn(p * 5.17 + vec2(1.3, 9.2)); }
+uniform float uFlick;      // light stutter on the nearest slams (1 = steady)
 vec4 doorData(float s, int k){ return s < 0.0 ? uDL[k] : uDR[k]; }
 float doorZ(float s, float k){ return (s < 0.0 ? ${ZL0.toFixed(2)} : ${ZR0.toFixed(2)}) - k * ${SP.toFixed(2)}; }
 // warm light reaching p (normal n) from the room behind door k on side s, through whatever the leaf leaves open
@@ -58,13 +72,13 @@ vec3 doorLight(vec3 p, vec3 n, float s, float k){
   float zp = dE < LD - 0.02 ? L.z + (Ez - L.z) * LD / (LD - dE) : zh - hd * 9.0;
   float u = (h.z - zh) * hd;
   float up = max((zp - zh) * hd, 0.0);
-  float m = 0.012 + 0.05 * (1.0 - tw) / max(tw, 0.05);
+  float m = 0.02 + 0.17 * (1.0 - tw) / max(tw, 0.05);
   float wz = smoothstep(up - m, up + m, u) * (1.0 - smoothstep(DW - m, DW + m, u));
   float wy = smoothstep(-m, m, h.y) * (1.0 - smoothstep(DH - m * 3.0, DH + m * 3.0, h.y));
   float d2 = dot(D, D);
   vec3 l = -D * inversesqrt(d2);
   float shade = mix(0.25, 1.0, smoothstep(0.05, -0.45, -l.y));     // the shade throws light down and out
-  return vec3(1.0, 0.68, 0.38) * d.y * wz * wy * shade * max(dot(n, l), 0.0) / (d2 * 0.35 + 0.3);
+  return vec3(1.0, 0.68, 0.38) * d.y * uFlick * wz * wy * shade * max(dot(n, l), 0.0) / (d2 * 0.35 + 0.3);
 }
 // lights from the nearest doors on one side
 vec3 sideLight(vec3 p, vec3 n, float s){
@@ -98,7 +112,7 @@ vec3 bounce(vec3 p){
       vec4 d = doorData(s, int(k));
       float dz = p.z - doorZ(s, k);
       float open = smoothstep(0.0, 1.2, d.x);
-      b += vec3(1.0, 0.72, 0.45) * d.y * open * 0.012 / (1.0 + dz * dz * 0.8) * (0.5 + 0.5 * smoothstep(2.0 * CW, 0.0, abs(p.x - s * CW)));
+      b += vec3(1.0, 0.72, 0.45) * d.y * uFlick * open * 0.012 / (1.0 + dz * dz * 0.8) * (0.5 + 0.5 * smoothstep(2.0 * CW, 0.0, abs(p.x - s * CW)));
     }
   }
   return b;
@@ -161,10 +175,13 @@ void main(){
   float base = 1.0 - smoothstep(0.12 - fy, 0.12 + fy, y);
   alb = mix(alb, vec3(0.06, 0.06, 0.065), base);
   // painted plaster: soft mottling, scuffs and grime toward the floor
-  vec2 mq = vec2(p.z, y) * 2.3;
-  float mott = mix(h21(floor(mq)), h21(floor(mq) + vec2(1.0, 0.0)), smoothstep(0.0, 1.0, fract(mq.x)));
-  float mott2 = h21(floor(vec2(p.z, y) * 9.0));
-  alb *= (0.9 + 0.12 * mott) * (0.97 + 0.06 * mott2) * (0.82 + 0.18 * smoothstep(0.1, 0.9, y));
+  float mott = fbm(vec2(p.z * 1.1, y * 1.6) + s * 13.0);
+  float lodW = smoothstep(0.02, 0.12, fwidth(p.z) * 9.0);
+  float mott2 = mix(vn(vec2(p.z, y) * vec2(9.0, 13.0) + s * 5.0), 0.5, lodW);
+  // faint vertical runs in the paint and a scuffed band where trolleys rub the wainscot
+  float runs = mix(vn(vec2(p.z * 7.0, y * 0.6) + s * 3.0), 0.5, lodW);
+  float scuff = (1.0 - smoothstep(0.0, 0.18, abs(y - 0.55))) * mix(vn(vec2(p.z * 3.0, 1.0) + s), 0.5, lodW);
+  alb *= (0.84 + 0.24 * mott) * (0.95 + 0.10 * mott2) * (0.96 + 0.08 * runs) * (1.0 - 0.18 * scuff * wain) * (0.80 + 0.20 * smoothstep(0.1, 0.9, y));
   vec3 L = sideLight(p, n, -s) + vE + vB + vec3(0.006, 0.008, 0.013);
   vec3 col = alb * L;
   // a bright line where the rail catches the light
@@ -215,9 +232,11 @@ void main(){
     vec4 d = doorData(s, int(k));
     float dz = abs(p.z - doorZ(s, k));
     float dx = abs(p.x - s * CW);
-    L += vec3(1.0, 0.62, 0.32) * d.w * exp(-dx / 0.07) * (1.0 - smoothstep(DW * 0.45, DW * 0.55, dz)) * 1.5;
+    L += vec3(1.0, 0.62, 0.32) * d.w * (exp(-dx / 0.018) * 1.4 + exp(-dx / 0.09) * 0.22) * (1.0 - smoothstep(DW * 0.28, DW * 0.5, dz));
   }
-  vec3 col = alb * L;
+  // flag the foreground: the floor right under the lens is held down so the lower-third label stays readable
+  float flag = 0.45 + 0.55 * smoothstep(1.2, 4.5, length(p.xz - cameraPosition.xz));
+  vec3 col = alb * L * flag;
   // reflections: the reflected view ray, tested against the doorways and the exit sign
   vec3 R = reflect(-V, n);
   vec3 refl = vec3(0.0);
@@ -267,7 +286,7 @@ void main(){
   vec3 D = L - p;
   float d2 = dot(D, D);
   float lam = max(dot(n, D * inversesqrt(d2)), 0.0);
-  vec3 alb = vec3(0.50, 0.46, 0.40);
+  vec3 alb = vec3(0.44, 0.45, 0.40) * (0.9 + 0.2 * fbm(vec2(p.z, p.y) * 1.3 + k));
   // back wall: a dark night window with blinds; low cabinets along the walls
   float depth = abs(p.x) - CW;
   if (abs(n.x) > 0.5 && depth > 3.0) {
@@ -289,7 +308,9 @@ void main(){
     alb = mix(alb, vec3(0.75, 0.74, 0.70), board);
   }
   if (n.y > 0.5) alb = vec3(0.35, 0.28, 0.22);
-  vec3 col = alb * vec3(1.0, 0.70, 0.42) * d.y * (lam / (d2 * 0.5 + 0.6) * 0.5 + 0.035);
+  // the shaded lamp leaves the upper walls darker
+  float hi = 1.0 - 0.55 * smoothstep(1.5, 2.6, p.y);
+  vec3 col = alb * vec3(1.0, 0.70, 0.42) * d.y * uFlick * (lam / (d2 * 0.5 + 0.6) * 0.5 * hi + 0.03);
   gl_FragColor = vec4(fogIt(col, p), 1.0);
 }
 `;
@@ -330,7 +351,8 @@ void main(){
 }
 `;
 
-const LEAF_FRAG = /* glsl */`
+// furniture inside the rooms: plain, lit by the room lamp
+const FURN_FRAG = /* glsl */`
 varying vec2 vDoor;
 void main(){
   vec3 p = vW, n = normalize(vN);
@@ -341,13 +363,79 @@ void main(){
   vec3 D = L - p;
   float d2 = dot(D, D);
   float lam = max(dot(n, D * inversesqrt(d2)), 0.0);
+  float inside = smoothstep(0.0, 0.04, (p.x - s * CW) * s);
+  vec3 col = vec3(0.16, 0.13, 0.10) * (vec3(1.0, 0.72, 0.45) * d.y * uFlick * lam / (d2 * 0.5 + 0.5) * inside + sideLight(p, n, -s) + exitLight(p, n) + bounce(p) * 0.5 + 0.004);
+  gl_FragColor = vec4(fogIt(col, p), 1.0);
+}
+`;
+const LEAF_VERT = /* glsl */`
+attribute vec2 aDoor;
+varying vec2 vDoor;
+varying vec3 vL;      // leaf-local position: x across the thickness, y up, z from the hinge edge
+varying vec3 vNL;     // leaf-local normal
+void main(){
+  mat4 m = modelMatrix * instanceMatrix;
+  vec4 w = m * vec4(position, 1.0);
+  vW = w.xyz;
+  vN = normalize(mat3(m) * normal);
+  vL = position; vNL = normal;
+  vDoor = aDoor;
+  gl_Position = projectionMatrix * viewMatrix * w;
+}
+`;
+// door leaves: painted timber with a lighter edge, a brushed kick plate, a narrow wired-glass vision panel and
+// a lever; lit by their own room on one face (falling off across the leaf), by the corridor on the other
+const LEAF_FRAG = /* glsl */`
+varying vec2 vDoor;
+varying vec3 vL;
+varying vec3 vNL;
+void main(){
+  vec3 p = vW, n = normalize(vN);
+  float s = vDoor.x, k = floor(vDoor.y + 0.5);
+  vec4 d = doorData(s, int(k));
+  float zc = doorZ(s, k);
+  vec3 Lp = vec3(s * (CW + LD), LY, zc + d.z);
+  vec3 D = Lp - p;
+  float d2 = dot(D, D);
+  vec3 l = D * inversesqrt(d2);
+  vec3 V = normalize(cameraPosition - p);
+  float lam = max(dot(n, l), 0.0);
   // the room only lights the leaf while it is inside the room
   float inside = smoothstep(0.0, 0.04, (p.x - s * CW) * s);
-  vec3 alb = vec3(0.36, 0.30, 0.24);
-  // kick plate and lever
-  float kick = step(p.y, 0.25);
-  alb = mix(alb, vec3(0.5, 0.5, 0.5), kick);
-  vec3 col = alb * (vec3(1.0, 0.72, 0.45) * d.y * lam / (d2 * 0.5 + 0.5) * inside + sideLight(p, n, -s) + exitLight(p, n) + bounce(p) * 0.5 + 0.004);
+  float u = clamp(vL.z / DW, 0.0, 1.0), y = vL.y;
+  float grain = fbm(vec2(u * 2.0, y * 0.9) + vec2(k * 7.0 + s * 3.0, 0.0));
+  vec3 alb = vec3(0.33, 0.27, 0.21) * (0.9 + 0.2 * grain);
+  float metal = 0.0, glass = 0.0;
+  bool face = abs(vNL.x) > 0.5;
+  if (face) {
+    float fw = fwidth(y) * 1.5 + 0.002;
+    // brushed kick plate along the bottom
+    float kick = (1.0 - smoothstep(0.24 - fw, 0.24 + fw, y)) * smoothstep(0.02, 0.03, u) * (1.0 - smoothstep(0.97, 0.98, u));
+    // tall narrow vision panel near the latch side, in a metal bead
+    vec2 e = vec2(abs(u - 0.30) * DW - 0.07, abs(y - 1.42) - 0.36);
+    float outer = 1.0 - smoothstep(-fw, fw, max(e.x, e.y) - 0.014);
+    float pane = 1.0 - smoothstep(-fw, fw, max(e.x, e.y));
+    // the lever and its rose
+    float lever = step(0.0235, abs(vL.x));
+    metal = max(max(kick, outer - pane), lever);
+    glass = pane * (1.0 - lever);
+    alb = mix(alb, vec3(0.34, 0.33, 0.31) * (0.9 + 0.2 * fract(y * 173.0 + grain)), metal);
+    alb = mix(alb, vec3(0.025, 0.022, 0.02), glass);
+    // panel shading: soft darkening into the hinge stile and toward the floor
+    alb *= (0.72 + 0.28 * smoothstep(0.0, 0.18, u)) * (0.75 + 0.25 * smoothstep(0.0, 0.6, y));
+  } else {
+    alb *= 1.35;     // the painted edge catches more light
+  }
+  // the lamp's shade throws light down and out: the top of the leaf falls into shadow
+  float shade = mix(0.35, 1.0, smoothstep(0.1, -0.35, -l.y));
+  vec3 room = vec3(1.0, 0.72, 0.45) * d.y * uFlick * inside;
+  vec3 Lr = room * lam * shade / (d2 * 0.9 + 0.2);
+  vec3 col = alb * (Lr + sideLight(p, n, -s) + exitLight(p, n) + bounce(p) * 0.5 + 0.004);
+  // lamp highlight on metal and glass
+  float sp = pow(max(dot(reflect(-V, n), l), 0.0), 28.0);
+  col += room * sp * (metal * 0.35 + glass * 0.6) / (d2 * 0.5 + 0.3);
+  // wired glass: the room behind is dark, a faint warm sheen near the bottom of the pane
+  col += glass * room * 0.010 * (1.0 - smoothstep(1.06, 1.6, y));
   gl_FragColor = vec4(fogIt(col, p), 1.0);
 }
 `;
@@ -406,13 +494,21 @@ register('doors_corridor', (opts) => {
     const open = !(s < 0 && k === 3) && !(s > 0 && k === 5) && !(s > 0 && k === 1);
     doors.push({ s, k, z, open, ang: open ? 1.45 + R() * 0.3 : 0, hd: 1, I: 1.6 + R() * 0.9, lz: 0.35 + R() * 0.7 });
   }
-  const openDoors = doors.filter((d) => d.open).sort((a, b) => a.z - b.z);    // farthest first
-  openDoors.forEach((d, i) => { d.tc = closeAt + closeDur * (openDoors.length > 1 ? i / (openDoors.length - 1) : 0) + (R() - 0.5) * 0.06; });
+  // slam schedule, farthest first: the far doors ripple shut close together, the near ones land as separate
+  // hits, and the last (nearest, in frame) latches exactly at closeAt + closeDur
+  const SLAM = 0.24;
+  const openDoors = doors.filter((d) => d.open).sort((a, b) => a.z - b.z);
+  const nO = openDoors.length, span = Math.max(0.05, closeDur - SLAM);
+  openDoors.forEach((d, i) => {
+    const u = nO > 1 ? i / (nO - 1) : 1;
+    d.tc = closeAt + span * Math.pow(u, 1.8) + (i < nO - 1 ? (R() - 0.5) * 0.05 : 0);
+    d.ti = d.tc + SLAM;          // latch / impact
+  });
 
   const uDL = Array.from({ length: NK }, () => new THREE.Vector4());
   const uDR = Array.from({ length: NK }, () => new THREE.Vector4());
   const shared = {
-    uTime: { value: 0 }, uDL: { value: uDL }, uDR: { value: uDR }, uExit: { value: 1 },
+    uTime: { value: 0 }, uDL: { value: uDL }, uDR: { value: uDR }, uExit: { value: 1 }, uFlick: { value: 1 },
     uFog: { value: new THREE.Color(0.002, 0.002, 0.003) }, uFogDen: { value: 0.03 },
   };
   const mat = (frag, extra = {}, params = {}, vert = VERT) => new THREE.ShaderMaterial({
@@ -420,7 +516,6 @@ register('doors_corridor', (opts) => {
   });
 
   // leaf angle over time: open, slam (accelerating swing), a small rebound, shut
-  const SLAM = 0.24;
   function leafAngle(d, t) {
     if (!d.open) return 0;
     const u = (t - d.tc) / SLAM;
@@ -477,13 +572,13 @@ register('doors_corridor', (opts) => {
     rooms.renderOrder = 2;
     scene.add(rooms);
   }
-  const leafG = new THREE.BoxGeometry(0.045, DH - 0.02, DW - 0.02);
-  leafG.translate(0, (DH - 0.02) / 2, (DW - 0.02) / 2);            // hinge edge at the origin, leaf along +z
+  const leafG = new THREE.BoxGeometry(0.045, DH - 0.01, DW - 0.02);
+  leafG.translate(0, (DH - 0.01) / 2, (DW - 0.02) / 2);            // hinge edge at the origin, leaf along +z (fills the opening up to the head)
   // lever handle
   const handle = new THREE.BoxGeometry(0.06, 0.025, 0.14).translate(0, 1.0, DW - 0.12);
   const leafAll = mergeBoxes([leafG, handle]);
   leafAll.setAttribute('aDoor', new THREE.InstancedBufferAttribute(aDoor, 2));
-  const leaves = new THREE.InstancedMesh(leafAll, mat(LEAF_FRAG), nD);
+  const leaves = new THREE.InstancedMesh(leafAll, mat(LEAF_FRAG, {}, {}, COMMON + LEAF_VERT), nD);
   scene.add(leaves);
   {
     // casings (architraves) and jamb liners that give the wall its thickness
@@ -514,7 +609,7 @@ register('doors_corridor', (opts) => {
       new THREE.BoxGeometry(0.45, 0.9, 0.45).translate(1.3, 0.45, -0.6),
     ]);
     g.setAttribute('aDoor', new THREE.InstancedBufferAttribute(aDoor, 2));
-    const furn = new THREE.InstancedMesh(g, mat(LEAF_FRAG.replace('vec3(0.36, 0.30, 0.24)', 'vec3(0.16, 0.13, 0.10)')), nD);
+    const furn = new THREE.InstancedMesh(g, mat(FURN_FRAG), nD);
     doors.forEach((d, i) => {
       Q.setFromEuler(E.set(0, d.s < 0 ? Math.PI : 0, 0)); P.set(d.s * CW, 0, d.z);
       if (d.s < 0) { S.set(1, 1, -1); } else S.set(1, 1, 1);
@@ -586,20 +681,33 @@ register('doors_corridor', (opts) => {
     glow.position.set(0, 2.38, ZEND + 0.2); glow.renderOrder = 5; scene.add(glow);
   }
 
-  // ---- camera: steady dolly with a jolt at each slam
+  // ---- camera: steady dolly; the nearest slams kick it (per-frame shake of a few px, a small push-in) and make
+  // the remaining lights stutter for a frame. It stops short of the nearest door so its slam stays in frame.
   const look = new THREE.Vector3();
+  let flick = 1;
+  const SH = [1, -0.75, 0.5, -0.3, 0.16, -0.07];          // per-frame shake pattern after an impact (24 fps)
   function camAt(lt, k) {
-    const z = lerp(2.6, 0.0, 0.1 * smooth(k) + 0.9 * k);
-    const p = new THREE.Vector3(0.14 + 0.02 * noise(lt * 0.4 + 1), 1.58 + 0.01 * noise(lt * 0.5 + 7), z);
-    let jx = 0, jy = 0;
+    let z = lerp(2.8, 0.9, 0.1 * smooth(k) + 0.9 * k);
+    const x0 = 0.14 + 0.02 * noise(lt * 0.4 + 1), y0 = 1.58 + 0.01 * noise(lt * 0.5 + 7);
+    let jx = 0, jy = 0, push = 0;
+    flick = 1;
     for (const d of openDoors) {
-      const dt = lt - d.tc - SLAM;
-      if (dt < 0 || dt > 0.6) continue;
-      const a = 0.010 / (1 + Math.abs(z - d.z) / 3) * Math.exp(-dt * 9);
-      jx += a * Math.sin(dt * 70 + d.k); jy += a * 0.7 * Math.sin(dt * 55 + d.s);
+      const dt = lt - d.ti;
+      if (dt < 0) continue;
+      const dist = Math.hypot(d.s * CW - x0, d.z - z);
+      const w = clamp((9.0 - dist) / 5.5);
+      if (w <= 0) continue;
+      push += 0.06 * w * (1 - Math.exp(-dt * 16));
+      const f = Math.floor(dt * 24 + 1e-4);
+      if (f < SH.length) {
+        const a = SH[f] * w;
+        jx += a * 0.040 * (d.s < 0 ? 1 : -1); jy += a * 0.032;
+        if (f === 0) flick *= 1 - 0.5 * w; else if (f === 1) flick *= 1 + 0.18 * w;
+      }
     }
-    p.x += jx; p.y += jy;
-    look.set(-0.05 + jx * 0.5, 1.42 + jy, z - 20);
+    z -= push;
+    const p = new THREE.Vector3(x0 + jx * 0.08, y0 + jy * 0.12, z);
+    look.set(-0.05 + jx, 1.42 + jy, z - 20);
     return p;
   }
 
@@ -612,14 +720,15 @@ register('doors_corridor', (opts) => {
       camera.position.copy(camAt(lt, c.k));
       camPosU.copy(camera.position);
       camera.lookAt(look);
+      shared.uFlick.value = flick;
+      shared.uExit.value = flick;
       doors.forEach((d, i) => {
         const th = leafAngle(d, lt);
-        // the room light dies with the slam, a sliver leaks under the door for a moment
-        const since = d.open ? lt - d.tc - SLAM : -1;
-        const I = d.open ? d.I * (since < 0 ? 1 : Math.max(0, 1 - since / 0.35) * 0.0) : 0;
-        const under = d.open && since >= 0 ? Math.max(0, 1 - since / 0.5) * 0.6 : 0;
+        // the room light dies with the latch; a thin line of light leaks under the door and fades within 0.5 s
+        const since = d.open ? lt - d.ti : -1;
+        const under = d.open && since >= 0 && since < 0.5 ? 0.9 * Math.exp(-since * 5) * (1 - since / 0.5) : 0;
         const v = (d.s < 0 ? uDL : uDR)[d.k];
-        v.set(th, d.open ? (since < 0 ? d.I : 0.0) : 0.0, d.lz, under);
+        v.set(th, d.open && since < 0 ? d.I : 0.0, d.lz, under);
         // leaf transform: hinge at the far jamb, swinging into the room
         const zh = d.z - d.hd * DW / 2;
         const phi = Math.atan2(d.s * Math.sin(th), d.hd * Math.cos(th));

@@ -1,27 +1,35 @@
-// flywheel_3d: THE hero object. A 9.6 m machined steel flywheel (grooved rope rim, six cast spokes,
-// bolted hub, an engraved ring and a graduated dial band) turning in a hazy industrial hall. Amber back
-// light through tall windows, a cold fill from the left, light shafts, dust, and a grinding shoe throwing
-// sparks where the rim climbs out of its floor pit.
+// flywheel_3d: THE hero object. A 9.6 m machined steel flywheel (grooved rope rim with an engraved, paint-filled
+// legend ring, a graduated dial, bolt circle, hazard and balance-mark paint, six cast spokes, a turned and bolted
+// hub on a split pillow block) turning in a hazy industrial hall. Amber back light through tall windows, a cold
+// blue fill from the camera side, dust, and a brake shoe throwing sparks off the rim.
 //
 // opts:
-//   mode    'hero'   (default) low-angle slow push-in on the whole wheel; hub right of centre, the
-//                    centre band stays calm for a statement line
-//           'close'  camera rides the top of the rim: grooves rushing at the lens, engraving and dial
-//                    streaking past, debris flecks, camera shake that grows with speed
-//           'reveal' starts a hand's width from the rim face, where thousands of tiny warm lights
-//                    (people) are embedded; pulls back to the whole wheel: a ring of light feeding pulses
-//                    down the spokes into a glowing hub. Lower-centre band (y ~ 560-660) stays dark.
+//   mode    'hero'   (default) low-angle slow push-in on the whole wheel. The hub sits in the upper-right third
+//                    (~x 1500-1650, y 180-300); the left ~55% of frame is dark hall, so centred statements
+//                    (y ~330 or ~540) and a timeline (y ~600-700) cross the hall and the rim's dark flank.
+//           'close'  the climax: the camera hangs just in front of the top of the rim and pushes in while it
+//                    spins up. A brake shoe on the top-left of the rim throws a growing spark jet along the top
+//                    arc (upper third of frame); bolts, lettering, dial ticks and paint marks stream past as
+//                    motion-blur streaks; grit whips past the lens; shake and roll grow with the speed, so the
+//                    last frame is the most violent. The rim face fills the middle band (y ~420-720), so the
+//                    stacked centre lines (y ~430 / 560 / 720) sit on dark, streaking steel.
+//           'reveal' starts a hand's width from the rim face, where thousands of tiny warm lights (people, in
+//                    soft clustered crowds) are embedded; pulls back to the whole wheel: a ring of light feeding
+//                    pulses down the spokes into a glowing seam and core in the hub. Centre lines at y ~480/600
+//                    cross the lower spokes on a dimmed hall.
 //   spin    [[k, revolutionsPerSecond], ...]  speed over shot progress k (0..1), smooth between keys;
 //           the rotation angle is the exact integral, so any duration works. Default by mode.
 //   people  0..1 intensity of the embedded people-lights (default 1 in 'reveal', 0 otherwise)
-//   sparks  0..2 spark multiplier (default 1); the spark rate also follows the spin speed
+//   sparks  0..2 spark multiplier (default 1; 0.15 in 'reveal'); the spark rate also follows the spin speed
 //   feed    0..1 intensity of the pulses running down the spokes into the hub (default = people)
 //   seed    layout seed for lights/sparks/dust (default 7)
 //
-// Motion blur is real: a 180-degree shutter (1/48 s). The rim is a solid of revolution, so its detail
-// atlas is blurred along the angle in the shader; spokes get an analytic coverage "ghost disc"; lights,
-// sparks and flecks are drawn as streaks swept over the shutter interval. Everything is a pure function
-// of time, so frames can be rendered in any order.
+// Motion blur is real: a 180-degree shutter (1/48 s; shortened in 'close' so detail streaks stay discrete). The
+// rim is a solid of revolution, so its detail atlas is blurred along the angle in the shader (with an
+// angle-only pre-smeared twin at high speed) and its paint marks are box-filtered analytically; the spokes
+// crossfade into an analytic coverage "ghost disc" over a speed range; lights, sparks and flecks are drawn as
+// streaks swept over the shutter interval. Everything is a pure function of time, so frames can be rendered in
+// any order.
 import { THREE, register, rng, noise, ease, smooth, clamp, lerp, glowTexture } from '../kit.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
@@ -146,20 +154,25 @@ function bakeRim(sAcc, S, P, seed) {
   const iOuter0 = P.findIndex(([r, z]) => r === RO), iOuter1 = P.length - 4;
   const sOut0 = sAcc[iOuter0], sOut1 = sAcc[iOuter1 + 1];
   const pxPerMx = (r) => W / ((TAU * r) / REP), pxPerMy = H / S;
-  // 1. lathe tool marks: circumferential lines (constant v)
-  for (let y = 0; y < H; y++) {
-    const v = R();
-    A.fillStyle = `rgba(${v < 0.5 ? '0,0,0' : '255,255,255'},${0.04 + 0.06 * R()})`; A.fillRect(0, y, W, 1);
-    Rg.fillStyle = `rgba(${R() < 0.5 ? '0,0,0' : '255,255,255'},${0.05 + 0.12 * R()})`; Rg.fillRect(0, y, W, 1);
+  // 1. lathe tool marks: soft circumferential bands (constant v), smoothed so they never alias into crunch
+  {
+    const n = new Float32Array(H), m = new Float32Array(H);
+    for (let y = 0; y < H; y++) { n[y] = R() - 0.5; m[y] = R() - 0.5; }
+    const sm = (a, r) => { const o = new Float32Array(H); for (let y = 0; y < H; y++) { let t = 0; for (let k = -r; k <= r; k++) t += a[(y + k + H) % H]; o[y] = t / (2 * r + 1); } return o; };
+    const a1 = sm(n, 3), a2 = sm(m, 6);
+    for (let y = 0; y < H; y++) {
+      const va = a1[y] * 2.2 + a2[y] * 1.5, vr = a2[y] * 3.0 - a1[y] * 1.5;
+      A.fillStyle = `rgba(${va < 0 ? '0,0,0' : '255,255,255'},${Math.min(va < 0 ? 0.12 : 0.07, Math.abs(va) * 0.22)})`; A.fillRect(0, y, W, 1);
+      Rg.fillStyle = `rgba(${vr < 0 ? '0,0,0' : '255,255,255'},${Math.min(0.2, Math.abs(vr) * 0.35)})`; Rg.fillRect(0, y, W, 1);
+    }
   }
   // 2. inner face and chamfers: cast, darker and rougher, pitted
   const yIn = yOf(sAcc[1]);
-  A.fillStyle = 'rgba(0,0,0,0.35)'; A.fillRect(0, 0, W, yIn + 6);
-  Rg.fillStyle = 'rgba(255,255,255,0.45)'; Rg.fillRect(0, 0, W, yIn + 6);
-  for (let i = 0; i < 9000; i++) {
+  A.fillStyle = 'rgba(0,0,0,0.55)'; A.fillRect(0, 0, W, yIn + 6);
+  Rg.fillStyle = 'rgba(255,255,255,0.6)'; Rg.fillRect(0, 0, W, yIn + 6);
+  for (let i = 0; i < 9000; i++) {            // casting pits: albedo only (a height map this fine would alias)
     const x = R() * W, y = R() * yIn, r = 1 + R() * 3;
-    Hg.fillStyle = grey(70 + R() * 60); Hg.beginPath(); Hg.ellipse(x, y, r * 1.6, r, 0, 0, TAU); Hg.fill();
-    A.fillStyle = `rgba(0,0,0,${0.2 * R()})`; A.fillRect(x, y, r * 2, r);
+    A.fillStyle = `rgba(0,0,0,${0.12 * R()})`; A.fillRect(x, y, r * 2, r);
   }
   // 3. wear: oxidation blotches and scuffs everywhere, heavier near the edges of the outer face
   for (let i = 0; i < 260; i++) {
@@ -171,7 +184,7 @@ function bakeRim(sAcc, S, P, seed) {
   }
   for (let i = 0; i < 260; i++) { // scratches, mostly along the travel direction
     const x = R() * W, y = sOut0 / S * H + R() * (sOut1 - sOut0) / S * H, l = 30 + R() * 260;
-    A.strokeStyle = `rgba(255,255,255,${0.03 + 0.06 * R()})`; A.lineWidth = 1; A.beginPath(); A.moveTo(x, y); A.lineTo(x + l, y + (R() - 0.5) * 6); A.stroke();
+    A.strokeStyle = `rgba(255,255,255,${0.02 + 0.04 * R()})`; A.lineWidth = 1; A.beginPath(); A.moveTo(x, y); A.lineTo(x + l, y + (R() - 0.5) * 6); A.stroke();
     Rg.strokeStyle = `rgba(0,0,0,${0.08 + 0.1 * R()})`; Rg.lineWidth = 1.5; Rg.beginPath(); Rg.moveTo(x, y); Rg.lineTo(x + l, y + (R() - 0.5) * 6); Rg.stroke();
   }
   // 4. front face: bolt circle, engraved band with lettering, graduated dial
@@ -185,7 +198,7 @@ function bakeRim(sAcc, S, P, seed) {
   // lettering (rotated 180 deg so it reads left-to-right, upright, at the top of the wheel seen from the front)
   const words = 'THE DATA FLYWHEEL  ·  USE  ·  FEEDBACK  ·  SIGNAL  ·  TRAINING  ·  ';
   const yc = yR((FRONT.rec0 + FRONT.rec1) / 2), capM = 0.13; // letter height (m)
-  for (const [ctx, col] of [[A, 'rgba(10,8,6,0.85)'], [Hg, grey(20)], [Rg, grey(235)]]) {
+  for (const [ctx, col] of [[A, grey(236)], [Hg, grey(20)], [Rg, grey(235)]]) {     // engraved, with a white paint infill
     ctx.save(); ctx.translate(W, yc); ctx.scale(-fx / fy, -1);
     ctx.font = `600 ${Math.round(capM * fy * 1.32)}px Oswald`; ctx.textBaseline = 'middle'; ctx.fillStyle = col;
     const span = W / (fx / fy);
@@ -197,14 +210,14 @@ function bakeRim(sAcc, S, P, seed) {
   const yT0 = yR(FRONT.land2 + 0.005), yT1 = yR(FRONT.b - 0.006);
   for (let d = 0; d < 45; d++) {
     const x = W - (d / 45) * W, long = d % 5 === 0, h = (yT1 - yT0) * (long ? 1 : 0.55);
-    A.fillStyle = 'rgba(0,0,0,0.75)'; A.fillRect(x - 1.5, yT0, 3, h);
+    A.fillStyle = grey(234); A.fillRect(x - 2, yT0, 4, h);
     Hg.fillStyle = grey(50); Hg.fillRect(x - 1.5, yT0, 3, h);
   }
   // bolt circle on the inner land: hex heads with washers (raised)
   const yB = yR((FRONT.a + FRONT.land1) / 2), bx = pxPerMx(4.26);
   for (let b = 0; b < 6; b++) {
     const x = (b + 0.5) / 6 * W;
-    for (const [ctx, ring, head, face] of [[A, 'rgba(0,0,0,0.5)', grey(190), grey(165)], [Hg, grey(150), grey(215), grey(205)], [Rg, grey(150), grey(90), grey(110)]]) {
+    for (const [ctx, ring, head, face] of [[A, 'rgba(0,0,0,0.5)', grey(232), grey(214)], [Hg, grey(150), grey(215), grey(205)], [Rg, grey(150), grey(90), grey(110)]]) {
       ctx.fillStyle = ring; ctx.beginPath(); ctx.ellipse(x, yB, 0.05 * bx, 0.05 * fy, 0, 0, TAU); ctx.fill();
       ctx.fillStyle = head; ctx.beginPath();
       for (let k = 0; k < 6; k++) { const q = (k / 6) * TAU + 0.3; ctx.lineTo(x + Math.cos(q) * 0.036 * bx, yB + Math.sin(q) * 0.036 * fy); }
@@ -216,6 +229,26 @@ function bakeRim(sAcc, S, P, seed) {
   for (const x of [6]) {
     A.fillStyle = 'rgba(0,0,0,0.55)'; A.fillRect(x, 0, 3, H);
     Hg.fillStyle = grey(70); Hg.fillRect(x, 0, 3, H);
+  }
+  // 5b. paint: a balance-mark stripe across the outer face and the front face, a hazard block and a stencilled
+  // warning (albedo above ~0.62 is read by the shader as white paint, linearly, so it survives motion blur)
+  {
+    const xs = W * 0.62, pw = 0.09 * pxPerMx(RO);
+    A.fillStyle = grey(232); A.fillRect(xs, yOf(sOut0) + 2, pw, yOf(sOut1) - yOf(sOut0) - 4);
+    Rg.fillStyle = grey(235); Rg.fillRect(xs, yOf(sOut0) + 2, pw, yOf(sOut1) - yOf(sOut0) - 4);
+    A.fillStyle = grey(232); A.fillRect(xs, yR(FRONT.land2), pw * 0.8, yR(FRONT.b) - yR(FRONT.land2));
+    // a painted inspection band on the outer face, a quarter turn later (the striped hazard blocks are analytic)
+    const xh = W * 0.18, hw = 0.5 * pxPerMx(RO);
+    A.save(); A.beginPath(); A.rect(xh, yOf(sOut0) + 2, hw, yOf(sOut1) - yOf(sOut0) - 4); A.clip();
+    A.fillStyle = grey(240); A.fillRect(xh, 0, hw, H);
+    A.restore();
+    Rg.fillStyle = grey(225); Rg.fillRect(xh, yOf(sOut0) + 2, hw, yOf(sOut1) - yOf(sOut0) - 4);
+    // stencil on the front face, between the bolt circle and the engraved band
+    for (const [ctx, col] of [[A, grey(232)], [Rg, grey(230)]]) {
+      ctx.save(); ctx.translate(W * 0.36, yR(FRONT.land1 - 0.06)); ctx.scale(-fx / fy, -1);
+      ctx.font = `700 ${Math.round(0.07 * fy * 1.32)}px Oswald`; ctx.textBaseline = 'middle'; ctx.fillStyle = col;
+      ctx.fillText('MAX 120 RPM  ·  KEEP CLEAR', 0, 0); ctx.restore();
+    }
   }
   // 6. outer-face edge grime and grooves darkened (oil in the rope grooves)
   for (let i = iOuter0; i <= iOuter1; i++) {
@@ -229,8 +262,16 @@ function bakeRim(sAcc, S, P, seed) {
   for (let i = 0; i < W * H * 4; i += 4) { id.data[i] = a[i]; id.data[i + 1] = r[i]; id.data[i + 2] = h[i]; id.data[i + 3] = 255; }
   o.putImageData(id, 0, 0);
   const t = new THREE.CanvasTexture(out);
-  t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.ClampToEdgeWrapping; t.minFilter = THREE.LinearMipmapNearestFilter;
-  return { tex: t, W, H };
+  // canvas rows map straight to the profile arc length (v = s / S), as the bake above assumes
+  t.flipY = false; t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.ClampToEdgeWrapping; t.minFilter = THREE.LinearMipmapLinearFilter; t.anisotropy = 4;
+  // a twin smeared 64 px along the angle only (running average of shifted copies): motion blur at speed keeps
+  // the detail across the profile sharp instead of going through isotropic mip blur
+  const st = document.createElement('canvas'); st.width = W; st.height = H;
+  const sg = st.getContext('2d'), NS = 16;
+  for (let i = 0; i < NS; i++) { const dx = Math.round((i / (NS - 1) - 0.5) * 64); sg.globalAlpha = 1 / (i + 1); sg.drawImage(out, dx, 0); sg.drawImage(out, dx > 0 ? dx - W : dx + W, 0); }
+  const ts = new THREE.CanvasTexture(st);
+  ts.flipY = false; ts.wrapS = THREE.RepeatWrapping; ts.wrapT = THREE.ClampToEdgeWrapping; ts.minFilter = THREE.LinearMipmapLinearFilter; ts.anisotropy = 4;
+  return { tex: t, streak: ts, W, H, innerV: (sAcc[1] / S) * 1.02 };
 }
 // tileable value-noise canvas (grey), used for cast iron and concrete
 function noiseCanvas(size, seed, octaves, base, amp) {
@@ -283,12 +324,10 @@ function floorTextures(seed) {
   for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) A.drawImage(A.canvas, 0, 0, N / 4, N / 4, i * N / 4, j * N / 4, N / 4, N / 4);
   A.globalAlpha = 1;
   Rg.fillStyle = grey(205); Rg.fillRect(0, 0, N, N);
-  for (let i = 0; i < 160; i++) { // oil / water stains: darker and glossier, clustered into irregular patches
-    const cx = Math.floor(i / 8), x = X(Math.sin(cx * 12.9) * 14 + (R() - 0.5) * 3), z = Z(Math.cos(cx * 7.3) * 12 + (R() - 0.5) * 2), r = (0.2 + R() * 0.9) * px;
-    const g = A.createRadialGradient(x, z, 0, x, z, r); g.addColorStop(0, `rgba(8,6,4,${0.3 + 0.4 * R()})`); g.addColorStop(1, 'rgba(8,6,4,0)');
-    A.fillStyle = g; A.fillRect(x - r, z - r, 2 * r, 2 * r);
-    const h = Rg.createRadialGradient(x, z, 0, x, z, r); h.addColorStop(0, `rgba(30,30,30,${0.5 + 0.4 * R()})`); h.addColorStop(1, 'rgba(30,30,30,0)');
-    Rg.fillStyle = h; Rg.fillRect(x - r, z - r, 2 * r, 2 * r);
+  for (let i = 0; i < 260; i++) { // oil / water stains: small, soft, clustered around the machine and walkways
+    const cx = Math.floor(i / 10), x = X(Math.sin(cx * 12.9) * 12 + (R() - 0.5) * 2.5), z = Z(Math.cos(cx * 7.3) * 10 + (R() - 0.5) * 1.6), r = (0.08 + R() * 0.35) * px;
+    const g = A.createRadialGradient(x, z, 0, x, z, r); g.addColorStop(0, `rgba(10,8,6,${0.1 + 0.18 * R()})`); g.addColorStop(1, 'rgba(10,8,6,0)');
+    A.save(); A.translate(x, z); A.scale(1, 0.5 + R() * 0.5); A.translate(-x, -z); A.fillStyle = g; A.fillRect(x - r, z - r, 2 * r, 2 * r); A.restore();
   }
   A.strokeStyle = 'rgba(0,0,0,0.6)'; A.lineWidth = 3;
   for (let m = -24; m <= 24; m += 6) { A.beginPath(); A.moveTo(X(m), 0); A.lineTo(X(m), N); A.stroke(); A.beginPath(); A.moveTo(0, Z(m)); A.lineTo(N, Z(m)); A.stroke(); }
@@ -356,13 +395,20 @@ vec3 envSpec(vec3 R, float ro) {
   // window wall behind (-z): a soft box in (azimuth, height); pane grid only on polished steel
   float s = 0.025 + r2 * 1.1, az = R.x / max(-R.z, 0.04);
   float box = smoothstep(1.03 + s, 1.03 - s, abs(az)) * step(0.0, -R.z) * smoothstep(0.03 - s, 0.03 + s, R.y) * smoothstep(0.68 + s, 0.68 - s, R.y);
-  if (ro < 0.4 && box > 0.0) { vec2 g = abs(fract(vec2(az * 3.6, R.y * 7.4)) - 0.5); box *= mix(1.0, 0.25 + 0.75 * smoothstep(0.03, 0.08, min(g.x, g.y)), 1.0 - ro / 0.4); }
+  if (ro < 0.75 && box > 0.0) {
+    float bw = 0.04 + ro * 0.25;
+    float bay = smoothstep(0.06, 0.06 + bw, abs(fract(az * 2.9 + 0.5) - 0.5));          // dark piers between bays
+    vec2 g = abs(fract(vec2(az * 11.6, R.y * 7.4)) - 0.5);
+    float pane = 0.35 + 0.65 * smoothstep(0.03, 0.03 + bw * 1.5, min(g.x, g.y));         // glazing bars
+    float tr = smoothstep(0.42, 0.44 + bw, abs(R.y - 0.42));                             // transom
+    box *= mix(1.0, bay * mix(1.0, pane * (0.5 + 0.5 * tr), smoothstep(0.55, 0.15, ro)), smoothstep(0.75, 0.3, ro));
+  }
   c += vec3(1.0, 0.64, 0.33) * 4.0 * box * (0.55 + 0.45 * clamp(R.y / 0.68, 0.0, 1.0)) / (1.0 + r2 * 3.0);
   // clerestory on the left wall and the cold softbox front-right: cheap lobes
   float wl = 0.05 + r2 * 0.8;
   c += vec3(1.0, 0.7, 0.42) * 1.6 * exp((dot(R, vec3(-0.86, 0.5, -0.1)) - 1.0) / wl) * (0.05 / wl);
   float w = 0.03 + r2 * 0.8;
-  c += vec3(0.5, 0.66, 1.0) * 1.2 * exp((dot(R, vec3(0.6, 0.48, 0.64)) - 1.0) / w) * (0.03 / w);
+  c += vec3(0.5, 0.66, 1.0) * 2.2 * exp((dot(R, vec3(0.6, 0.48, 0.64)) - 1.0) / w) * (0.03 / w);
   c += vec3(0.75, 0.78, 0.82) * 0.4 * smoothstep(0.86 - r2, 0.97, R.y);
   c += vec3(0.13, 0.14, 0.155) * smoothstep(-0.2, 0.7, R.z) * (0.35 + 0.65 * smoothstep(-0.3, 0.35, R.y));
   return c * uEnvI;
@@ -371,7 +417,7 @@ vec3 envDiff(vec3 N) {
   vec3 c = mix(vec3(0.008, 0.007, 0.007), vec3(0.04, 0.045, 0.055), N.y * 0.5 + 0.5) + vec3(0.03, 0.032, 0.036) * max(0.0, N.z);
   c += vec3(1.0, 0.64, 0.33) * 0.22 * max(0.0, dot(N, vec3(0.0, 0.37, -0.93)));
   c += vec3(1.0, 0.7, 0.42) * 0.12 * max(0.0, dot(N, vec3(-0.93, 0.37, 0.0)));
-  c += vec3(0.5, 0.66, 1.0) * 0.08 * max(0.0, dot(N, normalize(vec3(0.62, 0.5, 0.6))));
+  c += vec3(0.5, 0.66, 1.0) * 0.2 * max(0.0, dot(N, normalize(vec3(0.62, 0.5, 0.6))));
   return c * uEnvI;
 }
 `;
@@ -380,7 +426,7 @@ vec3 envDiff(vec3 N) {
 // roughness, GGX key + fill + a point light, Schlick fresnel, exp2 fog. Optional: rim detail atlas with
 // angular motion blur (DETAIL), albedo map (MAP), floor gloss from albedo (FLOOR).
 const LIT_VS = `
-varying vec3 vW; varying vec3 vN; varying vec2 vUv;
+varying vec3 vW; varying vec3 vN; varying vec2 vUv; varying vec3 vLoc;
 varying vec3 vHC; varying float vHF;
 ${HAZE_GLSL}
 #ifdef FLOOR
@@ -394,7 +440,7 @@ void main() {
   p = instanceMatrix * p; n = mat3(instanceMatrix) * n;
   #endif
   vec4 w = modelMatrix * p;
-  vW = w.xyz; vN = normalize(mat3(modelMatrix) * n); vUv = uv;
+  vW = w.xyz; vN = normalize(mat3(modelMatrix) * n); vUv = uv; vLoc = position;
   gl_Position = projectionMatrix * viewMatrix * w;
   vec3 d = w.xyz - cameraPosition; float fd = length(d);
   vHC = hazeCol(d / fd); vHF = 1.0 - exp(-uFogDen * uFogDen * fd * fd);
@@ -403,18 +449,33 @@ void main() {
   #endif
 }`;
 const LIT_FS = `
-uniform vec3 uAlb, uEmis; uniform float uMetal, uRough;
+uniform vec3 uAlb, uEmis; uniform float uMetal, uRough, uOpacity;
+varying vec3 vLoc;
 uniform vec3 uKeyDir, uKeyCol, uFillDir, uFillCol, uPtPos, uPtCol; uniform float uEnvI;
 varying vec3 vW; varying vec3 vN; varying vec2 vUv;
 varying vec3 vHC; varying float vHF;
 #ifdef DETAIL
-uniform sampler2D uDet; uniform float uBlur, uDetW; uniform vec3 uDetAmt;
+uniform sampler2D uDet, uDetS; uniform float uBlur, uDetW, uInnerV; uniform vec3 uDetAmt;
 vec3 detBlur(vec2 uv) {
   float span = abs(uBlur) * uDetW;
   if (span < 1.5) return texture(uDet, uv).rgb;
-  float bias = log2(max(1.0, span / 2.0));
-  if (span > 160.0) return 0.5 * (texture(uDet, uv + vec2(uBlur * 0.25, 0.0), bias + 0.5).rgb + texture(uDet, uv + vec2(uBlur * 0.75, 0.0), bias + 0.5).rgb);
-  return (texture(uDet, uv, bias).rgb + texture(uDet, uv + vec2(uBlur * 0.5, 0.0), bias).rgb + texture(uDet, uv + vec2(uBlur, 0.0), bias).rgb) / 3.0;
+  vec3 a = vec3(0.0);
+  if (span < 64.0) a = (texture(uDet, uv).rgb + texture(uDet, uv + vec2(uBlur * 0.5, 0.0)).rgb + texture(uDet, uv + vec2(uBlur, 0.0)).rgb) / 3.0;
+  if (span < 12.0) return a;
+  // taps of the angle-smeared twin spread across the shutter sweep
+  int n = int(clamp(span / 48.0, 2.0, 6.0));
+  vec3 b = vec3(0.0);
+  for (int i = 0; i < 6; i++) { if (i >= n) break; b += texture(uDetS, uv + vec2(uBlur * (float(i) + 0.5) / float(n), 0.0)).rgb; }
+  b /= float(n);
+  return span < 64.0 ? mix(a, b, smoothstep(12.0, 64.0, span)) : b;
+}
+// fraction of the shutter interval [a, a + s] covered by periodic boxes [kP, kP + L] (exact box filter)
+float boxCov(float a, float s, float P, float L) {
+  float lo = a + min(s, 0.0), w = abs(s);
+  if (w < 1e-6) return step(mod(lo, P), L);
+  float hi = lo + w;
+  float F1 = floor(hi / P) * L + min(mod(hi, P), L), F0 = floor(lo / P) * L + min(mod(lo, P), L);
+  return clamp((F1 - F0) / w, 0.0, 1.0);
 }
 #endif
 #ifdef MAP
@@ -446,12 +507,48 @@ void main() {
   ro = clamp(ro * (0.6 + tx.g * 0.9), 0.05, 1.0);
   #endif
   #endif
+  float NoV0 = abs(dot(N, V));
+  #ifdef MACHINED
+  // turned steel: soft lathe rings along the profile break up the roughness and the albedo
+  float rg = sin(vUv.y * 5200.0) * 0.4 + sin(vUv.y * 1700.0 + 1.3) * 0.35 + sin(vUv.y * 310.0 + 0.4) * 0.25;
+  ro = clamp(ro * (0.9 + 0.16 * rg), 0.08, 1.0);
+  alb *= 0.97 + 0.04 * rg;
+  #endif
   #ifdef DETAIL
   vec3 det = detBlur(vUv);
-  alb *= mix(1.0, det.r * 1.7, uDetAmt.x);
+  // albedo channel: steel up to ~0.62, white paint above; coverage is linear so blurred paint smears into
+  // proportionally fainter streaks instead of vanishing below a threshold
+  float paint = clamp((det.r - 0.62) / 0.3, 0.0, 1.0) * uDetAmt.x;
+  alb *= mix(1.0, min(det.r, 0.62) * 1.75, uDetAmt.x);
   ro = clamp(ro * mix(1.0, det.g * 2.1, uDetAmt.y), 0.06, 1.0);
-  if (abs(uBlur) * uDetW < 48.0) {            // engraving relief; smeared away at speed
-    float hh = (det.b - 0.5) * uDetAmt.z;
+  alb = mix(alb, vec3(0.64, 0.62, 0.57), paint);
+  float inner = step(vUv.y, uInnerV);          // the inner face is unmachined cast iron under dark oxide paint
+  alb = mix(alb, vec3(0.075, 0.08, 0.085) * (0.7 + 0.6 * det.r), inner); me = mix(me, 0.15, inner); ro = mix(ro, 0.72, inner);
+  {
+    // paint that reads at speed: amber hazard blocks and white index stripes placed by absolute angle (not the
+    // repeating atlas), box-filtered over the shutter interval so they smear into streaks of the right length
+    float r = length(vLoc.xy), a = fract(vUv.x / ${REP.toFixed(1)}), sw = uBlur / ${REP.toFixed(1)};
+    float front = step(${(HW - 0.03).toFixed(3)}, vLoc.z) * step(${(FRONT.a).toFixed(3)}, r) * step(r, ${(FRONT.b).toFixed(3)});
+    float outer = step(${(RO - 0.065).toFixed(3)}, r) * step(abs(vLoc.z), ${(HW - 0.09).toFixed(3)});
+    float circ = 6.2831853 * r;
+    float hz = front * boxCov(a + 0.02, sw, 1.0 / 5.0, 0.5 / circ) + outer * boxCov(a + 0.19, sw, 1.0 / 4.0, 0.7 / circ);
+    float wt = front * boxCov(a + 0.09, sw, 1.0 / 13.0, 0.05 / circ) + outer * boxCov(a + 0.3, sw, 1.0 / 9.0, 0.06 / circ);
+    float sharp = 1.0 - smoothstep(0.0008, 0.004, abs(sw));
+    float sq = (a * circ + r * 0.8 + vLoc.z) / 0.11;
+    float stripes = mix(0.55, clamp(0.5 + (abs(fract(sq) - 0.5) - 0.25) / max(fwidth(sq), 1e-3), 0.0, 1.0), sharp);
+    vec3 pc = mix(vec3(0.03, 0.028, 0.025), vec3(0.85, 0.42, 0.08), stripes);
+    // chalk balance marks and a band of scuffs on the inner face (it is what the camera sees from below)
+    float inn = step(r, ${(RI + 0.02).toFixed(3)}) * step(abs(vLoc.z), ${(HW - 0.07).toFixed(3)});
+    wt += inn * (boxCov(a + 0.05, sw, 1.0 / 11.0, 0.06 / circ) * step(abs(vLoc.z), 0.36) + boxCov(a + 0.12, sw, 1.0 / 7.0, 0.22 / circ) * step(abs(vLoc.z - 0.18), 0.05));
+    hz += inn * boxCov(a + 0.27, sw, 1.0 / 4.0, 0.4 / circ) * step(abs(vLoc.z + 0.2), 0.16);
+    float cov = clamp(hz + wt, 0.0, 1.0);
+    alb = mix(alb, mix(vec3(0.62, 0.6, 0.55), pc, hz / max(hz + wt, 1e-4)), cov);
+    me = mix(me, 0.0, cov); ro = mix(ro, 0.5, cov);
+  }
+  me = mix(me, 0.0, paint); ro = mix(ro, 0.55, paint);
+  if (abs(uBlur) * uDetW < 56.0) {            // engraving relief; fades as it smears at speed, and at grazing angles
+    vec2 fw = fwidth(vUv) * vec2(uDetW, uDetW * 0.5);          // atlas texels per pixel: fade relief once minified
+    float hh = (det.b - 0.5) * uDetAmt.z * smoothstep(0.12, 0.45, NoV0) * (1.0 - smoothstep(12.0, 56.0, abs(uBlur) * uDetW)) * (1.0 - smoothstep(0.6, 1.6, max(fw.x, fw.y)));
     vec3 sx = dFdx(vW), sy = dFdy(vW);
     vec3 R1 = cross(sy, N), R2 = cross(N, sx);
     float fDet = dot(sx, R1);
@@ -473,7 +570,7 @@ void main() {
   col += (dc / PI + F0 * 0.06) * uFillCol * max(dot(N, uFillDir), 0.0);   // fill: diffuse + a broad sheen (its glossy part lives in the env softbox)
   if (uPtCol.r > 0.01) { vec3 Lp = uPtPos - vW; float dp = length(Lp); col += ggx(N, V, Lp / dp, uPtCol / (1.0 + dp * dp), dc, F0, max(ro, 0.3)); }
   col += uEmis;
-  gl_FragColor = vec4(mix(col, vHC, vHF), 1.0);
+  gl_FragColor = vec4(mix(col, vHC, vHF), uOpacity);
   #endif
 }`;
 // Gouraud variant for the dark structural steel of the hall (columns, beams, crane, housing, rails):
@@ -507,7 +604,8 @@ void main() {
 function staticBuilder() {
   const parts = [], O = new THREE.Object3D();
   const push = (geo, m, color, spec) => {
-    const g = geo.clone().applyMatrix4(m), n = g.attributes.position.count, c = new THREE.Color(color);
+    const g = (geo.index ? geo.toNonIndexed() : geo.clone()).applyMatrix4(m), n = g.attributes.position.count, c = new THREE.Color(color);
+    for (const k of Object.keys(g.attributes)) if (k !== "position" && k !== "normal") g.deleteAttribute(k);
     const col = new Float32Array(n * 3), sp = new Float32Array(n).fill(spec);
     for (let i = 0; i < n; i++) col.set([c.r, c.g, c.b], i * 3);
     g.setAttribute('aCol', new THREE.BufferAttribute(col, 3)); g.setAttribute('aSpec', new THREE.BufferAttribute(sp, 1));
@@ -522,11 +620,12 @@ function staticBuilder() {
 function litFactory(shared) {
   return (o = {}) => {
     const defines = {};
-    const uniforms = { ...shared, uAlb: { value: new THREE.Color(o.color ?? 0x888888) }, uEmis: { value: new THREE.Color(0, 0, 0) }, uMetal: { value: o.metal ?? 1 }, uRough: { value: o.rough ?? 0.4 } };
-    if (o.det) { defines.DETAIL = ''; Object.assign(uniforms, { uDet: { value: o.det.tex }, uBlur: o.blur, uDetW: { value: o.det.W }, uDetAmt: { value: new THREE.Vector3(...o.detAmt) } }); }
+    const uniforms = { ...shared, uAlb: { value: new THREE.Color(o.color ?? 0x888888) }, uEmis: { value: new THREE.Color(0, 0, 0) }, uMetal: { value: o.metal ?? 1 }, uRough: { value: o.rough ?? 0.4 }, uOpacity: { value: 1 } };
+    if (o.det) { defines.DETAIL = ''; Object.assign(uniforms, { uDet: { value: o.det.tex }, uDetS: { value: o.det.streak }, uBlur: o.blur, uDetW: { value: o.det.W }, uInnerV: { value: o.det.innerV ?? 0 }, uDetAmt: { value: new THREE.Vector3(...o.detAmt) } }); }
     if (o.map) { defines.MAP = ''; Object.assign(uniforms, { uMap: { value: o.map }, uMapRep: { value: new THREE.Vector2(...(o.rep || [1, 1])) } }); }
     if (o.floor) defines.FLOOR = '';
-    return new THREE.ShaderMaterial({ uniforms, defines, vertexShader: LIT_VS, fragmentShader: LIT_FS, side: o.side ?? THREE.FrontSide });
+    if (o.machined) defines.MACHINED = '';
+    return new THREE.ShaderMaterial({ uniforms, defines, vertexShader: LIT_VS, fragmentShader: LIT_FS, side: o.side ?? THREE.FrontSide, transparent: !!o.fade });
   };
 }
 
@@ -618,6 +717,10 @@ register('flywheel_3d', (opts) => {
   const seed = opts.seed ?? 7;
   const R = rng(seed * 7919 + 13);
 
+  // where the brake/grinding shoe bears on the rim: lower left (hero, reveal) or on the top left of the rim (close),
+  // so its spark jet is thrown along the top arc, grazing the front face
+  const SHOE_TH = mode === 'close' ? (112 * Math.PI) / 180 : null;
+  const SHOE = SHOE_TH === null ? null : new THREE.Vector3(Math.cos(SHOE_TH) * RO, RC + Math.sin(SHOE_TH) * RO, 0);
   const FOG = new THREE.Color(0x0a0d12);
   const fogDen = mode === 'close' ? 0.03 : 0.022;
   const scene = new THREE.Scene();
@@ -630,8 +733,8 @@ register('flywheel_3d', (opts) => {
   const KEY = new THREE.Color(0xf3a646), FILLC = new THREE.Color(0x7b97bd), SPK = new THREE.Color(0xff8a3a);
   const LU = {
     uKeyDir: { value: new THREE.Vector3(-8, 12, -12).normalize() }, uKeyCol: { value: KEY.clone().multiplyScalar(3) },
-    uFillDir: { value: new THREE.Vector3(6, 4, 10).normalize() }, uFillCol: { value: FILLC.clone().multiplyScalar(1.1) },
-    uPtPos: { value: new THREE.Vector3(-2.9, 0.75, 0.7) }, uPtCol: { value: new THREE.Color(0, 0, 0) },
+    uFillDir: { value: new THREE.Vector3(6, 4, 10).normalize() }, uFillCol: { value: FILLC.clone().multiplyScalar(2.4) },
+    uPtPos: { value: SHOE ? SHOE.clone().add(new THREE.Vector3(0.6, 0.5, -0.1)) : new THREE.Vector3(-2.9, 0.75, 0.7) }, uPtCol: { value: new THREE.Color(0, 0, 0) },
     uFogCol: { value: FOG }, uFogDen: { value: fogDen }, uEnvI: { value: 1 },
     uHazeCol: { value: new THREE.Color(0xe0b080).multiplyScalar(0.15) }, uHazeDir: { value: new THREE.Vector3(-0.1, 0.32, -1).normalize() },
     uHazeDir2: { value: new THREE.Vector3(-1, 0.45, -0.2).normalize() },
@@ -645,16 +748,16 @@ register('flywheel_3d', (opts) => {
   const prof = rimProfile();
   const lathe = latheGeo(prof, 192, REP);
   const det = bakeRim(lathe.sAcc, lathe.S, prof, seed);
-  const rim = new THREE.Mesh(lathe.geo, lit({ color: 0xa9aeb4, metal: 1, rough: 0.3, det, blur: U.blur, detAmt: [0.85, 0.9, 1.0] }));
+  const rim = new THREE.Mesh(lathe.geo, lit({ color: 0x8e959d, metal: 1, rough: 0.32, det, blur: U.blur, detAmt: [0.85, 0.9, 1.0] }));
   wheel.add(rim);
   const castMap = new THREE.CanvasTexture(noiseCanvas(256, seed + 5, 5, 0.5, 0.6));
   castMap.colorSpace = THREE.SRGBColorSpace; castMap.wrapS = castMap.wrapT = THREE.RepeatWrapping;
-  const spokes = new THREE.Mesh(spokeGeo(), lit({ color: 0x8a9096, metal: 0.65, rough: 0.55, map: castMap, rep: [2, 3] }));
+  const spokes = new THREE.Mesh(spokeGeo(), lit({ color: 0x8a9096, metal: 0.65, rough: 0.55, map: castMap, rep: [2, 3], fade: true }));
   wheel.add(spokes);
   // hub: machined lathe profile with a cap; the shaft runs back into the bearing housing
   const hubP = [[0.001, 1.24], [0.3, 1.24], [0.34, 1.2], [0.34, 1.1], [0.55, 1.1], [0.58, 1.07], [0.58, 0.95], [0.76, 0.95], [0.8, 0.91],
     [1.05, 0.91], [1.13, 0.83], [1.13, -0.83], [1.05, -0.91], [0.5, -0.91], [0.44, -0.97], [0.44, -3.2]];
-  const hubMat = lit({ color: 0x969ca2, metal: 1, rough: 0.34 });
+  const hubMat = lit({ color: 0x5f666f, metal: 1, rough: 0.46, machined: true });
   wheel.add(new THREE.Mesh(latheGeo(hubP, 96, 1).geo, hubMat));
   const boltG = new THREE.CylinderGeometry(0.052, 0.052, 0.06, 6); boltG.rotateX(Math.PI / 2);
   const washG = new THREE.CylinderGeometry(0.075, 0.075, 0.015, 16); washG.rotateX(Math.PI / 2);
@@ -669,7 +772,7 @@ register('flywheel_3d', (opts) => {
 
   // spoke motion-blur ghost: analytic coverage of the spokes swept over the shutter
   const ghostMat = new THREE.ShaderMaterial({
-    uniforms: THREE.UniformsUtils.merge([THREE.UniformsLib.fog, { uAng: { value: 0 }, uB: { value: 0 }, uAlpha: { value: 0 }, uCol: { value: new THREE.Color(0.05, 0.045, 0.044) }, uRim: { value: new THREE.Color(0.5, 0.3, 0.12) } }]),
+    uniforms: THREE.UniformsUtils.merge([THREE.UniformsLib.fog, { uAng: { value: 0 }, uB: { value: 0 }, uAlpha: { value: 0 }, uCol: { value: new THREE.Color(0.022, 0.026, 0.032) }, uRim: { value: new THREE.Color(0.16, 0.2, 0.26) } }]),
     vertexShader: `varying vec2 vP;\n#include <fog_pars_vertex>\nvoid main(){ vP = position.xy; vec4 mvPosition = modelViewMatrix * vec4(position, 1.0); gl_Position = projectionMatrix * mvPosition;\n#include <fog_vertex>\n}`,
     fragmentShader: `uniform float uAng, uB, uAlpha; uniform vec3 uCol, uRim; varying vec2 vP;\n#include <fog_pars_fragment>
 float hwOf(float r) { float a = mix(0.3, 0.19, clamp((r - 0.9) / 3.4, 0.0, 1.0)) + 0.22 * min(1.5, exp(-(r - 1.05) / 0.28)) + 0.16 * min(1.5, exp(-(4.14 - r) / 0.22)); return atan(a / r); }
@@ -681,7 +784,7 @@ void main() {
   for (int j = -1; j <= 1; j++) { float c = float(j) * P; cov += max(0.0, min(hi, c + hw) - max(lo, c - hw)); }
   cov = clamp(cov / max(abs(uB), 1e-4), 0.0, 1.0);
   float edge = smoothstep(0.55, 1.0, abs(x) / max(hw, 1e-3) * 0.5) ;
-  gl_FragColor = vec4(uCol * (0.8 + 0.4 * r / 4.0) + uRim * 0.25 * (1.0 - cov) * cov * 4.0, cov * uAlpha);
+  gl_FragColor = vec4(uCol * (0.8 + 0.4 * r / 4.0) + uRim * 0.25 * (1.0 - cov) * cov * 4.0, pow(cov, 0.7) * uAlpha);
   #include <fog_fragment>
 }`,
     transparent: true, depthWrite: false, side: THREE.DoubleSide, fog: true,
@@ -693,14 +796,23 @@ void main() {
   const nFront = 4200, nOuter = 1600, nFeed = NSP * 10;
   const recessZ = (r) => (r > FRONT.rec0 && r < FRONT.rec1 ? HW - 0.018 : HW) + 0.004;
   const lands = []; { const z0 = HW - 0.08, pitch = (2 * z0) / 5; for (let g = 0; g <= 5; g++) lands.push(z0 - pitch * g); }
-  const density = (th) => 0.55 + 0.45 * Math.sin(th * 7 + 1.3) * Math.sin(th * 3.1 + 0.4) + 0.25 * noise(th * 23);
+  // people: organic clusters (crowds, neighbourhoods) of soft round lights, with a sparse scatter between them;
+  // a few brighter "hub" lights at cluster centres. Positions are polar (theta, r on the front face; theta, z on
+  // the outer face) so the clusters wrap with the rim.
+  const clusters = Array.from({ length: 70 }, () => ({ th: R() * TAU, u: R(), s: 0.012 + 0.05 * Math.pow(R(), 1.5), w: 0.3 + R() }));
+  const cw = clusters.reduce((a, c) => a + c.w, 0);
+  const pickC = () => { let q = R() * cw; for (const c of clusters) { q -= c.w; if (q <= 0) return c; } return clusters[0]; };
+  const gauss = () => (R() + R() + R() - 1.5) * 0.8;
   const lightGeo = streakGeometry(nFront + nOuter + nFeed, (i, P, L, M) => {
     let th, r, z, kind;
     if (i < nFront + nOuter) {
-      do { th = R() * TAU; } while (R() > density(th));
-      if (i < nFront) { kind = 0; r = lerp(FRONT.a + 0.03, FRONT.b - 0.01, Math.pow(R(), 0.8)); z = recessZ(r); }
-      else { kind = 1; r = RO + 0.003; const g = Math.floor(R() * 5); z = lerp(lands[g] - 0.075, lands[g + 1] + 0.075, R()); }
-      L[i * 4] = 0.007 + 0.012 * Math.pow(R(), 3); L[i * 4 + 1] = 1.6 + 5 * Math.pow(R(), 2.5); L[i * 4 + 2] = R(); L[i * 4 + 3] = R();
+      const C = R() < 0.82 ? pickC() : null;
+      th = C ? C.th + gauss() * C.s * 2.2 : R() * TAU;
+      const u = clamp(C ? C.u + gauss() * C.s * 6 : R(), 0, 1);
+      if (i < nFront) { kind = 0; r = lerp(FRONT.a + 0.03, FRONT.b - 0.01, u); z = recessZ(r); }
+      else { kind = 1; r = RO + 0.003; const g = Math.min(4, Math.floor(u * 5)); z = lerp(lands[g] - 0.075, lands[g + 1] + 0.075, (u * 5) % 1); }
+      const hub = C && R() < 0.03;
+      L[i * 4] = hub ? 0.02 + 0.01 * R() : 0.006 + 0.01 * Math.pow(R(), 3); L[i * 4 + 1] = hub ? 7 : 1.4 + 4 * Math.pow(R(), 2.5); L[i * 4 + 2] = R(); L[i * 4 + 3] = R();
     } else {
       const j = i - nFront - nOuter, s = j % NSP; kind = 2;
       th = (s / NSP) * TAU + (R() - 0.5) * 0.004; r = 4.2; z = 0;
@@ -709,12 +821,12 @@ void main() {
     }
     P.set([th, r, z, kind], i * 4);
   });
-  const lightMat = streakMaterial(); lightMat.uniforms.uShutter.value = SH * 0.25;
+  const lightMat = streakMaterial();
   const lights = new THREE.Mesh(lightGeo, lightMat); lights.position.set(0, RC, 0); lights.frustumCulled = false; scene.add(lights);
   lights.visible = people > 0 || feed > 0;
 
   // debris flecks riding the boundary layer of the rim (close mode)
-  let fleckMat = null;
+  let fleckMat = null, debrisMat = null;
   if (mode === 'close') {
     const fg = streakGeometry(700, (i, P, L) => {
       P.set([R() * TAU, RO + 0.015 + Math.pow(R(), 2) * 0.3, (R() - 0.5) * 1.5, 1], i * 4);
@@ -722,13 +834,28 @@ void main() {
     });
     fleckMat = streakMaterial();
     const flecks = new THREE.Mesh(fg, fleckMat); flecks.position.set(0, RC, 0); flecks.frustumCulled = false; scene.add(flecks);
+    // grit carried in the air between the face and the lens: it whips past the camera as the rim speeds up
+    const dg = streakGeometry(520, (i, P, L) => {
+      const th = Math.PI * (0.3 + R() * 0.45);
+      P.set([th, 4.0 + R() * 1.1, HW + 0.08 + Math.pow(R(), 0.7) * 1.4, 0], i * 4);
+      L.set([0.004 + 0.009 * R(), 1.2 + 3.5 * Math.pow(R(), 2), 0.2 + 0.8 * R(), R()], i * 4);
+    });
+    debrisMat = streakMaterial();
+    const debris = new THREE.Mesh(dg, debrisMat); debris.position.set(0, RC, 0); debris.frustumCulled = false; scene.add(debris);
   }
   const hubGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture('rgba(255,180,90,1)'), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0 }));
-  hubGlow.position.set(0, RC, 1.4); hubGlow.scale.set(3.2, 3.2, 1); scene.add(hubGlow);
+  hubGlow.position.set(0, RC, 1.4); hubGlow.scale.set(2.2, 2.2, 1); scene.add(hubGlow);
+  // where the feed arrives: a glowing seam in the groove between the hub steps and a hot inner core in the cap;
+  // the machined steel and the bolts around them stay readable
+  const seamMat = new THREE.MeshBasicMaterial({ color: 0x000000, blending: THREE.AdditiveBlending, transparent: true, depthWrite: false, fog: false });
+  const seam = new THREE.Mesh(new THREE.RingGeometry(0.585, 0.615, 96), seamMat); seam.position.z = 0.953; wheel.add(seam);
+  const seam2 = new THREE.Mesh(new THREE.RingGeometry(0.3, 0.335, 64), seamMat); seam2.position.z = 1.205; wheel.add(seam2);
+  const coreMat2 = new THREE.MeshBasicMaterial({ color: 0x000000, map: glowTexture('rgba(255,255,255,1)'), blending: THREE.AdditiveBlending, transparent: true, depthWrite: false, fog: false });
+  const core = new THREE.Mesh(new THREE.CircleGeometry(0.26, 48), coreMat2); core.position.z = 1.243; wheel.add(core);
 
   // ---- the hall
   const { tA, M: FM } = floorTextures(seed + 3);
-  const floor = new THREE.Mesh(new THREE.PlaneGeometry(FM, FM, 96, 96), lit({ color: 0xffffff, metal: 0, rough: 0.8, map: tA, floor: true }));
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(FM, FM, 96, 96), lit({ color: 0x6a6a6a, metal: 0, rough: 0.8, map: tA, floor: true }));
   floor.rotation.x = -Math.PI / 2; scene.add(floor);
   const sky = new THREE.Mesh(new THREE.SphereGeometry(200, 48, 24), hazeBasic(LU, { sky: true })); sky.renderOrder = 3; scene.add(sky);
   const outerFloor = new THREE.Mesh(new THREE.PlaneGeometry(400, 400, 40, 40), hazeBasic(LU, { color: 0x0a0b0c }));
@@ -737,28 +864,93 @@ void main() {
   // crane runway, overhead crane, roof trusses
   const hall = staticBuilder(), RAIL = 0x6a4c12, DARK = 0x1c1f23, STEEL = 0x15191d;
   const postG = new THREE.CylinderGeometry(0.035, 0.035, 1.05, 10);
-  for (let x = -3.4; x <= 3.41; x += 1.13) for (const z of [1.75, -1.75]) hall.add(postG, { pos: [x, 0.525, z], color: RAIL });
-  for (const z of [-0.6, 0.6]) for (const x of [-3.4, 3.4]) hall.add(postG, { pos: [x, 0.525, z], color: RAIL });
-  const barX = new THREE.CylinderGeometry(0.028, 0.028, 6.8, 8), barZ = new THREE.CylinderGeometry(0.028, 0.028, 3.5, 8);
-  for (const y of [0.55, 1.03]) {
-    for (const z of [-1.75, 1.75]) hall.add(barX, { pos: [0, y, z], rot: [0, 0, Math.PI / 2], color: RAIL });
-    for (const x of [-3.4, 3.4]) hall.add(barZ, { pos: [x, y, 0], rot: [Math.PI / 2, 0, 0], color: RAIL });
+  if (mode !== 'close') {            // the guard rail would sit between the lens and the rim in the close shot
+    for (let x = -3.4; x <= 3.41; x += 1.13) for (const z of [1.75, -1.75]) hall.add(postG, { pos: [x, 0.525, z], color: RAIL });
+    for (const z of [-0.6, 0.6]) for (const x of [-3.4, 3.4]) hall.add(postG, { pos: [x, 0.525, z], color: RAIL });
+    const barX = new THREE.CylinderGeometry(0.028, 0.028, 6.8, 8), barZ = new THREE.CylinderGeometry(0.028, 0.028, 3.5, 8);
+    for (const y of [0.55, 1.03]) {
+      for (const z of [-1.75, 1.75]) hall.add(barX, { pos: [0, y, z], rot: [0, 0, Math.PI / 2], color: RAIL });
+      for (const x of [-3.4, 3.4]) hall.add(barZ, { pos: [x, y, 0], rot: [Math.PI / 2, 0, 0], color: RAIL });
+    }
   }
   hall.add(new THREE.BoxGeometry(0.9, 0.55, 1.4, 2, 2, 3), { pos: [-2.85, 0.3, 0], rot: [0, 0, 0.5], color: DARK, spec: 0.35 });
-  hall.add(new THREE.CylinderGeometry(1.15, 1.15, 1.4, 48, 4), { pos: [0, RC, -2.1], rot: [Math.PI / 2, 0, 0], color: DARK, spec: 0.35 });
-  hall.add(new THREE.BoxGeometry(2.2, RC, 1.3, 4, 8, 3), { pos: [0, RC / 2, -2.1], color: DARK, spec: 0.35 });
+  let shoeHot = null, shoeFlare = null;
+  if (SHOE) {
+    // a heavy curved brake shoe bearing down on the top of the rim (bevelled arc block, backing plate, ribs),
+    // on twin lever arms hung from a frame above; its lining glows where it rubs
+    const sector = (r0, r1, a0, a1, z0, depth, bevel) => {
+      const sh = new THREE.Shape(); sh.absarc(0, 0, r1, a0, a1, false); sh.absarc(0, 0, r0, a1, a0, true); sh.closePath();
+      const g = new THREE.ExtrudeGeometry(sh, { depth, bevelEnabled: bevel > 0, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 2, curveSegments: 18 });
+      return g.translate(0, RC, z0);
+    };
+    const s0 = SHOE_TH - 0.11, s1 = SHOE_TH + 0.11;
+    hall.add(sector(RO + 0.04, RO + 0.3, s0, s1, -0.66, 1.32, 0.025), { color: 0x1a1c1f, spec: 0.55 });
+    hall.add(sector(RO + 0.3, RO + 0.4, s0 - 0.03, s1 + 0.03, -0.75, 1.5, 0.015), { color: 0x111214, spec: 0.4 });
+    for (const da of [-0.07, 0, 0.07]) hall.add(sector(RO + 0.4, RO + 0.62, SHOE_TH + da - 0.008, SHOE_TH + da + 0.008, -0.6, 1.2, 0), { color: 0x16181b, spec: 0.5 });
+    const nutG = new THREE.CylinderGeometry(0.035, 0.035, 0.05, 6); nutG.rotateX(Math.PI / 2);
+    for (const da of [-0.085, 0.085]) for (const z of [-0.45, 0, 0.45]) { const a = SHOE_TH + da, rr = RO + 0.35; hall.add(nutG, { pos: [Math.cos(a) * rr, RC + Math.sin(a) * rr, z + (z === 0 ? 0.76 : 0.76)], color: 0x2c2f33, spec: 1 }); }
+    const top = new THREE.Vector3(Math.cos(SHOE_TH) * (RO + 0.6), RC + Math.sin(SHOE_TH) * (RO + 0.6), 0), piv = new THREE.Vector3(SHOE.x - 1.6, SHOE.y + 3.6, 0);
+    const arm = piv.clone().sub(top), L = arm.length(), ang = Math.atan2(arm.y, arm.x) - Math.PI / 2, mid = top.clone().add(piv).multiplyScalar(0.5);
+    for (const z of [-0.55, 0.55]) {
+      hall.add(new THREE.BoxGeometry(0.06, L, 0.26, 1, 4, 1), { pos: [mid.x, mid.y, z], rot: [0, 0, ang], color: 0x15171a, spec: 0.5 });
+      hall.add(new THREE.BoxGeometry(0.2, L, 0.04, 1, 4, 1), { pos: [mid.x, mid.y, z + 0.13], rot: [0, 0, ang], color: 0x1b1d21, spec: 0.6 });
+      hall.add(new THREE.BoxGeometry(0.2, L, 0.04, 1, 4, 1), { pos: [mid.x, mid.y, z - 0.13], rot: [0, 0, ang], color: 0x1b1d21, spec: 0.6 });
+    }
+    hall.add(new THREE.CylinderGeometry(0.08, 0.08, 1.5, 14), { pos: [top.x, top.y, 0], rot: [Math.PI / 2, 0, 0], color: 0x2a2d31, spec: 0.9 });
+    hall.add(new THREE.CylinderGeometry(0.11, 0.11, 1.5, 14), { pos: [piv.x, piv.y, 0], rot: [Math.PI / 2, 0, 0], color: 0x2a2d31, spec: 0.9 });
+    shoeHot = new THREE.Mesh(sector(RO + 0.003, RO + 0.014, s0 + 0.01, s1 - 0.01, -0.62, 1.24, 0), new THREE.MeshBasicMaterial({ color: new THREE.Color(1.0, 0.32, 0.06), fog: false }));
+    scene.add(shoeHot);
+    // white-hot contact where the jet leaves the rim
+    shoeFlare = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture('rgba(255,200,140,1)'), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0, fog: false }));
+    shoeFlare.position.set(SHOE.x + 0.2, SHOE.y + 0.05, 0.62); shoeFlare.scale.set(0.9, 0.5, 1); scene.add(shoeFlare);
+  }
+  // bearing pedestal: bevelled tapered column with gussets and front ribs on a bolted base plate, carrying a
+  // split pillow block (cap, cap bolts, end cover)
+  {
+    const PD = 0x17191c;
+    const sh = new THREE.Shape(); sh.moveTo(-1.45, 0); sh.lineTo(1.45, 0); sh.lineTo(1.05, RC - 1.0); sh.lineTo(-1.05, RC - 1.0); sh.closePath();
+    const col = new THREE.ExtrudeGeometry(sh, { depth: 1.1, bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.06, bevelSegments: 2 });
+    hall.add(col, { pos: [0, 0.18, -2.65], color: PD, spec: 0.45 });
+    hall.add(new THREE.BoxGeometry(3.6, 0.18, 2.2, 6, 1, 4), { pos: [0, 0.09, -2.1], color: 0x141618, spec: 0.3 });
+    const nut = new THREE.CylinderGeometry(0.06, 0.06, 0.08, 6);
+    for (const x of [-1.6, 1.6]) for (const z of [-3.05, -1.15]) hall.add(nut, { pos: [x, 0.22, z], color: 0x2a2d31, spec: 0.8 });
+    hall.add(new THREE.BoxGeometry(3.2, 0.32, 1.7, 4, 1, 2), { pos: [0, 0.34, -2.1], color: 0x16181b, spec: 0.5 });   // stepped plinth
+    for (const x of [-0.55, 0, 0.55]) hall.add(new THREE.BoxGeometry(0.09, RC - 1.5, 0.08, 1, 6, 1), { pos: [x, 0.2 + (RC - 1.5) / 2, -1.48], color: 0x1d2024, spec: 0.6 });
+    hall.add(new THREE.CylinderGeometry(1.12, 1.12, 1.3, 48, 2), { pos: [0, RC, -2.1], rot: [Math.PI / 2, 0, 0], color: 0x15171a, spec: 0.35 });
+    hall.add(new THREE.CylinderGeometry(1.2, 1.2, 1.36, 48, 1, false, -Math.PI / 2, Math.PI), { pos: [0, RC + 0.02, -2.1], rot: [Math.PI / 2, 0, 0], color: 0x1b1e22, spec: 0.5 });
+    hall.add(new THREE.BoxGeometry(2.7, 0.14, 1.36), { pos: [0, RC, -2.1], color: 0x121416, spec: 0.4 });
+    for (const x of [-1.25, 1.25]) for (const z of [-2.55, -1.65]) hall.add(nut, { pos: [x, RC + 0.11, z], color: 0x2c2f33, spec: 0.9 });
+    hall.add(new THREE.CylinderGeometry(0.72, 0.72, 0.1, 40), { pos: [0, RC, -2.8], rot: [Math.PI / 2, 0, 0], color: 0x1e2125, spec: 0.7 });
+  }
   const webG = new THREE.BoxGeometry(0.7, 26, 0.06, 1, 10, 1), flangeG = new THREE.BoxGeometry(0.06, 26, 0.55, 1, 10, 1);
   for (let z = -32; z <= 16; z += 6.5) for (const x of [-14, 14]) {
     hall.add(webG, { pos: [x, 13, z], color: STEEL }); hall.add(flangeG, { pos: [x - 0.33, 13, z], color: STEEL }); hall.add(flangeG, { pos: [x + 0.33, 13, z], color: STEEL });
   }
-  for (const x of [-13.3, 13.3]) hall.add(new THREE.BoxGeometry(0.6, 1.1, 52, 1, 1, 20), { pos: [x, 17, -8], color: STEEL });
+  // I-beam helper (web + two flanges) along x, y or z
+  const ibeam = (len, h, w, pos, axis = 'x', color = STEEL) => {
+    const L = (a, b, c) => (axis === 'x' ? [a, b, c] : axis === 'z' ? [c, b, a] : [b, a, c]);
+    const tf = h * 0.09, tw = w * 0.14, seg = Math.max(1, Math.round(len / 3));
+    const web = new THREE.BoxGeometry(...L(len, h - 2 * tf, tw), ...L(seg, 1, 1)), fl = new THREE.BoxGeometry(...L(len, tf, w), ...L(seg, 1, 1));
+    hall.add(web, { pos, color }); hall.add(fl, { pos: [pos[0], pos[1] + (h - tf) / 2, pos[2]], color, spec: 0.4 }); hall.add(fl, { pos: [pos[0], pos[1] - (h - tf) / 2, pos[2]], color, spec: 0.4 });
+  };
+  for (const x of [-13.3, 13.3]) ibeam(52, 1.1, 0.6, [x, 17, -8], 'z');
   const CR = [0, 17.6, -9.5];
-  for (const dz of [-0.9, 0.9]) hall.add(new THREE.BoxGeometry(27, 1.4, 0.55, 12, 1, 1), { pos: [CR[0], CR[1], CR[2] + dz], color: STEEL });
-  hall.add(new THREE.BoxGeometry(2.6, 1.2, 2.6), { pos: [CR[0] - 3.5, CR[1] + 1.1, CR[2]], color: STEEL });
+  for (const dz of [-0.9, 0.9]) ibeam(27, 1.4, 0.55, [CR[0], CR[1], CR[2] + dz], 'x');
+  for (const x of [-13.3, 13.3]) hall.add(new THREE.BoxGeometry(0.9, 0.8, 2.6, 2, 1, 3), { pos: [x, CR[1] + 0.2, CR[2]], color: 0x1a1d21, spec: 0.4 });
+  // trolley with rope drum, ropes and a hook block
+  hall.add(new THREE.BoxGeometry(2.6, 0.5, 2.4, 3, 1, 3), { pos: [CR[0] - 3.5, CR[1] + 0.95, CR[2]], color: 0x1b1e22, spec: 0.4 });
+  hall.add(new THREE.CylinderGeometry(0.42, 0.42, 1.8, 24), { pos: [CR[0] - 3.5, CR[1] + 1.5, CR[2]], rot: [Math.PI / 2, 0, 0], color: 0x202328, spec: 0.7 });
   for (const dx of [-0.25, 0.25]) hall.add(new THREE.CylinderGeometry(0.02, 0.02, 8, 5), { pos: [CR[0] - 3.5 + dx, CR[1] - 3.6, CR[2]], color: STEEL });
-  hall.add(new THREE.BoxGeometry(0.8, 1.1, 0.5), { pos: [CR[0] - 3.5, CR[1] - 8, CR[2]], color: STEEL });
+  hall.add(new THREE.BoxGeometry(0.8, 0.9, 0.42, 2, 2, 1), { pos: [CR[0] - 3.5, CR[1] - 7.9, CR[2]], color: 0x5a4210, spec: 0.5 });
+  hall.add(new THREE.TorusGeometry(0.22, 0.06, 8, 20, Math.PI * 1.4), { pos: [CR[0] - 3.5, CR[1] - 8.6, CR[2]], rot: [0, 0, Math.PI * 0.8], color: 0x2a2c30, spec: 0.8 });
+  // roof trusses: chords with diagonal bracing
   const trussG = new THREE.BoxGeometry(28, 0.35, 0.3, 12, 1, 1);
-  for (let i = 0; i < 8; i++) for (const y of [24, 21.5]) hall.add(trussG, { pos: [0, y, -32 + i * 6.5], color: STEEL });
+  const brace = new THREE.BoxGeometry(0.16, 3.3, 0.16);
+  for (let i = 0; i < 8; i++) {
+    const z = -32 + i * 6.5;
+    for (const y of [24, 21.5]) hall.add(trussG, { pos: [0, y, z], color: STEEL });
+    for (let j = -6; j <= 6; j++) hall.add(brace, { pos: [j * 2.1, 22.75, z], rot: [0, 0, (j % 2 ? 1 : -1) * 0.7], color: STEEL });
+  }
   scene.add(hall.build(gouraud));
   const wallM = hazeBasic(LU, { color: 0x0b0d10 });
   const roof = new THREE.Mesh(new THREE.PlaneGeometry(40, 70, 20, 35), wallM); roof.rotation.x = Math.PI / 2; roof.position.set(0, 26, -8); roof.renderOrder = 2; scene.add(roof);
@@ -818,16 +1010,22 @@ void main(){ vec3 p = position + vec3(sin(uT * (0.13 + aS.x * 0.2) + aS.y * 30.0
   const dust = new THREE.Points(dustG, dustMat); dust.frustumCulled = false; scene.add(dust);
 
   // sparks: a tight jet of ballistic streaks thrown off the shoe along the rim's motion, one floor bounce
-  const nSpark = 520;
+  const nSpark = mode === 'close' ? 900 : 520;
   const sparkG = streakGeometry(nSpark, (i, P, L, M, X) => {
-    const a = 2.5 + (R() - 0.5) * 0.4, sp = 6 + R() * 8;
-    X.aO.set([-2.6 + (R() - 0.5) * 0.15, 0.5 + R() * 0.08, (R() - 0.5) * 0.7, R()], i * 4);
-    X.aV.set([Math.cos(a) * sp, Math.sin(a) * sp, (R() - 0.5) * 2.4 + 0.8, R()], i * 4);
+    if (SHOE) {   // thrown off the top of the rim along its motion (to the right), fanning up and towards the lens
+      const a = SHOE_TH - Math.PI / 2 - 0.05 + (R() - 0.5) * 0.4, sp = 7 + R() * 10;
+      X.aO.set([SHOE.x + 0.15 + (R() - 0.5) * 0.1, SHOE.y + 0.02 + R() * 0.05, (R() - 0.6) * 1.0, R()], i * 4);
+      X.aV.set([Math.cos(a) * sp, Math.sin(a) * sp, (R() - 0.55) * 1.0, R()], i * 4);
+    } else {
+      const a = 2.5 + (R() - 0.5) * 0.4, sp = 6 + R() * 8;
+      X.aO.set([-2.6 + (R() - 0.5) * 0.15, 0.5 + R() * 0.08, (R() - 0.5) * 0.7, R()], i * 4);
+      X.aV.set([Math.cos(a) * sp, Math.sin(a) * sp, (R() - 0.5) * 2.4 + 0.8, R()], i * 4);
+    }
     X.aT.set([0.35 + R() * 0.8, R(), 0.0035 + R() * 0.005, R()], i * 4);   // life, phase, size, gate
   }, { aO: 4, aV: 4, aT: 4 });
   const sparkMat = new THREE.ShaderMaterial({
-    uniforms: { uT: { value: 0 }, uRate: { value: 0 }, uPix: { value: 0.001 }, uSh: { value: SH * 2.4 }, uVS: { value: 1 } },
-    vertexShader: `attribute vec2 corner; attribute vec4 aO, aV, aT; uniform float uT, uRate, uPix, uSh, uVS; varying vec2 vQ; varying float vLen, vW, vI, vK; varying vec3 vCol;
+    uniforms: { uT: { value: 0 }, uRate: { value: 0 }, uPix: { value: 0.001 }, uSh: { value: SH * 2.4 }, uVS: { value: 1 }, uNear: { value: mode === 'close' ? 0.18 : 2.4 }, uGain: { value: mode === 'close' ? 6 : 14 } },
+    vertexShader: `attribute vec2 corner; attribute vec4 aO, aV, aT; uniform float uT, uRate, uPix, uSh, uVS, uNear, uGain; varying vec2 vQ; varying float vLen, vW, vI, vK; varying vec3 vCol;
 vec3 at(float t) {
   vec3 v = aV.xyz * uVS;
   float g = 9.8, th = (v.y + sqrt(v.y * v.y + 2.0 * g * aO.y)) / g;
@@ -846,9 +1044,9 @@ void main() {
   vec3 p = mix(v0.xyz - dir * w, v1.xyz + dir * w, corner.x) + side * corner.y * w;
   vQ = vec2(corner.x * (L + 2.0 * w), corner.y * w); vLen = L; vW = w; vK = 0.0;
   float heat = 1.0 - age / life;
-  vI = alive * (aT.z / w) * (aT.z / w) * (0.5 + 2.0 * heat * heat) * 14.0 * smoothstep(2.4, 4.4, -v1.z) / (1.0 + L * 1.5);
+  vI = alive * (aT.z / w) * (aT.z / w) * (0.5 + 2.0 * heat * heat) * uGain * smoothstep(uNear, uNear * 1.8, -v1.z) * smoothstep(0.2, 2.5, -v1.z) / (1.0 + L * 1.5);
   vCol = mix(vec3(1.0, 0.3, 0.07), vec3(1.0, 0.86, 0.58), heat * heat);
-  if (alive < 0.5 || -v1.z < 2.4 || -v0.z < 2.0) p = vec3(0.0, 0.0, 10.0);
+  if (alive < 0.5 || -v1.z < uNear || -v0.z < uNear * 0.8) p = vec3(0.0, 0.0, 10.0);
   gl_Position = projectionMatrix * vec4(p, 1.0);
 }`,
     fragmentShader: STREAK_FS, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
@@ -859,8 +1057,8 @@ void main() {
   const V3 = (a) => new THREE.Vector3(...a);
   const tgt = new THREE.Vector3();
   const pathOf = {
-    hero: { p0: [9.8, 0.8, 13.4], p1: [6.7, 1.15, 9.5], t0: [-3.1, 5.0, 0], t1: [-2.6, 4.75, 0], f0: 33, f1: 35, e: (k) => k * 0.8 + 0.2 * ease.out(k) },
-    close: { p0: [-6.25, 1.75, 3.35], p1: [-5.15, 3.25, 2.45], t0: [-3.3, 2.9, 0.2], t1: [-2.9, 3.2, 0.2], f0: 56, f1: 62, e: (k) => ease.inOut(k) * 0.5 + k * 0.5 },
+    hero: { p0: [6.0, 0.4, 12.8], p1: [4.6, 0.55, 9.8], t0: [-8.2, 2.9, 0], t1: [-7.4, 3.6, 0], f0: 34, f1: 36, e: (k) => k * 0.8 + 0.2 * ease.out(k) },
+    close: { p0: [0.35, 7.55, 4.3], p1: [-0.25, 8.0, 2.05], t0: [0.0, 8.55, 0.6], t1: [-0.1, 8.5, 0.6], f0: 42, f1: 50, e: (k) => 0.6 * k + 0.4 * k * k },
     reveal: { p0: [-2.55, 6.45, 3.5], p1: [-1.6, 2.7, 19.5], t0: [-3.4, 7.0, 0.6], t1: [0.2, 2.75, 0], f0: 42, f1: 34, e: (k) => ease.inOut(clamp(k / 0.92)) },
   };
   const path = pathOf[mode];
@@ -874,54 +1072,66 @@ void main() {
       const { rev, rps } = spinAt(spin, c.k, c.dur);
       const ang = -rev * TAU, om = -rps * TAU;              // clockwise seen from the front
       wheel.rotation.z = ang;
-      U.blur.value = ((om * SH) / TAU) * REP;
+      // close shot: a short, tightening shutter keeps bolts, lettering and paint as discrete streaks at any speed
+      // (the smear grows from ~80 to ~170 atlas texels while the rim speed more than triples)
+      const shut = mode === 'close' ? lerp(80, 170, clamp((rps - 0.6) / 1.4)) * 48 / (Math.max(rps, 0.05) * REP * det.W) : 1;
+      U.blur.value = ((om * SH) / TAU) * REP * Math.min(1, shut);
       ghostMat.uniforms.uAng.value = ang; ghostMat.uniforms.uB.value = om * SH;
-      // spokes sharp at low speed; above ~1 rps the analytic coverage disc takes over completely
+      // spokes sharp at low speed; the analytic coverage disc crossfades in over a speed range (no pop)
       const bl = Math.abs(om * SH);
-      const gA = smooth((bl - 0.1) / 0.05);
-      ghostMat.uniforms.uAlpha.value = bl > 0.15 ? 1 : gA * 0.8;
+      const gA = smooth((bl - 0.07) / 0.1);
+      ghostMat.uniforms.uAlpha.value = gA;
       ghost.visible = gA > 0.002;
-      spokes.visible = bl <= 0.15;
+      spokes.material.uniforms.uOpacity.value = 1 - gA;
+      spokes.visible = gA < 0.998;
 
       // camera
       const e = path.e(c.k);
       camera.position.lerpVectors(P0, P1, e);
       tgt.lerpVectors(T0, T1, e);
+      let roll = 0;
       if (mode === 'close') {
-        const s = 0.012 + 0.03 * clamp(rps / 2);
-        camera.position.x += noise(lt * 9 + 3) * s; camera.position.y += noise(lt * 11 + 7) * s; camera.position.z += noise(lt * 7 + 1) * s * 0.5;
-        tgt.y += noise(lt * 6 + 11) * s * 2;
+        // shake and roll escalate with the speed (squared), plus a low rumble; the end is the most violent
+        const q = clamp((rps - 0.4) / 1.6), sh = 0.003 + 0.018 * q * q;
+        camera.position.x += (noise(lt * 13 + 3) + 0.5 * noise(lt * 31 + 1)) * sh; camera.position.y += (noise(lt * 15 + 7) + 0.5 * noise(lt * 29 + 4)) * sh;
+        camera.position.z += noise(lt * 2.1 + 1) * 0.02 * q;
+        tgt.x += noise(lt * 9 + 11) * sh * 2.5; tgt.y += noise(lt * 11 + 5) * sh * 2.5;
+        roll = -0.05 - 0.07 * smooth(c.k) + noise(lt * 7 + 2) * 0.02 * q;
       } else {
         camera.position.x += noise(lt * 0.6 + 2) * 0.05; camera.position.y += noise(lt * 0.5 + 5) * 0.03;
       }
-      camera.fov = lerp(path.f0, path.f1, e);
-      camera.lookAt(tgt);
-      if (mode === 'close') camera.rotateZ(0.05 + noise(lt * 4) * 0.012 * clamp(rps));
+      camera.fov = lerp(path.f0, path.f1, e); camera.lookAt(tgt);
+      if (mode === 'close') camera.rotateZ(roll);
       camera.updateProjectionMatrix();
       const pix = (2 * Math.tan((camera.fov * Math.PI) / 360)) / 1080;
 
       // people lights + feed into the hub
       lightMat.uniforms.uAng.value = ang; lightMat.uniforms.uOm.value = om; lightMat.uniforms.uTime.value = lt; lightMat.uniforms.uPix.value = pix;
+      lightMat.uniforms.uShutter.value = SH * 0.25 * smooth((rps - 0.9) / 0.8);    // round points at reveal speeds, streaks only when fast
       lightMat.uniforms.uOn.value = people * (mode === 'reveal' ? lerp(1, 2.4, smooth(c.k * 1.2)) : 1);
       const feedNow = feed * (mode === 'reveal' ? smooth((c.k - 0.15) / 0.45) : 1);
       lightMat.uniforms.uFeed.value = feedNow;
-      hubMat.uniforms.uEmis.value.setRGB(1, 0.55, 0.2).multiplyScalar(feedNow * (0.35 + 0.08 * Math.sin(lt * 5)));
-      hubGlow.material.opacity = feedNow * 0.45; hubGlow.visible = feedNow > 0.001;
+      const beat = 0.8 + 0.2 * Math.sin(lt * 5);
+      seamMat.color.setRGB(1, 0.55, 0.2).multiplyScalar(feedNow * 2.2 * beat); coreMat2.color.setRGB(1, 0.62, 0.3).multiplyScalar(feedNow * 1.6 * beat);
+      seam.visible = seam2.visible = core.visible = feedNow > 0.001;
+      hubGlow.material.opacity = feedNow * 0.22; hubGlow.visible = feedNow > 0.001;
       if (fleckMat) { const u = fleckMat.uniforms; u.uAng.value = ang; u.uOm.value = om; u.uTime.value = lt; u.uPix.value = pix; u.uOn.value = 0.5 + 0.5 * clamp(rps); }
+      if (debrisMat) { const u = debrisMat.uniforms; u.uAng.value = ang; u.uOm.value = om; u.uTime.value = lt; u.uPix.value = pix; u.uOn.value = 0.15 + 1.1 * clamp((rps - 0.5) / 1.5); }
 
       // the hall dims a little while the people-lights carry the reveal
       const dim = mode === 'reveal' ? lerp(1, 0.5, smooth(c.k * 1.4)) : 1;
-      LU.uKeyCol.value.copy(KEY).multiplyScalar(3 * dim); LU.uFillCol.value.copy(FILLC).multiplyScalar(1.1 * dim); LU.uEnvI.value = dim * (mode === 'close' ? 0.55 : 1);
-      const wdim = mode === 'reveal' ? lerp(1, 0.28, smooth(c.k * 1.3)) : 1;
+      LU.uKeyCol.value.copy(KEY).multiplyScalar(3 * dim); LU.uFillCol.value.copy(FILLC).multiplyScalar(2.4 * dim); LU.uEnvI.value = dim * (mode === 'close' ? 0.5 : 1);
+      const wdim = mode === 'reveal' ? lerp(1, 0.28, smooth(c.k * 1.3)) : mode === 'close' ? 0.07 : 1;
       winMat.uniforms.uCol.value.setScalar(1.5 * wdim); winMat2.uniforms.uCol.value.setScalar(1.0 * wdim);
       for (const s of shafts) s.material.uniforms.uT.value = lt;
 
       // sparks follow the rim speed
-      const rate = clamp(Math.pow(rps / 0.6, 1.3) * 0.7, 0, 1) * sparkMul;
+      const rate = (mode === 'close' ? clamp(0.3 + 0.7 * (rps - 0.6) / 1.4, 0.3, 1) : clamp(Math.pow(rps / 0.6, 1.3) * 0.7, 0, 1)) * sparkMul;
       sparkMat.uniforms.uT.value = lt; sparkMat.uniforms.uRate.value = rate; sparkMat.uniforms.uPix.value = pix;
       sparkMat.uniforms.uVS.value = clamp(0.55 + rps * 0.6, 0.6, 1.9);       // the jet speeds up with the rim
       const flick = 0.75 + 0.25 * noise(lt * 23) + 0.15 * noise(lt * 61);
-      LU.uPtCol.value.copy(SPK).multiplyScalar(28 * clamp(rate) * flick);
+      LU.uPtCol.value.copy(SPK).multiplyScalar((mode === 'close' ? 9 : 28) * clamp(rate) * flick);
+      if (shoeHot) { shoeHot.material.color.setRGB(1.0, 0.3, 0.05).multiplyScalar((0.8 + 1.4 * clamp(rate)) * flick); shoeFlare.material.opacity = (0.25 + 0.5 * clamp(rate)) * flick; }
 
       dustMat.uniforms.uT.value = lt; dustMat.uniforms.uScale.value = 1080 / (2 * Math.tan((camera.fov * Math.PI) / 360));
     },

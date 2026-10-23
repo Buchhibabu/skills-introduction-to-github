@@ -316,7 +316,7 @@
     R('feedback_stream', s('b-thumbs') - 0.3, e('b-flatter') + 0.3, { icon: 'thumb', seed: 21 }),
     R('flywheel_3d', s('b-reveal') - 0.3, card.C, { mode: 'reveal', spin: [[0, 0.5], [1, 0.8]] }, { fadeOut: 0.05 }),
     // Exhibit C
-    R('startup_field', s('c-rush') - 0.3, s('c-died') - 0.2, { mode: 'field', seed: 5 }),
+    R('startup_field', s('c-rush') - 0.3, s('c-died') - 0.2, { mode: 'field', seed: 5, killAt: L(W('c-pdf', 'PDFs', 0.8) + 0.2, s('c-rush') - 0.3) }),
     R('startup_field', s('c-died') - 0.2, e('c-hedge') + 0.3, { mode: 'field', seed: 9, variant: 'b' }, { fadeIn: 0.05 }),
     R('startup_field', at.roll, e('c-steamroll') + 0.3, { mode: 'roll', seed: 5, rollFrom: L(W('c-steamroll', 'bet', 0.3), at.roll), rollTo: L(W('c-steamroll', 'steamrolled', 0.9) + 0.5, at.roll) }),
     R('doors_corridor', at.doors, e('c-doors') + 0.05, { closeAt: L(W('c-doors', 'next', 0.55), at.doors), closeDur: e('c-doors') - W('c-doors', 'next', 0.55) }, { fadeOut: 0.01 }),
@@ -324,13 +324,13 @@
     R('code_tunnel', card.D, e('d-coders') + 0.3, { speed: [[0, 6], [0.5, 14], [1, 30]] }, { fadeIn: 0.02 }),
     R('office_screens', s('d-memos') - 0.3, e('d-memos') + 0.3, { waveAt: 0.2, waveDur: 2.5 }),
     R('rising_chart', at.chart, e('d-80pct') + 0.3, {
-      drawFrom: L(W('d-2pct', 'two', 0.5), at.chart), drawTo: L(W('d-80pct', 'eighty', 0.6) + 0.4, at.chart),
+      drawFrom: L(W('d-2pct', 'two', 0.5), at.chart), drawTo: L(W('d-80pct', 'eighty', 0.6) + 0.4, at.chart), readout: false,  // only measured points are labelled
       points: [{ fx: 0.03, v: 1.96, label: '2%', sub: 'OCT 2023 · CLAUDE 2' }, { fx: 0.45, v: 33.2, label: '33%', sub: 'AUG 2024 · GPT-4o' },
         { fx: 0.95, v: 80.8, label: '~80%', sub: 'FEB 2026 · CLAUDE OPUS 4.6' }] }),
     R('server_hall', s('d-opus55') - 0.3, e('d-opus55') + 0.3, { mode: 'dolly' }),
     R('office_screens', s('d-code') - 0.3, e('d-github') + 0.05, { waveAt: -10, waveDur: 0.1 }, { fadeOut: 0.01 }),
     // Exhibit E: the race for users, then the price in silence
-    R('globe_users', card.E, e('e-list') + 0.3, { growFrom: 0.1, growTo: 1, arcs: true }, { opacity: 0.55, fadeIn: 0.02 }),
+    R('globe_users', card.E, e('e-list') + 0.3, { growFrom: 0.1, growTo: 1, arcs: true, band: 0.45, bandUntil: 1.6 }, { opacity: 0.6, fadeIn: 0.02 }),
     R('particle_person', at.person, e('e-yours') + 0.9, { dissolveAt: L(W('e-data', 'data', 0.6), at.person), dissolveDur: e('e-yours') + 0.5 - W('e-data', 'data', 0.6) }, { scrim: 0.4 }),
     R('flywheel_3d', s('e-trade') - 0.3, e('e-trade') + 0.3, { mode: 'hero', spin: [[0, 0.3], [1, 0.5]] }, { opacity: 0.5, blur: 2 }),
     // Verdict: the rim rushes past
@@ -348,7 +348,7 @@
     lines: [
       'Every exhibit is from public sources. Full source list in the description.',
       'All voices, music and sound effects are AI-generated (ElevenLabs). No real person’s voice was imitated or cloned.',
-      'Quotes are shown on screen and read by the narrator, an AI voice, not by the people or companies quoted. The users’ voices, the founder pitch and the startup categories are illustrative.',
+      'Quotes are shown on screen and read by the narrator, an AI voice, not by the people or companies quoted. The users’ voices, the founder pitch, the startup categories and all 3D footage are illustrative.',
     ],
   };
 })();

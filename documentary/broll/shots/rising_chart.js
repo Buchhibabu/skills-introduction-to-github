@@ -3,20 +3,28 @@
 // left along the line and finishes looking up at the highest point. Cold haze, dust, mirrored floor.
 //
 // opts:
-//   points    [{ fx: 0..1, v: percent, label: '2%', sub: 'OCT 2023', t?: local s, side?: 'left'|'right' }, ...]
+//   points    [{ fx: 0..1, v: percent, label: '2%', sub: 'OCT 2023', t?: local s, side?: 'left'|'right'|'centre' }, ...]
 //             fx = position along the time axis, v = value (0..100). t (optional) = when the line reaches it.
+//             side: where the label stack sits (default: over the point, a little to its left, clear of the
+//             climbing line; labels are kept inside the frame and scaled up with distance to stay legible)
 //             default: 2% OCT 2023, 33% AUG 2024, ~80% FEB 2026
 //   drawFrom  local s when the line starts drawing (default min(0.8, 10% of the shot))
 //   drawTo    local s when it reaches the last point (default dur - min(2.5, 25% of dur))
 //   years     [{ fx, label }] floor axis labels (default 2024/2025/2026 placed for the default points; [] = none)
 //   axis      true (default) | false   faint 25/50/75/100% guide lines behind the line
+//   readout   true (default) | false   a live value riding the line head while it draws ('17%' ... '64%')
 //
-// Overlays: the top-left band (title, ~0-1000 x 0-280 px) and the bottom band (footnote, y > 950 px) are kept
-// calm: the line and beacons live in the middle and right of the frame, the floor near the lens is dark.
+// Camera: low on the left at the first point, tracking along the front of the chart as the line draws (the
+// previous beacon, the floor horizon and the live readout stay in frame), then pulling back to the right and
+// down to finish looking up at the last point with the whole rise (first, middle, last) in one frame.
+//
+// Overlays: the top-left band (title, x < ~1000, y < ~300) and the bottom band (footnote and source,
+// y > ~880) are kept calm: guides, floor rings, dust and the floor's glints are masked there in screen space,
+// and the composition keeps the line, beacons and labels between y ~130 and ~880.
 import { THREE, register, keys, rng, noise, ease, smooth, prog, clamp, lerp, glowTexture } from '../kit.js';
 
 const DEFAULT_POINTS = [
-  { fx: 0.03, v: 1.96, label: '2%', sub: 'OCT 2023', side: 'right' },
+  { fx: 0.03, v: 1.96, label: '2%', sub: 'OCT 2023' },
   { fx: 0.4, v: 33.2, label: '33%', sub: 'AUG 2024' },
   { fx: 0.95, v: 80.8, label: '~80%', sub: 'FEB 2026' },
 ];
@@ -112,9 +120,19 @@ void main(){
   gl_Position = projectionMatrix * viewMatrix * w;
 }`;
 
+// screen-space mask for the overlay bands: the top-left title band and the bottom footnote/source band
+const CALM = /* glsl */`
+float calmMask(){
+  vec2 f = gl_FragCoord.xy; float yTop = 1080.0 - f.y;
+  float bottom = 1.0 - smoothstep(850.0, 925.0, yTop);
+  float tl = (1.0 - smoothstep(900.0, 1120.0, f.x)) * (1.0 - smoothstep(250.0, 340.0, yTop));
+  return bottom * (1.0 - tl);
+}`;
+
 // one program for every additive light in the chart (fewer shader compiles):
 // mode 0 line core, 1 glow tube, 2 curtain under the line, 3 beacon column / beam, 4 dashed guide line, 5 flat colour
 const LIGHT_FRAG = /* glsl */`
+${CALM}
 uniform float uMode; uniform float uHead; uniform vec3 uColor; uniform float uGain; uniform float uFog; uniform float uPow;
 uniform float uGrow; uniform float uTop; uniform float uFall; uniform float uReveal;
 varying vec3 vW; varying vec3 vN; varying vec2 vUv;
@@ -153,14 +171,17 @@ void main(){
     float dash = step(0.45, fract(vW.x * 1.6));
     float rev = smoothstep(uReveal, uReveal - 3.0, vW.x);
     float edge = smoothstep(0.0, 0.5, vUv.y) * smoothstep(1.0, 0.5, vUv.y);
-    c = uColor * uGain * mix(0.35, 1.0, dash) * edge * rev;
+    float ends = smoothstep(0.0, 0.12, vUv.x) * smoothstep(1.0, 0.88, vUv.x);
+    c = uColor * uGain * mix(0.35, 1.0, dash) * edge * rev * ends;
   }
   c *= exp(-uFog * length(cameraPosition - vW)) * exp(min(vW.y, 0.0) * mirrorK);
+  if (uMode > 1.5) c *= calmMask();
   gl_FragColor = vec4(c, 1.0);
 }`;
 
 // glossy dark floor: grid, light pools, smudged gloss; drawn over a mirrored copy of the chart
 const FLOOR_FRAG = /* glsl */`
+${CALM}
 uniform float uFog; uniform vec3 uFogCol; uniform sampler2D uNoise;
 uniform vec4 uPool[NPOOL];             // x, z, radius, intensity (amber)
 uniform float uHead; uniform float uX0; uniform float uLineGlow;
@@ -203,6 +224,8 @@ void main(){
   // a faint glow strip under the drawn line
   float under = smoothstep(uHead + 0.4, uHead - 0.8, p.x) * smoothstep(uX0 - 1.2, uX0 + 0.3, p.x);
   pool += vec3(0.94, 0.58, 0.20) * under * exp(-p.y * p.y * 0.9) * 0.05 * uLineGlow;
+  float calm = calmMask();
+  pool *= calm;
   vec3 c = base + gridC * (1.0 + 2.0 * length(pool)) + pool * (0.6 + 0.4 * smudge);
   // glossy reflection of the chart (everything lives in the z = 0 plane): follow the mirrored view ray
   // to that plane and shade what it meets, blurred more the higher it is above the floor (rough gloss)
@@ -236,7 +259,7 @@ void main(){
     gl_FragColor = vec4(vec3(tLine, tCurt * 10.0, tBea) * exp(-qy * 1.1), 1.0); return;
 #endif
     float refl = mix(0.55, 0.14, pow(cosT, 0.6)) * (0.5 + 0.7 * smudge);
-    c += vec3(0.94, 0.62, 0.25) * lit * exp(-qy * 1.1) * refl;
+    c += vec3(0.94, 0.62, 0.25) * lit * exp(-qy * 1.1) * refl * calm;
   }
   float fog = 1.0 - exp(-uFog * d);
   c = mix(c, uFogCol, fog);
@@ -287,14 +310,21 @@ void main(){
   gl_PointSize = uSize * (0.6 + aSeed.z) / dist;
 }`;
 const DUST_FRAG = /* glsl */`
+${CALM}
 varying float vA; varying vec3 vC;
 void main(){
   vec2 q = gl_PointCoord - 0.5;
   float r = dot(q, q) * 4.0;
-  float a = exp(-r * 3.0) * vA;
+  float a = exp(-r * 3.0) * vA * calmMask();
   if (a < 0.003) discard;
   gl_FragColor = vec4(vC * a, 1.0);
 }`;
+
+const RING_VERT = /* glsl */`varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`;
+const RING_FRAG = /* glsl */`
+${CALM}
+uniform sampler2D map; uniform vec3 color; uniform float opacity; varying vec2 vUv;
+void main(){ gl_FragColor = vec4(texture2D(map, vUv).rgb * color * opacity * calmMask(), 1.0); }`;
 
 // ---------------------------------------------------------------- the shot
 register('rising_chart', (opts) => {
@@ -369,12 +399,13 @@ register('rising_chart', (opts) => {
   const columnGeo = new THREE.CylinderGeometry(1, 1, 1, 16, 1, true).translate(0, 0.5, 0);
   const sphGeo = new THREE.SphereGeometry(0.11, 20, 12);
   const beaconGlowTex = glowTexture('rgba(255,190,110,1)');
-  const beacons = [];
+  const beacons = [], lineParts = [];
   function buildChart(mirror) {
     const g = new THREE.Group();
     const s = mirror ? 0.3 : 1;
     const core = new THREE.Mesh(coreGeo, mk(0, { uGain: { value: (mirror ? 0.12 : 3.2) } }));
     const glow = new THREE.Mesh(glowGeo, mk(1, { uGain: { value: 0.17 * s }, uPow: { value: 2.2 } }, add));
+    lineParts.push([core, mirror ? 0.12 : 3.2], [glow, 0.17 * s]);
     const curtain = new THREE.Mesh(curtainGeo, mk(2, { uGain: { value: 0.22 * s } }, add));
     g.add(core);
     if (!OFF.has('glow')) g.add(glow);
@@ -393,13 +424,11 @@ register('rising_chart', (opts) => {
       const sph = new THREE.Mesh(sphGeo, mk(5, { uColor: { value: new THREE.Color('#ffd9a0').multiplyScalar(3 * s) }, uGain: { value: 0 } }, add));
       sph.position.set(p.x, p.y, 0);
       const glowS = new THREE.Sprite(new THREE.SpriteMaterial({ map: beaconGlowTex, ...add, opacity: 0 }));
-      glowS.position.set(p.x, p.y, 0); glowS.scale.setScalar(1.6);
-      const ring = new THREE.Sprite(new THREE.SpriteMaterial({ map: ringTex, ...add, opacity: 0 }));
-      ring.position.set(p.x, p.y, 0);
-      g.add(col, beam, glowS, ring);
+      glowS.position.set(p.x, p.y, 0); glowS.scale.setScalar(1.2);
+      g.add(col, beam, glowS);
       if (!mirror) g.add(sph, colG);
       if (!beacons[i]) beacons[i] = { p, parts: [] };
-      beacons[i].parts.push({ colU, colGU, beamU, sph, glowS, ring, s });
+      beacons[i].parts.push({ colU, colGU, beamU, sph, glowS, s });
     });
     if (mirror) { g.scale.y = -1; g.traverse((o) => { o.renderOrder = -5; }); }
     return g;
@@ -416,15 +445,17 @@ register('rising_chart', (opts) => {
   scene.add(chart);
 
   // floor shockwave rings
+  const ringMat = (color, opacity) => new THREE.ShaderMaterial({ vertexShader: RING_VERT, fragmentShader: RING_FRAG, ...add,
+    uniforms: { map: { value: ringTex }, color: { value: new THREE.Color(color) }, opacity: { value: opacity } } });
   const floorRings = P.map((p) => {
-    const m = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: ringTex, ...add, opacity: 0 }));
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), ringMat(0xffffff, 0));
     m.rotation.x = -Math.PI / 2; m.position.set(p.x, 0.012, 0); m.renderOrder = 2;
     if (!OFF.has('rings')) scene.add(m); return m;
   });
 
   // unlit target markers on the floor: where the line is going
   const markers = P.map((p) => {
-    const m = new THREE.Mesh(new THREE.PlaneGeometry(1.3, 1.3), new THREE.MeshBasicMaterial({ map: ringTex, color: 0x9fb6d6, ...add, opacity: 0.35 }));
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(1.3, 1.3), ringMat(0x9fb6d6, 0.35));
     m.rotation.x = -Math.PI / 2; m.position.set(p.x, 0.011, 0); m.renderOrder = 2; scene.add(m); return m;
   });
 
@@ -438,26 +469,29 @@ register('rising_chart', (opts) => {
 
   // ---- axis guides (behind the line) and floor year labels
   const guides = new THREE.Group(); if (!OFF.has('guides')) scene.add(guides);
-  const ZG = -2.6;
+  const ZG = -2.6, axisLabels = [];
   if (opts.axis !== false) {
     [25, 50, 75, 100].forEach((v) => {
       const y = (v / 100) * HM;
-      const m = new THREE.Mesh(new THREE.PlaneGeometry(XW + 6, 0.03), mk(4, { uColor: { value: new THREE.Color('#7b97bd') }, uGain: { value: v === 100 ? 0.5 : 0.32 } }, add));
-      m.position.set(XW / 2 + 1, y, ZG); guides.add(m);
+      const m = new THREE.Mesh(new THREE.PlaneGeometry(XN - X0 + 4, 0.03), mk(4, { uColor: { value: new THREE.Color('#7b97bd') }, uGain: { value: v === 100 ? 0.42 : 0.28 } }, add));
+      m.position.set((X0 + XN) / 2, y, ZG); guides.add(m);
       const L = label(`${v}%`, { font: '400 48px "IBM Plex Mono"', color: '#8fa6c2', spacing: 5 });
-      const sp = new THREE.Mesh(new THREE.PlaneGeometry(0.42 * L.aspect, 0.42), new THREE.MeshBasicMaterial({ map: L.texture, transparent: true, depthWrite: false, opacity: 0.55, fog: false }));
-      sp.position.set(-1.6, y + 0.2, ZG); guides.add(sp);
-      const sp2 = sp.clone(); sp2.position.set(XW + 2.6, y + 0.2, ZG); guides.add(sp2);
+      for (const x of [X0 - 2.2, XN + 2.2]) {
+        const sp = new THREE.Mesh(new THREE.PlaneGeometry(0.62 * L.aspect, 0.62), new THREE.MeshBasicMaterial({ map: L.texture, transparent: true, depthWrite: false, opacity: 0.55, fog: false }));
+        sp.position.set(x, y + 0.28, ZG); guides.add(sp);
+        axisLabels.push({ m: sp, h: 0.62 * 0.36 });          // glyph height in world units (for the size gate)
+      }
     });
   }
   const years = opts.years ?? (opts.points ? [] : DEFAULT_YEARS);
-  const tickGeos = [];
+  const tickGeos = [], yearLabels = [];
   const flatTick = (w, l, x, z) => tickGeos.push(new THREE.PlaneGeometry(w, l).rotateX(-Math.PI / 2).translate(x, 0.01, z));
   years.forEach((yr) => {
     const x = yr.fx * XW;
     const L = label(yr.label, { font: '400 72px "IBM Plex Mono"', color: '#9fb3cc', spacing: 14 });
     const m = new THREE.Mesh(new THREE.PlaneGeometry(0.62 * L.aspect, 0.62), new THREE.MeshBasicMaterial({ map: L.texture, transparent: true, depthWrite: false, opacity: 0.32 }));
     m.rotation.x = -Math.PI / 2; m.position.set(x, 0.01, 2.1); m.renderOrder = 1; scene.add(m);
+    yearLabels.push(m);
     flatTick(0.025, 1.0, x, 1.05);
   });
   // month ticks and the time axis along the floor (one mesh, flat colour)
@@ -475,25 +509,50 @@ register('rising_chart', (opts) => {
     ticks.renderOrder = 1; scene.add(ticks);
   }
 
-  // ---- labels (sprites, always facing the lens, crisp, unfogged)
+  // ---- labels (sprites, always facing the lens, crisp, unfogged), stacked above each point, never under
+  // the flare; scaled up with distance so the numbers and dates never fall below a legible size
   const labels = P.map((p, i) => {
     const num = label(p.label, { font: '600 150px Oswald', color: '#e8dfcd', glow: 'rgba(240,166,58,0.3)', glowBlur: 16 });
     const sub = label(p.sub || ' ', { font: '400 60px "IBM Plex Mono"', color: '#dfe5ec', spacing: 10 });
-    const side = p.side || (i === 0 || i === P.length - 1 ? 'right' : 'left');
+    const side = p.side || 'centre';
     const hN = 1.0 + 0.25 * (i / Math.max(1, P.length - 1)), hS = 0.4;
     const mN = new THREE.SpriteMaterial({ map: num.texture, transparent: true, depthTest: false, depthWrite: false, fog: false, opacity: 0 });
     const mS = new THREE.SpriteMaterial({ map: sub.texture, transparent: true, depthTest: false, depthWrite: false, fog: false, opacity: 0 });
     const sN = new THREE.Sprite(mN), sS = new THREE.Sprite(mS);
-    sN.scale.set(hN * num.aspect, hN, 1); sS.scale.set(hS * sub.aspect, hS, 1);
-    // anchor: number's text edge next to the column
+    // anchor: centred over the point by default (number over date), or beside it when a side is given
     const px = num.padFrac / num.aspect, sx = sub.padFrac / sub.aspect;
-    if (side === 'right') { sN.center.set(px * 0.9, 0.5); sS.center.set(sx * 0.9, 0.5); } else { sN.center.set(1 - px * 0.9, 0.5); sS.center.set(1 - sx * 0.9, 0.5); }
+    if (side === 'right') { sN.center.set(px * 0.9, 0); sS.center.set(sx * 0.9, 0); }
+    else if (side === 'left') { sN.center.set(1 - px * 0.9, 0); sS.center.set(1 - sx * 0.9, 0); }
+    else { sN.center.set(0.6, 0); sS.center.set(0.6, 0); }
     sN.renderOrder = 20; sS.renderOrder = 20;
-    const dx = side === 'right' ? (i === 0 ? 0.55 : 0.38) : -0.38;
-    const base = new THREE.Vector3(p.x + dx, p.y + 0.62, 0.15);
+    const dx = side === 'right' ? 0.3 : side === 'left' ? -0.3 : 0, lift = i === 0 ? 0.95 : 0.66;
     if (!OFF.has('labels')) scene.add(sN, sS);
-    return { sN, sS, base, hN, side };
+    return { sN, sS, p, hN, hS, nAsp: num.aspect, sAsp: sub.aspect, nPad: num.padFrac, sPad: sub.padFrac, side, dx, lift };
   });
+
+  // ---- live readout riding the line head (redrawn only when the shown value changes; a pure function of time)
+  const ro = (() => {
+    const c = document.createElement('canvas'); c.width = 512; c.height = 200; const g = c.getContext('2d');
+    const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false, depthWrite: false, fog: false, opacity: 0 }));
+    sp.center.set(0.86, 0.12); sp.renderOrder = 21;
+    let shown = null;
+    const set = (v) => {
+      const txt = `${v}%`;
+      if (txt === shown) return; shown = txt;
+      g.clearRect(0, 0, 512, 200);
+      g.font = '600 120px Oswald'; g.textAlign = 'right'; g.textBaseline = 'alphabetic';
+      g.shadowColor = 'rgba(240,166,58,0.55)'; g.shadowBlur = 22; g.fillStyle = '#f6c37a'; g.fillText(txt, 440, 150);
+      g.shadowBlur = 0; g.fillStyle = '#fbe3bd'; g.fillText(txt, 440, 150);
+      tex.needsUpdate = true;
+    };
+    if (opts.readout !== false && !OFF.has('labels')) scene.add(sp);
+    return { sp, set };
+  })();
+  // a faint cursor from the floor up to the head
+  const cursorU = { uColor: { value: new THREE.Color('#f5b456') }, uGain: { value: 0 }, uGrow: { value: 1 }, uTop: { value: 1 }, uPow: { value: 1.5 }, uFall: { value: 0 } };
+  const cursor = new THREE.Mesh(columnGeo, mk(3, cursorU, add));
+  cursor.scale.set(0.012, 1, 0.012); if (opts.readout !== false) scene.add(cursor);
 
   // ---- haze layers and dust
   const ND = 1200, R = rng(23);
@@ -521,21 +580,36 @@ register('rising_chart', (opts) => {
   })(), ...add, opacity: 0.5 }));
   [headHalo, headGlow, streak].forEach((s) => { s.renderOrder = 8; if (!OFF.has('flare')) scene.add(s); });
 
-  // ---- camera path (expressed against the chart so it adapts to the data)
-  const SPAN = XN - X0;
-  const camPos = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(X0 - 5.2, 0.5, 6.5),
-    new THREE.Vector3(X0 + 0.02 * SPAN, 1.15, 9.0),
-    new THREE.Vector3(X0 + 0.42 * SPAN, 1.1, 10.2),
-    new THREE.Vector3(XN + 1.1, 0.4, 8.5),
-  ], false, 'centripetal');
-  const camLook = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(X0 + 4.3, 1.5, -1.0),
-    new THREE.Vector3(X0 + 0.42 * SPAN, Math.max(1.6, YN * 0.37), -0.5),
-    new THREE.Vector3(X0 + 0.74 * SPAN, Math.max(2.2, YN * 0.62), -0.5),
-    new THREE.Vector3(XN - 2.6, Math.max(2.6, YN * 0.95), -1),
-  ], false, 'centripetal');
-  const tmp = new THREE.Vector3(), tl = new THREE.Vector3();
+  // ---- camera path, expressed against the chart so it adapts to the data. u: 0 -> 0.07 pre-roll at the first
+  // point, 0.07 -> 0.86 rides the line (follows the head), 0.86 -> 1 pulls back to the payoff after the line lands
+  const SPAN = XN - X0, Y1 = Math.max(1.2, YN);
+  const KP = [
+    [0.00, [X0 - 3.96, 0.9, 7.5], [X0 + 5.04, 1.0, 0], 38],
+    [0.07, [X0 - 3.26, 1.05, 8.4], [X0 + 5.74, 1.2, 0], 38],
+    [0.25, [X0 - 2.26, 1.9, 13.5], [X0 + 0.293 * SPAN, 1.6, 0], 37],
+    [0.43, [X0 + 0.066 * SPAN, 2.4, 17.0], [X0 + 0.412 * SPAN, 0.331 * Y1, 0], 36],
+    [0.65, [X0 + 0.486 * SPAN, 2.8, 17.5], [X0 + 0.684 * SPAN, 0.475 * Y1, 0], 36],
+    [0.86, [X0 + 0.881 * SPAN, 1.8, 20.5], [X0 + 0.61 * SPAN, 0.54 * Y1, -1.2], 35],
+    [1.00, [XN + 5.1, 0.86, 22.0], [X0 + 0.563 * SPAN, 0.604 * Y1, -1.8], 35.5],
+  ];
+  const camPos = new THREE.CatmullRomCurve3(KP.map((k) => new THREE.Vector3(...k[1])), false, 'centripetal');
+  const camLook = new THREE.CatmullRomCurve3(KP.map((k) => new THREE.Vector3(...k[2])), false, 'centripetal');
+  const KU = KP.map((k) => k[0]);
+  const curveT = (u) => {
+    let i = 0; while (i < KU.length - 2 && u > KU[i + 1]) i++;
+    return clamp((i + clamp((u - KU[i]) / (KU[i + 1] - KU[i]), 0, 1)) / (KU.length - 1));
+  };
+  const fovAt = (u) => { let i = 0; while (i < KU.length - 2 && u > KU[i + 1]) i++; return lerp(KP[i][3], KP[i + 1][3], clamp((u - KU[i]) / (KU[i + 1] - KU[i]))); };
+  const dF = Math.max(0.05, drawFrom), post = Math.max(1.0, dur - drawTo);
+  const uRaw = (t) => {
+    if (t <= dF) return 0.07 * clamp(t / dF, -0.5, 1);
+    if (t <= drawTo) return 0.07 + 0.79 * (headX(t) - X0) / Math.max(1e-3, SPAN);
+    const q = clamp((t - drawTo) / post); return 0.86 + 0.14 * lerp(q, ease.out(q), 0.6);   // keeps drifting to the last frame
+  };
+  // a short symmetric average keeps the camera's speed continuous through the beats
+  const uAt = (t) => { let a = 0, w = 0; for (let j = -4; j <= 4; j++) { const ww = 5 - Math.abs(j); a += uRaw(t + j * 0.11) * ww; w += ww; } return clamp(a / w, 0, 1); };
+  const tmp = new THREE.Vector3(), tl = new THREE.Vector3(), prj = new THREE.Vector3(), right = new THREE.Vector3();
+  const PXF = () => 540 / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));   // pixels per world unit at distance 1
 
   return {
     scene, camera,
@@ -545,54 +619,109 @@ register('rising_chart', (opts) => {
       const hx = headX(lt);
       headU.value = hx;
       const hy = curveY(hx);
-      const drawK = (hx - X0) / Math.max(1e-3, XN - X0);
-      // camera: blend of shot progress and drawing progress so it rides the line
-      const u = clamp(lerp(ease.inOut(c.k), smooth(drawK), 0.55));
-      camPos.getPoint(u, tmp); camLook.getPoint(u, tl);
-      tmp.x += noise(lt * 0.35 + 3) * 0.05; tmp.y += noise(lt * 0.4 + 9) * 0.035;
+      // camera
+      const u = uAt(lt), ct = curveT(u);
+      camPos.getPoint(ct, tmp); camLook.getPoint(ct, tl);
+      tmp.x += noise(lt * 0.35 + 3) * 0.05; tmp.y += noise(lt * 0.4 + 9) * 0.03;
       tl.x += noise(lt * 0.3 + 17) * 0.04; tl.y += noise(lt * 0.33 + 29) * 0.03;
       camera.position.copy(tmp); camera.lookAt(tl);
-      camera.fov = lerp(38, 34, smooth(u)); camera.updateProjectionMatrix();
+      camera.fov = fovAt(u); camera.updateProjectionMatrix(); camera.updateMatrixWorld();
+      const pxf = PXF();
 
-      // drawing head flare
-      const drawing = prog(lt, drawFrom - 0.3, drawFrom + 0.2) * (1 - 0.6 * prog(lt, drawTo, drawTo + 1.2));
+      const started = smooth(prog(lt, drawFrom - 0.05, drawFrom + 0.3));
+      lineParts.forEach(([m, g]) => { m.material.uniforms.uGain.value = g * started; });
+      // drawing head flare (kept small: it must never swallow a label)
+      const drawing = prog(lt, drawFrom - 0.3, drawFrom + 0.2) * (1 - 0.7 * prog(lt, drawTo, drawTo + 1.0));
       headGlow.position.set(hx, hy, 0.02); headHalo.position.copy(headGlow.position); streak.position.copy(headGlow.position);
       const fl = 0.9 + 0.1 * noise(lt * 7.0);
-      headGlow.scale.setScalar(0.75 * fl); headGlow.material.opacity = 0.85 * drawing;
-      headHalo.scale.setScalar(3.0); headHalo.material.opacity = 0.14 * drawing;
-      streak.scale.set(5.0 * fl, 0.09, 1); streak.material.opacity = 0.4 * drawing;
+      headGlow.scale.setScalar(0.5 * fl); headGlow.material.opacity = 0.8 * drawing;
+      headHalo.scale.setScalar(1.7); headHalo.material.opacity = 0.12 * drawing;
+      streak.scale.set(2.4 * fl, 0.07, 1); streak.material.opacity = 0.3 * drawing;
       dustU.uTime.value = lt; dustU.uHeadPos.value.set(hx, hy, 0);
-      guideReveal.value = lerp(X0 - 3, XN + 12, smooth(prog(lt, 0, Math.max(1.5, drawTo * 0.6))));
+      guideReveal.value = lerp(X0 - 3, XN + 8, smooth(prog(lt, 0, Math.max(1.0, Math.min(2.5, drawFrom + 0.6)))));
       skyU.uOff.value.set(lt * 0.004, 0); sky.position.copy(camera.position);
 
-      // beacons: fire when the head reaches them
+      // beacons: fire when the head reaches them (a soft pulse, no blown disc)
+      const rects = [];
       beacons.forEach((b, i) => {
         const a = lt - hitT[i];
         const on = smooth(prog(a, -0.05, 0.35));
         const grow = ease.out(prog(a, -0.1, 0.55));
-        const pulse = Math.exp(-Math.max(a, 0) * 2.2) * (a > -0.05 ? 1 : 0);
-        const breathe = 0.88 + 0.12 * Math.sin(lt * 2.2 + i * 1.7);
+        const pulse = Math.exp(-Math.max(a, 0) * 2.6) * (a > -0.05 ? 1 : 0);
+        const breathe = 0.9 + 0.1 * Math.sin(lt * 2.2 + i * 1.7);
         b.parts.forEach((q) => {
           q.colU.uGrow.value = grow; q.colGU.uGrow.value = grow;
-          q.colU.uGain.value = 0.7 * q.s * on * (1 + 1.5 * pulse) * breathe;
-          q.colGU.uGain.value = 0.12 * q.s * on * (1 + pulse);
+          q.colU.uGain.value = 0.7 * q.s * on * (1 + 0.8 * pulse) * breathe;
+          q.colGU.uGain.value = 0.12 * q.s * on * (1 + 0.6 * pulse);
           q.beamU.uGrow.value = ease.out(prog(a, 0.15, 1.6)); q.beamU.uGain.value = 0.12 * q.s * on;
-          q.sph.material.uniforms.uGain.value = on;
-          q.glowS.material.opacity = on * (0.45 + 0.5 * pulse) * q.s; q.glowS.scale.setScalar(0.9 + 1.3 * pulse);
-          const rk = prog(a, 0, 1.1);
-          q.ring.material.opacity = (a > 0 ? 1 : 0) * (1 - rk) * 0.55 * q.s; q.ring.scale.setScalar(0.3 + 2.4 * ease.out(rk));
+          const pilot = i === 0 ? 0.3 * (1 - on) * smooth(prog(lt, 0.1, 0.8)) : 0;
+          q.sph.material.uniforms.uGain.value = on + pilot;
+          q.glowS.material.opacity = (on * (0.34 + 0.22 * pulse) + pilot * 0.5) * q.s; q.glowS.scale.setScalar(0.75 + 0.4 * pulse);
         });
-        const fr = prog(a, 0, 1.6);
-        markers[i].material.opacity = 0.35 * (1 - on);
-        floorRings[i].material.opacity = (a > 0 ? 1 : 0) * (1 - fr) * 0.7; floorRings[i].scale.setScalar(0.5 + 9 * ease.out(fr));
-        poolU.value[i].set(b.p.x, 0, 1.6 + 0.6 * pulse, on * (0.55 + 0.9 * pulse) * breathe);
-        beaU.value[i].set(b.p.x, b.p.y * grow, on * (1 + 1.2 * pulse) * breathe, b.p.y);
-        // labels rise in after the beacon fires
+        const fr = prog(a, 0, 1.3);
+        markers[i].material.uniforms.opacity.value = 0.5 * (1 - on);
+        floorRings[i].material.uniforms.opacity.value = (a > 0 ? 1 : 0) * (1 - fr) * 0.42; floorRings[i].scale.setScalar(0.5 + 4.2 * ease.out(fr));
+        poolU.value[i].set(b.p.x, 0, 1.6 + 0.4 * pulse, on * (0.55 + 0.6 * pulse) * breathe);
+        beaU.value[i].set(b.p.x, b.p.y * grow, on * (1 + 0.8 * pulse) * breathe, b.p.y);
+        // labels rise in after the beacon fires; scaled so they stay legible from far away
         const L = labels[i], lk = smooth(prog(a, 0.1, 0.75));
-        const lift = (1 - lk) * -0.25;
-        L.sN.position.set(L.base.x, L.base.y + 0.18 + lift, L.base.z);
-        L.sS.position.set(L.base.x + (L.side === 'right' ? 0.05 : -0.05), L.base.y - L.hN * 0.42 + lift, L.base.z);
-        L.sN.material.opacity = lk; L.sS.material.opacity = lk * 0.92;
+        const dist = Math.max(0.5, prj.set(b.p.x, b.p.y, 0).distanceTo(camera.position)), ppu = pxf / dist;
+        const sc = Math.max(1, 40 / (0.36 * L.hN * ppu), 15 / (0.36 * L.hS * ppu));
+        const rise = (1 - lk) * -0.25 * sc;
+        // stack from the bottom: the date's glyphs start ~lift above the point, the number sits on top of it
+        const sy = b.p.y + (L.lift - L.sPad * L.hS) * sc + rise;
+        const ny = sy + (L.hS * (1 - L.sPad) - L.nPad * L.hN + 0.06) * sc;
+        L.sN.scale.set(L.hN * L.nAsp * sc, L.hN * sc, 1); L.sS.scale.set(L.hS * L.sAsp * sc, L.hS * sc, 1);
+        L.sN.position.set(b.p.x + L.dx * sc, ny, 0.15);
+        L.sS.position.set(b.p.x + L.dx * sc, sy, 0.15);
+        prj.set(b.p.x, b.p.y, 0).project(camera);
+        const bx = (prj.x + 1) * 960, cx = L.sN.center.x;
+        let lo = 0, hi = 0;
+        for (const [h, asp, pad] of [[L.hN, L.nAsp, L.nPad], [L.hS, L.sAsp, L.sPad]]) {
+          const w = h * asp * sc * ppu, pw = pad * h * sc * ppu;
+          lo = Math.min(lo, -cx * w + pw + L.dx * sc * ppu); hi = Math.max(hi, (1 - cx) * w - pw + L.dx * sc * ppu);
+        }
+        const shift = Math.max(0, 60 - (bx + lo)) - Math.max(0, bx + hi - 1860);
+        if (shift !== 0) { right.setFromMatrixColumn(camera.matrixWorld, 0).multiplyScalar(shift / ppu); L.sN.position.add(right); L.sS.position.add(right); }
+        const onScreen = smooth(prog(bx, -40, 90)) * smooth(prog(1960 - bx, -40, 90)) * (prj.z < 1 ? 1 : 0);
+        L.sN.material.opacity = lk * onScreen; L.sS.material.opacity = lk * 0.92 * onScreen;
+        // the label block's screen rectangle (the readout keeps clear of it)
+        const by = (1 - prj.y) * 540, stack = (L.lift + L.hS + L.hN * (1 - L.nPad)) * sc * ppu;
+        rects[i] = lk * onScreen > 0.05 ? [bx + lo + shift, by - stack, bx + hi + shift, by] : null;
+      });
+
+      // live readout and cursor: visible while the head travels between beacons, never over a label
+      {
+        let near = 1e9; P.forEach((p) => { near = Math.min(near, Math.abs(hx - p.x)); });
+        const dist = Math.max(0.5, prj.set(hx, hy, 0).distanceTo(camera.position)), ppu = pxf / dist;
+        const hR = Math.max(0.62, 36 / (0.42 * ppu));
+        prj.set(hx, hy, 0).project(camera);
+        const hxs = (prj.x + 1) * 960, hys = (1 - prj.y) * 540, wR = hR * 2.56 * ppu, hRp = hR * ppu;
+        const rr = [hxs - 0.8 * wR, hys - 0.75 * hRp, hxs + 0.05 * wR, hys];
+        let clear = 1;
+        rects.forEach((q) => {
+          if (!q) return;
+          const gap = Math.max(q[0] - rr[2], rr[0] - q[2], q[1] - rr[3], rr[1] - q[3]);
+          clear = Math.min(clear, smooth(prog(gap, -10, 50)));
+        });
+        const roK = (lt > drawFrom && lt < drawTo + 0.2 ? 1 : 0) * smooth(prog(near, 0.35, 1.2)) * clear;
+        if (roK > 0.001) ro.set(Math.round((hy / HM) * 100));
+        ro.sp.scale.set(hR * 2.56, hR, 1); ro.sp.position.set(hx - 0.08 * hR, hy + 0.3 * hR, 0.1);
+        ro.sp.material.opacity = roK * 0.95;
+        cursor.position.set(hx, 0, 0.01); cursor.scale.y = Math.max(0.01, hy - 0.08); cursorU.uGain.value = 0.32 * roK;
+      }
+
+      // axis labels: hidden below a legible size; floor year labels: hidden near the lens
+      axisLabels.forEach((A) => {
+        const dist = Math.max(0.5, A.m.position.distanceTo(camera.position)), px = A.h * pxf / dist;
+        prj.copy(A.m.position).project(camera);
+        const sx = (prj.x + 1) * 960;                         // never half-cut at a frame edge
+        A.m.material.opacity = 0.55 * smooth(prog(px, 14, 22)) * smooth(prog(sx, 70, 150)) * smooth(prog(1850 - sx, 0, 80)) * (prj.z < 1 ? 1 : 0);
+      });
+      yearLabels.forEach((m) => {
+        prj.copy(m.position).project(camera);
+        const y = (1 - prj.y) * 540, dist = m.position.distanceTo(camera.position), px = 0.62 * 0.36 * pxf / dist;
+        m.material.opacity = 0.32 * (1 - smooth(prog(y, 760, 860))) * smooth(prog(px, 12, 20)) * (prj.z < 1 ? 1 : 0);
       });
     },
   };
