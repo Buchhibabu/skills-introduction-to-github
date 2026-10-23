@@ -1,5 +1,6 @@
-// v3 shot list (the v2 shots, re-timed to the v3 performances; no quote is voiced by anyone but the narrator): what is on screen under each line. Times come from the recorded performances
-// (T: line timings, W: word timestamps from ElevenLabs alignment).
+// v3 shot list: what is on screen under each line (VISUALS: the evidence, on top) and, from Exhibit A on,
+// the cinematic 3D B-roll under it (BROLL: broll/shots/*.js). No quote is voiced by anyone but the narrator.
+// Times come from the recorded performances (T: line timings, W: word timestamps from ElevenLabs alignment).
 (() => {
   const T = window.TIMINGS.lines;
   const s = (id) => T[id].start;
@@ -57,21 +58,21 @@
       src: 'The Register (Dec 5, 2022) · Sam Altman on X (Dec 5, 2022)',
     },
     'a-whyfree': {
-      beat: 'doc', head: 'OpenAI · “Introducing ChatGPT”', date: 'Nov 30, 2022',
+      beat: 'doc', head: 'OpenAI · “Introducing ChatGPT”', date: 'Nov 30, 2022', x: 120, w: 1060, rot: -1.4,
       html: `“We are excited to introduce ChatGPT ${HL('to get users’ feedback')} and learn about its strengths and weaknesses. During the research preview, usage of ChatGPT is free.”`,
       foot: 'openai.com/index/chatgpt', label: Q('OpenAI launch post (Nov 30, 2022)'),
       hl: [[W('a-whyfree', 'get', 0.75), W('a-whyfree', 'feedback', 0.95) + 0.4]],
       isolate: [e('a-whyfree') + 0.05, s('a-gpt4') - 0.1], src: 'OpenAI launch post, Nov 30, 2022',
     },
     'a-gpt4': {
-      beat: 'doc', head: 'OpenAI · GPT-4 System Card', date: 'Mar 2023', flash: { text: 'AUG 2022', t: W('a-gpt4', 'trained', 0.45) },
+      beat: 'doc', head: 'OpenAI · GPT-4 System Card', date: 'Mar 2023', x: 120, w: 1060, flash: { text: 'AUG 2022', t: W('a-gpt4', 'trained', 0.45) },
       html: `“Since it ${HL('finished training in August of 2022')}, we have been evaluating, adversarially testing, and iteratively improving the model and the system-level mitigations around it.”`,
       foot: 'cdn.openai.com/papers/gpt-4-system-card.pdf', hl: [[W('a-gpt4', 'trained', 0.45), W('a-gpt4', 'trained', 0.45) + 1.1]],
       stamp: { text: '3 months before ChatGPT', t: W('a-gpt4', 'months', 0.75) + 0.2, right: 50, size: 44, rot: -4 },
       src: 'OpenAI GPT-4 System Card, Mar 14, 2023',
     },
     'a-scale': {
-      beat: 'doc', head: 'Kaplan et al. · OpenAI · “Scaling Laws for Neural Language Models”', date: 'Jan 2020', rot: 0.8,
+      beat: 'doc', head: 'Kaplan et al. · OpenAI · “Scaling Laws…”', date: 'Jan 2020', rot: 0.8, x: 860, y: 560, w: 960, quoteSize: 34, at: W('a-scale', 'models', 0.4) - 0.3,
       html: `“The loss scales as a power-law with ${HL('model size, dataset size, and the amount of compute')} used for training…”`,
       foot: 'arxiv.org/abs/2001.08361', hl: [[W('a-scale', 'models', 0.4), W('a-scale', 'compute', 0.75) + 0.3]],
       src: 'Bigger model + more data + more compute → predictably lower error',
@@ -120,7 +121,7 @@
       src: 'NVIDIA glossary: “a self-improving loop” · a vendor’s definition',
     },
     'b-thumbs': {
-      beat: 'doc', holdTo: 'b-flatter', head: 'OpenAI · “Expanding on what we missed with sycophancy”', date: 'May 2, 2025', quoteSize: 46, clean: true,
+      beat: 'doc', holdTo: 'b-flatter', head: 'OpenAI · “Expanding on what we missed with sycophancy”', date: 'May 2, 2025', quoteSize: 42, clean: true, x: 140, w: 1120,
       html: `“…an additional reward signal based on user feedback—${HL('thumbs-up and thumbs-down data from ChatGPT')}.”<br><br><span style="font-size:32px;color:#5b554b">“User feedback in particular can sometimes favor more agreeable responses”</span>`,
       foot: 'openai.com/index/expanding-on-sycophancy', label: 'OpenAI postmortem (May 2, 2025) · shown, not voiced · the Apr 25, 2025 GPT-4o update',
       hl: [[W('b-thumbs', 'reward', 0.6), W('b-thumbs', 'data', 0.95) + 0.3]],
@@ -142,13 +143,8 @@
     'c-rush': {
       beat: 'combo', holdTo: 'c-hedge',
       parts: [
-        { beat: 'grid',
-          cards: [
-            { cat: 'Documents', name: 'Chat with your PDF' }, { cat: 'Documents', name: 'Document Q&A' }, { cat: 'Bots', name: 'Chatbot builder' }, { cat: 'Bots', name: 'Custom assistant' },
-            { cat: 'Research', name: 'Research assistant' }, { cat: 'Web', name: 'Browser agent' }, { cat: 'Dev tools', name: 'Agent builder' }, { cat: 'Web', name: 'AI browser' },
-          ],
-          releases: [{ t: W('c-pdf', 'PDFs', 0.5), date: 'OCT 2023', title: 'ChatGPT reads your PDFs · limited Plus rollout', kills: ['Chat with your PDF', 'Document Q&A'] }] },
-        { beat: 'label', text: 'ILLUSTRATIVE CATEGORIES · NOT REAL COMPANIES', pos: { right: '64px', bottom: '120px' } },
+        { beat: 'label', text: 'OCT 2023 · CHATGPT READS YOUR PDFS · LIMITED PLUS ROLLOUT', pos: { left: '96px', top: '110px' }, size: 22, color: 'var(--red)', at: W('c-pdf', 'PDFs', 0.5) },
+        { beat: 'label', text: 'ILLUSTRATIVE · NOT REAL COMPANIES', pos: { right: '64px', bottom: '120px' } },
         { beat: 'doc', at: s('c-died') - 0.15, until: s('c-hedge') + 0.1, head: 'Decrypt', date: 'Oct 31, 2023', x: 420, y: 630, w: 900, rot: -2, quoteSize: 44,
           html: '“Many startups just died today”', label: Q('AI researcher Alex Ker, via Decrypt') },
         { beat: 'record', at: s('c-hedge') - 0.1, x: 1040, y: 330, w: 800,
@@ -161,7 +157,7 @@
       src: 'Decrypt (2023) · Maginative, citing The Information (2023) · AI Business (Nov 2025) · Cursor blog (Aug 2026)',
     },
     'c-steamroll': {
-      beat: 'doc', from: W('c-steamroll', 'bet', 0.3) - 0.2, head: 'Sam Altman · 20VC podcast', date: 'Apr 2024', quoteSize: 48,
+      beat: 'doc', from: W('c-steamroll', 'bet', 0.3) - 0.2, head: 'Sam Altman · 20VC podcast', date: 'Apr 2024', quoteSize: 40, x: 110, y: 110, w: 1060,
       html: `<span style="font-size:32px;color:#5b554b">On startups that bet the models won’t improve: they get steamrolled</span><br>${HL('“Not because we don’t like you, but because we have a mission.”')}`,
       label: 'Words: Sam Altman, 20VC (Apr 2024), via The Decoder · paraphrased in narration · quote shown, not voiced',
       hl: [[W('c-steamroll', 'steamrolled', 0.9) - 0.1, W('c-steamroll', 'steamrolled', 0.9) + 1.4]],
@@ -170,50 +166,40 @@
     },
     'c-doors': {
       beat: 'combo', until: e('c-doors') + 0.55,
-      parts: [{ beat: 'label', text: 'ILLUSTRATIVE CATEGORIES · NOT REAL COMPANIES · “NOW A FEATURE” ≠ SHUT DOWN', pos: { left: '0', right: '0', bottom: '120px', textAlign: 'center' } }, { beat: 'grid',
-      cards: [
-        { cat: 'Documents', name: 'Chat with your PDF' }, { cat: 'Documents', name: 'Document Q&A' }, { cat: 'Bots', name: 'Chatbot builder' }, { cat: 'Bots', name: 'Custom assistant' },
-        { cat: 'Research', name: 'Research assistant' }, { cat: 'Web', name: 'Browser agent' }, { cat: 'Dev tools', name: 'Agent builder' }, { cat: 'Web', name: 'AI browser' },
+      parts: [
+        { beat: 'label', text: 'NOV 6, 2023 · CUSTOM GPTS · ASSISTANTS API', pos: { left: '96px', top: '110px' }, size: 22, color: 'var(--red)', at: W('c-doors', 'doors', 0.3) },
+        { beat: 'label', text: '2025 · OPERATOR · DEEP RESEARCH · AGENTKIT · ATLAS', pos: { left: '96px', top: '150px' }, size: 22, color: 'var(--red)', at: W('c-doors', 'next', 0.55) },
+        { beat: 'label', text: 'LAUNCHES: OPENAI, TECHCRUNCH · “NOW A FEATURE” ≠ SHUT DOWN', pos: { left: '0', right: '0', bottom: '120px', textAlign: 'center' } },
       ],
-      releases: [
-        { t: s('c-doors') - 3, date: 'OCT 2023', title: 'ChatGPT reads your PDFs', kills: ['Chat with your PDF', 'Document Q&A'] },
-        { t: W('c-doors', 'doors', 0.3), date: 'NOV 6, 2023', title: 'Custom GPTs · Assistants API', kills: ['Chatbot builder', 'Custom assistant'] },
-        { t: W('c-doors', 'next', 0.55), date: '2025', title: 'Operator · Deep Research · AgentKit · Atlas', kills: ['Research assistant', 'Browser agent', 'Agent builder', 'AI browser'] },
-      ],
-      }],
-      src: 'Illustrative categories · launches: OpenAI, TechCrunch (2023–2025) · “now a feature” ≠ shut down',
     },
 
     // ---------------- exhibit D: the acceleration ----------------
-    'd-coders': { beat: 'code', strip: 'FEB–MAY 2025 · CLAUDE CODE · OPENAI CODEX · COPILOT CODING AGENT GO PUBLIC' },
+    'd-coders': { beat: 'label', text: 'FEB–MAY 2025 · CLAUDE CODE · OPENAI CODEX · COPILOT CODING AGENT GO PUBLIC', pos: { left: '0', right: '0', bottom: '120px', textAlign: 'center' }, size: 22 },
     'd-memos': {
       beat: 'combo', until: W('d-2pct', 'about', 0.3),
       parts: [
-        { beat: 'doc', at: W('d-memos', 'shopify', 0.35) - 0.2, head: 'Shopify · CEO memo to staff', date: 'Apr 2025', x: 120, y: 200, w: 820, rot: -2.2, quoteSize: 40,
+        { beat: 'doc', at: W('d-memos', 'shopify', 0.35) - 0.2, head: 'Shopify · CEO memo to staff', date: 'Apr 2025', x: 90, y: 160, w: 740, rot: -2.2, quoteSize: 36,
           html: '“Reflexive AI usage is now a baseline expectation at Shopify.”', label: 'Words: Tobi Lütke · shown, not voiced' },
-        { beat: 'doc', at: W('d-memos', 'microsoft', 0.65) - 0.2, head: 'Microsoft developer division memo', date: 'Jun 2025', x: 980, y: 170, w: 820, rot: 1.6, quoteSize: 38,
+        { beat: 'doc', at: W('d-memos', 'microsoft', 0.65) - 0.2, head: 'Microsoft developer division memo', date: 'Jun 2025', x: 1090, y: 150, w: 740, rot: 1.6, quoteSize: 34,
           html: '“using AI is no longer optional—it’s core to every role and every level.”', label: 'Leaked memo, as reported by Business Insider, via PC Gamer · shown, not voiced',
           stamp: { text: 'Reported', t: W('d-memos', 'reportedly', 0.75), right: 40, size: 40 } },
-        { beat: 'doc', at: W('d-memos', 'use', 0.25), head: 'Coinbase · CEO Brian Armstrong, recalling it on a podcast', date: 'said Aug 2025', x: 470, y: 540, w: 980, rot: -0.8, quoteSize: 32,
+        { beat: 'doc', at: W('d-memos', 'use', 0.25), head: 'Coinbase · CEO Brian Armstrong, recalling it on a podcast', date: 'said Aug 2025', x: 560, y: 640, w: 860, rot: -0.8, quoteSize: 28,
           html: 'Engineers told to onboard to AI coding tools (GitHub Copilot, Cursor): “at least onboard by the end of the week”. Some who didn’t were fired.', label: 'TechCrunch · shown, not voiced' },
         { beat: 'label', text: 'GENERAL AI-USE MANDATES · NOT COPILOT-SPECIFIC', pos: { left: '0', right: '0', top: '96px', textAlign: 'center' }, at: W('d-memos', 'use', 0.25) + 0.3 },
       ],
       src: 'Tobi Lütke memo, posted on X (Apr 2025), via Digital Commerce 360 · Business Insider, via PC Gamer (Jun 29, 2025) · TechCrunch (Aug 22, 2025)',
     },
     'd-2pct': {
-      beat: 'chart', from: W('d-2pct', 'about', 0.3) + 0.2, holdTo: 'd-80pct', drawFrom: W('d-2pct', 'two', 0.5), drawTo: W('d-80pct', 'eighty', 0.6),
-      title: '<div class="kicker">Exhibit D · Evidence</div><div class="title" style="font-size:58px;margin-top:12px">Share of real GitHub issues an AI could fix</div>',
-      foot: 'SWE-bench (Oct 2023, original set) → SWE-bench Verified (2024–26). Different test versions; lab-reported; OpenAI later called the test contaminated.',
-      y: 270, h: 560,
-      points: [
-        { fx: 0.03, v: 1.96, label: '2%', sub: 'OCT 2023 · Claude 2', t: W('d-2pct', 'two', 0.5), dx: 120, dy: -270 },
-        { fx: 0.4, v: 33.2, label: '33%', sub: 'AUG 2024 · GPT-4o', t: (W('d-2pct', 'two', 0.5) + W('d-80pct', 'eighty', 0.6)) / 2 },
-        { fx: 0.95, v: 80.8, label: '~80%', sub: 'FEB 2026 · Claude Opus 4.6 (Anthropic)', t: W('d-80pct', 'eighty', 0.6), dx: -80, dy: 120 },
+      beat: 'combo', from: W('d-2pct', 'about', 0.3) - 0.6, holdTo: 'd-80pct',
+      parts: [
+        { beat: 'label', text: 'EXHIBIT D · EVIDENCE · SHARE OF REAL GITHUB ISSUES AN AI COULD FIX', pos: { left: '96px', top: '100px' }, size: 24 },
+        { beat: 'label', text: 'SWE-bench (Oct 2023, original set) → SWE-bench Verified (2024–26) · different test versions · lab-reported · OpenAI later called the test contaminated',
+          pos: { left: '0', right: '0', bottom: '128px', textAlign: 'center' }, size: 18, color: 'rgba(236,230,218,.8)' },
       ],
       src: 'Jimenez et al. 2023 · OpenAI (Aug 2024) · Anthropic (Feb 5, 2026)',
     },
     'd-opus55': {
-      beat: 'doc', head: 'Anthropic · Introducing Claude Opus 5.5', date: 'Sep 22, 2026', quoteSize: 48, clean: true,
+      beat: 'doc', head: 'Anthropic · Introducing Claude Opus 5.5', date: 'Sep 22, 2026', quoteSize: 42, clean: true, x: 120, w: 1080,
       html: `“We’re introducing Claude Opus 5.5, the first model in our new Claude 5.5 family. It ${HL('performs at the level of Claude Fable 5.1 on most work')} and costs 40% less to run than Opus 5.”`,
       hl: [[W('d-opus55', 'level', 0.5) - 0.3, W('d-opus55', 'work', 0.95) + 0.2]],
       gloss: { text: 'Fable 5.1 = Anthropic’s larger model', t: W('d-opus55', 'Fable', 0.7) },
@@ -221,8 +207,8 @@
     },
     'd-code': {
       beat: 'combo', holdTo: 'd-github', until: e('d-github'),
-      parts: [{ beat: 'flywheel', labels: ['', '', '', ''], center: '', stationTimes: [0, 0, 0, 0], spin: [[0, 0.6], [1, 1.2]], r: 470, layer: { opacity: 0.18, filter: 'blur(2px)' } },
-        { beat: 'doc', head: 'GitHub Blog · Copilot interaction data policy', date: 'Mar 25, 2026', quoteSize: 36, clean: true,
+      parts: [
+        { beat: 'doc', head: 'GitHub Blog · Copilot interaction data policy', date: 'Mar 25, 2026', quoteSize: 32, clean: true, x: 120, w: 1120,
       html: `“From April 24 onward, interaction data… from Copilot Free, Pro, and Pro+ users ${HL('will be used to train and improve our AI models unless they opt out')}.”<br><br>` +
         `<span style="font-size:46px">“We believe the future of AI-assisted development depends on ${HL('real-world interaction data')} from ${HL('developers like you')}.”</span><br><br>` +
         `<span style="font-size:26px;color:#5b554b">Anthropic, Aug 28, 2025, on Claude Free, Pro and Max chats and coding sessions, if users allow it: “This creates a feedback loop that helps models get better over time.”</span>`,
@@ -233,15 +219,21 @@
 
     // ---------------- exhibit E: the price ----------------
     'e-why': {
-      beat: 'ledger', holdTo: 'e-yours', title: 'Who pays for “free”?', y: 190, x: 360, w: 1200, isolateAt: s('e-yours') - 0.2, push: 0.07,
+      beat: 'ledger', until: W('e-data', 'paid', 0.5) - 0.2, title: 'Who pays for “free”?', y: 190, x: 360, w: 1200, isolateAt: 1e9,
       rows: [
         { text: 'Investor billions', note: '$110B round · Feb 2026', t: W('e-list', 'investor', 0.05) },
         { text: 'A race for users', note: 'free plans for millions in India · 2025', t: W('e-list', 'race', 0.3) },
         { text: 'Ads', note: 'tests from Feb 2026 · can be matched to your chats · OpenAI says advertisers don’t see them', t: W('e-list', 'ads', 0.55) },
         { text: 'Falling costs', note: '~10× cheaper per year, same capability', t: W('e-list', 'falling', 0.75) },
-        { text: 'Your data', note: 'ChatGPT consumer default: on', t: W('e-data', 'data', 0.6), big: true },
       ],
       src: 'AP, TechCrunch (Feb 2026) · Outlook Business, Engadget (2025) · NBC News (Feb 2026) · a16z “LLMflation” (2024)',
+    },
+    'e-data': {
+      beat: 'combo', holdTo: 'e-yours', whip: false,
+      parts: [
+        { beat: 'label', text: 'YOUR DATA', pos: { left: '0', right: '0', top: '150px', textAlign: 'center' }, size: 40, color: 'var(--amber)', at: W('e-data', 'data', 0.6) },
+        { beat: 'label', text: 'CHATGPT CONSUMER DEFAULT: ON · BUSINESS AND API PLANS EXCLUDED BY DEFAULT · OPT-OUTS EXIST', pos: { left: '0', right: '0', bottom: '110px', textAlign: 'center' }, size: 18, color: 'rgba(236,230,218,.8)', at: W('e-data', 'data', 0.6) + 0.4 },
+      ],
     },
     'e-switch': {
       beat: 'combo',
@@ -261,7 +253,6 @@
     'v-thin': {
       beat: 'combo', holdTo: 'v-wheel', until: e('v-wheel') + 3.4, push: 0.02,
       parts: [
-        { beat: 'flywheel', labels: ['', '', '', ''], center: '', r: 420, spin: [[0, 1.4], [1, 1.4]], stationTimes: [0, 0, 0, 0], layer: { opacity: 0.35, filter: 'blur(3px)' } },
         { beat: 'say', html: 'Thin wrapper?', size: 96, y: 430, at: W('v-thin', 'thin', 0.25) - 0.1, until: e('v-wheel') + 1.6 },
         { beat: 'say', html: '<span style="color:var(--amber)">Wait.</span>', size: 120, y: 560, at: W('v-thin', 'wait', 0.9) - 0.05, until: e('v-wheel') + 1.6 },
         { beat: 'say', html: 'The wheel won’t.', size: 84, y: 720, at: s('v-wheel') - 0.05, until: e('v-wheel') + 1.6 },
@@ -275,20 +266,16 @@
     },
     'f-asset': { beat: 'say', html: 'But your biggest asset<br>isn’t on that list.', size: 96, color: DARK, gap: 0.14 },
     'f-attention': {
-      beat: 'combo', holdTo: 'f-echo3', push: 0.02,
-      parts: [
-        { beat: 'bubbles', items: [0, 1, 2].map((p) => ({
-          text: ['Guard it.', 'Train it.', 'Move it.'][p], t: s(['f-echo1', 'f-echo2', 'f-echo3'][p]) - 0.15, x: 530 + p * 560, y: 930, dur: 2.2,
-          color: '#5a3410', bg: 'rgba(255,240,214,.85)', alpha: 0.95 })) },
-        { beat: 'pillars', items: [
-          { t: s('f-attention'), label: 'ATTENTION', stat: '47 sec', text: 'average time on one screen before switching (about 2½ min in 2004)', source: 'Gloria Mark, UC Irvine · measures switching, not “attention span”', verb: 'Guard it.', verbT: W('f-attention', 'guard', 0.92),
-            icon: '<svg width="140" height="90" viewBox="0 0 140 90"><path d="M5 45 Q70 -15 135 45 Q70 105 5 45Z" fill="none" stroke="#7a4b1c" stroke-width="5"/><circle cx="70" cy="45" r="20" fill="#7a4b1c"/></svg>' },
-          { t: s('f-mind'), label: 'MIND', stat: '50% vs 67%', statSize: 92, text: 'quiz scores after learning a new library with AI vs by hand', source: 'Anthropic randomized trial, Jan 2026 · 52 engineers · asking AI to explain helped', verb: 'Train it.', verbT: W('f-mind', 'train', 0.93),
-            icon: '<svg width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="#7a4b1c" stroke-width="5"/><path d="M60 15 V105 M30 40 Q60 55 90 40 M30 80 Q60 65 90 80" stroke="#7a4b1c" stroke-width="5" fill="none"/></svg>' },
-          { t: s('f-body'), label: 'HEALTH', stat: '43%', text: 'fewer poor mental-health days among people who exercise', source: 'Chekroud et al., Lancet Psychiatry 2018 · 1.2M Americans · an association', verb: 'Move it.', verbT: W('f-body', 'move', 0.93),
-            icon: '<svg width="130" height="120" viewBox="0 0 130 120"><path d="M65 110 L15 60 A28 28 0 0 1 65 22 A28 28 0 0 1 115 60 Z" fill="none" stroke="#7a4b1c" stroke-width="5"/><path d="M25 62 H50 L58 45 L70 80 L78 62 H105" fill="none" stroke="#7a4b1c" stroke-width="5"/></svg>' },
-        ] },
-      ],
+      beat: 'asset', holdTo: 'f-echo1', label: 'ATTENTION', stat: '47 sec', text: 'average time on one screen before switching (about 2½ min in 2004)',
+      source: 'Gloria Mark, UC Irvine · measures switching, not “attention span”', verb: 'Guard it.', verbT: W('f-attention', 'guard', 0.92),
+    },
+    'f-mind': {
+      beat: 'asset', holdTo: 'f-echo2', label: 'MIND', stat: '50% vs 67%', statSize: 96, text: 'quiz scores after learning a new library with AI vs by hand',
+      source: 'Anthropic randomized trial, Jan 2026 · 52 engineers · asking AI to explain helped', verb: 'Train it.', verbT: W('f-mind', 'train', 0.93),
+    },
+    'f-body': {
+      beat: 'asset', holdTo: 'f-echo3', label: 'HEALTH', stat: '43%', text: 'fewer poor mental-health days among people who exercise',
+      source: 'Chekroud et al., Lancet Psychiatry 2018 · 1.2M Americans · an association', verb: 'Move it.', verbT: W('f-body', 'move', 0.93),
     },
     'f-update': {
       beat: 'combo',
@@ -299,6 +286,61 @@
     },
     'f-final': { beat: 'say', html: 'Invest consciously.', size: 150, color: DARK, gap: 0.35, push: 0.03 },
   };
+
+  // ---------------- B-roll: the cinematic 3D footage under the evidence ----------------
+  // Each entry is one continuous shot from `from` to `to` (film seconds); option times are local to the shot.
+  const card = { B: e('a-reveal') + 0.25, C: e('b-reveal') + 0.25, D: e('c-doors') + 0.3, E: e('d-github') + 0.6 };
+  const dawn = e('v-wheel') + 2.9;
+  const R = (shot, from, to, opts = {}, extra = {}) => ({ shot, from, to, opts, ...extra });
+  const L = (t, from) => +(t - from).toFixed(3);   // film time -> shot-local time
+  const at = {};
+  at.city = s('a-launch') - 0.3;
+  at.scale = s('a-scale') - 0.3;
+  at.roll = s('c-steamroll') - 0.3;
+  at.doors = s('c-doors') - 0.3;
+  at.chart = W('d-2pct', 'about', 0.3) - 0.9;
+  at.person = s('e-data') - 0.3;
+  at.eye = s('f-attention') - 0.3;
+  at.mind = s('f-mind') - 0.3;
+  window.BROLL = [
+    // Exhibit A (graded sepia): the launch spreads over a city at night
+    R('night_city', at.city, e('a-critics') + 0.3, { waveFrom: (W('a-launch', 'free', 0.9) - at.city) / (e('a-critics') + 0.3 - at.city), waveTo: 0.95, seed: 3 }),
+    R('feedback_stream', s('a-whyfree') - 0.3, e('a-whyfree') + 0.3, { icon: 'bubble', seed: 11 }),
+    R('server_hall', s('a-gpt4') - 0.3, e('a-gpt4') + 0.3, { mode: 'dolly' }),
+    R('server_hall', at.scale, e('a-scale') + 0.3, { mode: 'reveal', pulses: ['models', 'data', 'compute'].map((w) => L(W('a-scale', w, 0.5), at.scale)) }),
+    R('feedback_stream', s('a-refine') - 0.3, e('a-refine') + 0.3, { icon: 'mixed', seed: 12 }),
+    // the wheel appears on the reveal and spins up under the Exhibit B card
+    R('flywheel_3d', s('a-reveal') - 0.3, s('b-name') - 0.1, { mode: 'hero', spin: [[0, 0.02], [0.6, 0.08], [1, 0.25]] }, { fadeOut: 0.3 }),
+    // Exhibit B (cold steel)
+    R('flywheel_3d', s('b-name') - 0.3, e('b-more') + 0.3, { mode: 'hero', spin: [[0, 0.25], [1, 0.6]] }, { opacity: 0.4, blur: 3, fadeIn: 0.3 }),
+    R('feedback_stream', s('b-thumbs') - 0.3, e('b-flatter') + 0.3, { icon: 'thumb', seed: 21 }),
+    R('flywheel_3d', s('b-reveal') - 0.3, card.C, { mode: 'reveal', spin: [[0, 0.5], [1, 0.8]] }, { fadeOut: 0.05 }),
+    // Exhibit C
+    R('startup_field', s('c-rush') - 0.3, e('c-hedge') + 0.3, { mode: 'field', seed: 5 }),
+    R('startup_field', at.roll, e('c-steamroll') + 0.3, { mode: 'roll', seed: 5, rollFrom: L(W('c-steamroll', 'bet', 0.3), at.roll), rollTo: L(W('c-steamroll', 'steamrolled', 0.9) + 0.5, at.roll) }),
+    R('doors_corridor', at.doors, e('c-doors') + 0.05, { closeAt: L(W('c-doors', 'next', 0.55), at.doors), closeDur: e('c-doors') - W('c-doors', 'next', 0.55) }, { fadeOut: 0.01 }),
+    // Exhibit D: from the black on the door latch straight into the code tunnel under the card
+    R('code_tunnel', card.D, e('d-coders') + 0.3, { speed: [[0, 6], [0.5, 14], [1, 30]] }, { fadeIn: 0.02 }),
+    R('office_screens', s('d-memos') - 0.3, e('d-memos') + 0.3, { waveAt: 0.2, waveDur: 2.5 }),
+    R('rising_chart', at.chart, e('d-80pct') + 0.3, {
+      drawFrom: L(W('d-2pct', 'two', 0.5), at.chart), drawTo: L(W('d-80pct', 'eighty', 0.6) + 0.4, at.chart),
+      points: [{ fx: 0.03, v: 1.96, label: '2%', sub: 'OCT 2023 · CLAUDE 2' }, { fx: 0.45, v: 33.2, label: '33%', sub: 'AUG 2024 · GPT-4o' },
+        { fx: 0.95, v: 80.8, label: '~80%', sub: 'FEB 2026 · CLAUDE OPUS 4.6' }] }),
+    R('server_hall', s('d-opus55') - 0.3, e('d-opus55') + 0.3, { mode: 'dolly' }),
+    R('office_screens', s('d-code') - 0.3, e('d-github') + 0.05, { waveAt: -10, waveDur: 0.1 }, { fadeOut: 0.01 }),
+    // Exhibit E: the race for users, then the price in silence
+    R('globe_users', card.E, e('e-list') + 0.3, { growFrom: 0.1, growTo: 1, arcs: true }, { opacity: 0.55, fadeIn: 0.02 }),
+    R('particle_person', at.person, e('e-yours') + 0.9, { dissolveAt: L(W('e-data', 'data', 0.6), at.person), dissolveDur: e('e-yours') + 0.5 - W('e-data', 'data', 0.6) }, { scrim: 0.4 }),
+    R('flywheel_3d', s('e-trade') - 0.3, e('e-trade') + 0.3, { mode: 'hero', spin: [[0, 0.3], [1, 0.5]] }, { opacity: 0.5, blur: 2 }),
+    // Verdict: the rim rushes past
+    R('flywheel_3d', s('v-thin') - 0.3, e('v-wheel') + 2.6, { mode: 'close', spin: [[0, 0.6], [0.8, 1.4], [1, 2.0]] }),
+    // Closing (warm daylight)
+    R('dawn_landscape', dawn, e('f-asset') + 0.3, { mode: 'rise' }, { fadeIn: 1.2, scrim: 0 }),
+    R('eye_macro', at.eye, e('f-echo1') + 0.3, { lookAt: L(W('f-attention', 'guard', 0.92) - 0.6, at.eye) }, { scrim: 0.35 }),
+    R('neural_bloom', at.mind, e('f-echo2') + 0.3, { lightAt: L(W('f-mind', 'train', 0.93), at.mind) }, { scrim: 0.35 }),
+    R('runner_ridge', s('f-body') - 0.3, e('f-echo3') + 0.3, {}, { scrim: 0.35 }),
+    R('dawn_landscape', s('f-update') - 0.3, window.FILM_DURATION, { mode: 'wide' }, { fadeOut: 0.01, scrim: 0 }),
+  ];
 
   window.ENDCARD = {
     title: 'THE FLYWHEEL',

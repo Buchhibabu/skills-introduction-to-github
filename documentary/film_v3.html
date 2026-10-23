@@ -29,20 +29,22 @@
     <div id="blackout"></div>
   </div>
 </div>
+<script type="importmap">{ "imports": { "three": "./node_modules/three/build/three.module.js", "three/addons/": "./node_modules/three/examples/jsm/" } }</script>
 <script src="out/v3/timings.js"></script>
 <script src="out/v3/hits.js"></script>
 <script src="engine.js"></script>
 <script src="components.js"></script>
 <script src="beats.js"></script>
 <script src="script/v3/visuals.js"></script>
-<script src="scenes_v3.js"></script>
 <script>
+  // the 3D B-roll loads as ES modules, so the film is built once they are registered (see the module below)
   const fonts = ['500 40px Oswald', '600 40px Oswald', '700 40px Oswald', '400 40px "Playfair Display"', 'italic 400 40px "Playfair Display"',
     '700 40px "Playfair Display"', '400 40px "IBM Plex Mono"', '600 40px "IBM Plex Mono"', '400 40px "Special Elite"', '400 40px Inter', '600 40px Inter'];
+  const built = new Promise((resolve) => (window.filmBuilt = resolve));
   window.FILM = {
     duration: window.FILM_DURATION,
     sfx: E.sfx,
-    ready: Promise.all(fonts.map((f) => document.fonts.load(f))).then(() => document.fonts.ready).then(() => E.seek(0)),
+    ready: Promise.all(fonts.map((f) => document.fonts.load(f))).then(() => document.fonts.ready).then(() => built).then(() => E.seek(0)),
     seek: (t) => E.seek(t),
   };
   // Live preview in a normal browser: ?play
@@ -51,6 +53,12 @@
     const tick = () => { E.seek(((performance.now() - t0) / 1000) % window.FILM_DURATION); requestAnimationFrame(tick); };
     FILM.ready.then(tick);
   }
+</script>
+<script type="module">
+  await Promise.all(fonts.map((f) => document.fonts.load(f)));
+  await import('./broll/index.js');
+  await import('./scenes_v3.js');
+  window.filmBuilt();
 </script>
 </body>
 </html>

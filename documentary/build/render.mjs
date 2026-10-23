@@ -35,7 +35,8 @@ function encoder(file) {
   return { ff, done };
 }
 
-const browser = await chromium.launch({ args: ['--disable-gpu-vsync', '--force-color-profile=srgb'] });
+// file access lets module scripts (three.js B-roll) load from disk; SwiftShader renders WebGL without a GPU
+const browser = await chromium.launch({ args: ['--disable-gpu-vsync', '--force-color-profile=srgb', '--allow-file-access-from-files', '--enable-unsafe-swiftshader'] });
 
 if (opt.stills) {
   mkdirSync(outPath, { recursive: true });

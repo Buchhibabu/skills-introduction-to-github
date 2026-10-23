@@ -15,7 +15,7 @@
    "line:a-gpt4:start",
    "line:a-reveal:start"
   ],
-  "tail_s": 0.3,
+  "tail_s": 4.0,
   "fade_in": 0.02,
   "fade_out": 0.08,
   "gain_db": -1.0
@@ -28,7 +28,7 @@
    "line:b-thumbs:start",
    "line:b-reveal:start"
   ],
-  "tail_s": 0.3,
+  "tail_s": 4.0,
   "fade_in": 0.02,
   "fade_out": 0.08,
   "gain_db": 0.0
@@ -40,7 +40,7 @@
   "bounds": [
    "line:c-steamroll:start"
   ],
-  "tail_s": 0.2,
+  "tail_s": 4.0,
   "fade_in": 0.02,
   "fade_out": 0.02,
   "gain_db": 1.0
@@ -53,7 +53,7 @@
    "line:d-2pct:start",
    "line:d-opus55:start"
   ],
-  "tail_s": 0.2,
+  "tail_s": 4.0,
   "fade_in": 0.02,
   "fade_out": 0.02,
   "gain_db": 2.0
@@ -62,7 +62,7 @@
   "cue": "M3A_PRICE",
   "from": "line:d-github:end+0.6",
   "to": "line:e-data:end+0.05",
-  "tail_s": 0.2,
+  "tail_s": 4.0,
   "fade_in": 0.02,
   "fade_out": 0.02,
   "gain_db": 1.5

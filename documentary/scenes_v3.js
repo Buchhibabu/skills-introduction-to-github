@@ -100,6 +100,15 @@
     flash.style.opacity = Math.min(0.55, 0.45 * fl * day);
   });
 
+  // ---- B-roll: cinematic 3D shots under the evidence (window.BROLL from script/v3/visuals.js) ----
+  (window.BROLL || []).forEach((b) => {
+    scene(b.from, b.to, (root) => {
+      const up = B.shot(root, { t0: b.from, t1: b.to }, b);
+      if (b.blur) root.style.filter = `blur(${b.blur}px)`;
+      return up;
+    }, { push: 0 });
+  });
+
   // ---- title ----
   scene(TITLE_AT, TITLE_END + 0.2, (root) => C.titleCard(root, { t0: TITLE_AT, t1: TITLE_END + 0.2, title: 'THE FLYWHEEL', sub: 'A case in five exhibits · all from public sources', typewriter: true }), { push: 0.04 });
 
@@ -119,13 +128,12 @@
     css(strip, { left: '0', top: '-60px', bottom: '-60px', width: '46px', background: 'repeating-linear-gradient(180deg, rgba(0,0,0,.85) 0 26px, rgba(236,220,190,.18) 26px 44px, rgba(0,0,0,.85) 44px 70px)' });
     return (t) => { root.style.opacity = inA(t) * 0.8; strip.style.transform = `translateY(${(t * 120) % 70}px)`; };
   }, { push: 0 });
-  // A -> B: the wheel forms under the reel-change card, with two cue-mark flashes
+  // A -> B: two reel-change cue marks flash over the spinning wheel (the 3D wheel is in the B-roll track)
   scene(En('a-reveal') + 0.1, S('b-name') + 0.3, (root) => {
-    const w = C.flywheel(root, { t0: En('a-reveal') + 0.1, t1: S('b-name') + 0.3, labels: ['', '', '', ''], center: '', stationTimes: [1e9, 1e9, 1e9, 1e9], spin: [[0, 0.1], [1, 0.4]] });
     const mark = el('div', 'abs', root);
     css(mark, { left: '1730px', top: '90px', width: '60px', height: '60px', borderRadius: '50%', border: '4px solid rgba(255,255,255,.85)' });
     const f1 = En('a-reveal') + 0.45, f2 = f1 + 0.4;
-    return (t) => { w(t); mark.style.opacity = (t > f1 && t < f1 + 0.08) || (t > f2 && t < f2 + 0.08) ? 1 : 0; };
+    return (t) => { mark.style.opacity = (t > f1 && t < f1 + 0.08) || (t > f2 && t < f2 + 0.08) ? 1 : 0; };
   }, { push: 0 });
 
   // ---- chapter cards + HUD ----
@@ -138,8 +146,7 @@
   });
   scene(sec.VERDICT.start - 0.2, BURN, (root) => C.hud(root, { label: 'A WARNING TO BUILDERS', from: sec.VERDICT.start - 0.2, to: BURN }), { push: 0 });
 
-  // rising sun under the closing
-  scene(DAWN, DUR, (root) => C.sun(root, { t0: DAWN, t1: DUR, rise: [[0, 1250], [1, 520]] }), { push: 0 });
+  // the closing's sunrise is the dawn_landscape B-roll (no flat sun on top of it)
 
   // ---- per-line visuals ----
   const V = window.VISUALS || {};
@@ -155,7 +162,27 @@
     // clear the frame before the next exhibit's chapter card
     const nextSec = next && T[next].section;
     if (nextSec && nextSec !== line.section && CARD_AT[nextSec]) t1 = Math.min(t1, CARD_AT[nextSec] - 0.4);
-    scene(t0, t1 + 0.4, (root) => B[spec.beat](root, { t0, t1: t1 + 0.4, line, id }, spec), { push: spec.push ?? 0.035 });
+    // camera language: each shot drifts (push, pan or rise, alternating) and whips in and out of its
+    // neighbours in the same exhibit instead of dissolving like a slide
+    const prev = vis[i - 1];
+    const whipIn = spec.whip ?? (prev && T[prev].section === line.section);
+    const whipOut = next && T[next].section === line.section && (V[next].whip ?? true);
+    const end = t1 + 0.4;
+    const moves = [[0, 0, 0.04], [-36, 0, 0.02], [36, 0, 0.02], [0, -24, 0.03]];
+    const [mx, my, ms] = spec.move ?? moves[i % moves.length];
+    const push = spec.push ?? 1;
+    scene(t0, end, (root) => {
+      const up = B[spec.beat](root, { t0, t1: end, line, id }, spec);
+      return (t) => {
+        up(t);
+        const k = prog(t, t0, end);
+        const a = whipIn ? 1 - E.ease.out(prog(t, t0, t0 + 0.28, E.ease.linear)) : 0;
+        const z = whipOut ? E.ease.in(prog(t, end - 0.28, end, E.ease.linear)) : 0;
+        const x = mx * k * push + 280 * a - 280 * z, y = my * k * push;
+        root.style.transform = `translate(${x}px, ${y}px) scale(${1 + ms * k * push})`;
+        root.style.filter = a + z > 0.01 ? `blur(${14 * (a + z)}px)` : '';
+      };
+    }, { push: 0 });
   });
 
   // ---- end card ----

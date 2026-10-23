@@ -75,7 +75,7 @@ def heard_words(x):
 
 def judge(path, edges_s):
     """Rhythmic density (onsets/s), build (last section vs first, dB), sag (deepest dip under the median, dB), words heard."""
-    x = decode(path)
+    x = decode(path)[: int(edges_s[-1] * 16000)]  # only what plays: the composed tail past a hard cut is never heard
     sr, n = 16000, 1024
     frames = x[: len(x) // n * n].reshape(-1, n)
     mag = np.abs(np.fft.rfft(frames * np.hanning(n), axis=1))
@@ -126,7 +126,8 @@ for slot in score:
     plan = {"chunks": chunks}
     h = hashlib.sha1(json.dumps(plan, sort_keys=True).encode()).hexdigest()[:12]
     n_var = cue.get("variants", 1)
-    edges = np.cumsum([0] + [c["duration_ms"] / 1000 for c in chunks])
+    edges = list(np.cumsum([0] + [c["duration_ms"] / 1000 for c in chunks]))
+    edges[-1] = min(edges[-1], t1 - t0)
     judged = []
     for v in range(n_var):
         path = out / "music" / (f"{slot['cue']}_{h}.mp3" if n_var == 1 else f"{slot['cue']}_{h}_v{v + 1}.mp3")

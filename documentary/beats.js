@@ -153,6 +153,40 @@
     return (t) => (n.style.opacity = env(t, t0, t1, 0.4, 0.4));
   };
 
+  // One asset of the closing, as a warm card in the left third over a full-frame shot: label, stat,
+  // one line, source; then the verb lands under it.
+  B.asset = (root, { t0, t1 }, o) => {
+    const card = el('div', 'abs', root);
+    css(card, { left: '110px', top: '200px', width: '620px', padding: '44px 48px 40px', background: 'rgba(255,246,232,.88)', borderRadius: '6px',
+      boxShadow: '0 30px 80px rgba(60,30,10,.35)', color: '#2a1d14' });
+    card.innerHTML = `<div class="mono" style="font-size:26px;letter-spacing:.4em;color:#7a4b1c">${o.label}</div>
+      <div class="title" style="font-size:${o.statSize || 120}px;line-height:1;margin-top:18px;white-space:nowrap">${o.stat}</div>
+      <div style="font-size:30px;color:#4a3a2c;margin-top:20px;line-height:1.35">${o.text}</div>
+      <div class="mono" style="font-size:18px;color:rgba(74,58,44,.8);margin-top:22px;line-height:1.45">${o.source}</div>`;
+    const verb = el('div', 'abs serif', root, o.verb);
+    css(verb, { left: '110px', width: '620px', top: '800px', textAlign: 'center', fontSize: '88px', fontStyle: 'italic', color: '#fff6e8',
+      textShadow: '0 4px 30px rgba(60,30,10,.7)' });
+    return (t) => {
+      root.style.opacity = env(t, t0, t1, 0.3, 0.5);
+      const k = prog(t, t0 + 0.2, t0 + 0.9, ease.out);
+      card.style.opacity = k;
+      card.style.transform = `translateX(${(1 - k) * -60}px)`;
+      const v = prog(t, o.verbT, o.verbT + 0.35, ease.out);
+      verb.style.opacity = v;
+      verb.style.transform = `scale(${lerp(1.25, 1, v)})`;
+    };
+  };
+
+  // Cinematic 3D B-roll (broll/shots/*.js, registered on window.SHOTS), full frame under the evidence.
+  B.shot = (root, { t0, t1 }, o) => {
+    if (!window.SHOTS?.[o.shot]) return () => {};
+    const up = window.SHOTS[o.shot](root, { t0, t1 }, o.opts || {});
+    // scrim: the footage sits a little back so the evidence over it stays readable (scrim: 0 for full-frame moments)
+    const scrim = el('div', 'abs', root);
+    css(scrim, { inset: '0', background: `radial-gradient(ellipse 75% 70% at 50% 50%, rgba(8,10,14,${0.25 * (o.scrim ?? 1)}) 0%, rgba(8,10,14,${0.6 * (o.scrim ?? 1)}) 100%)` });
+    return (t) => { root.style.opacity = env(t, t0, t1, o.fadeIn ?? 0.3, o.fadeOut ?? 0.35) * (o.opacity ?? 1); up(t); };
+  };
+
   window.B = B;
   window.W = W;
 })();

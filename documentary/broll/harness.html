@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>B-roll harness</title>
+<!-- Preview one shot: broll/harness.html?shot=server_hall&dur=8&opts={...}&overlay=doc|title|lower|none -->
+<link rel="stylesheet" href="../node_modules/@fontsource/oswald/500.css">
+<link rel="stylesheet" href="../node_modules/@fontsource/oswald/600.css">
+<link rel="stylesheet" href="../node_modules/@fontsource/oswald/700.css">
+<link rel="stylesheet" href="../node_modules/@fontsource/playfair-display/400.css">
+<link rel="stylesheet" href="../node_modules/@fontsource/playfair-display/700.css">
+<link rel="stylesheet" href="../node_modules/@fontsource/ibm-plex-mono/400.css">
+<link rel="stylesheet" href="../node_modules/@fontsource/ibm-plex-mono/600.css">
+<link rel="stylesheet" href="../node_modules/@fontsource/special-elite/400.css">
+<link rel="stylesheet" href="../node_modules/@fontsource/inter/400.css">
+<link rel="stylesheet" href="../node_modules/@fontsource/inter/600.css">
+<link rel="stylesheet" href="../film.css">
+<script type="importmap">{ "imports": { "three": "../node_modules/three/build/three.module.js", "three/addons/": "../node_modules/three/examples/jsm/" } }</script>
+<style>
+  .ov-doc { position:absolute; left:150px; top:300px; width:1000px; height:420px; background:#efe7d6; box-shadow:0 30px 80px rgba(0,0,0,.6); transform:rotate(-1.2deg); padding:40px; font:44px 'Playfair Display'; color:#1d1b18; }
+  .ov-title { position:absolute; left:0; right:0; top:470px; text-align:center; font:600 96px Oswald; color:#ece6da; letter-spacing:.06em; text-transform:uppercase; }
+  .ov-lower { position:absolute; left:96px; bottom:72px; font:22px 'IBM Plex Mono'; color:rgba(236,230,218,.8); padding-left:18px; border-left:3px solid #f0a63a; }
+</style>
+</head>
+<body>
+<div id="stage"><div id="root" style="position:absolute;inset:0"></div><div id="ov" style="position:absolute;inset:0"></div><div id="vignette"></div></div>
+<script type="module">
+  const q = new URLSearchParams(location.search);
+  const name = q.get('shot'), dur = Number(q.get('dur') || 8), opts = JSON.parse(q.get('opts') || '{}'), overlay = q.get('overlay') || 'none';
+  const ov = document.getElementById('ov');
+  if (overlay === 'doc') ov.innerHTML = '<div class="ov-doc">“A sample quoted document sits here, over the shot, so the composition leaves room for evidence.”</div>';
+  if (overlay === 'title') ov.innerHTML = '<div class="ov-title">A statement line sits here</div>';
+  if (overlay === 'lower') ov.innerHTML = '<div class="ov-lower"><b style="color:#f0a63a">SOURCE</b> A lower-third source line</div>';
+  const fonts = ['600 40px Oswald', '400 40px "IBM Plex Mono"', '400 40px "Special Elite"', '400 40px Inter', '400 40px "Playfair Display"'];
+  window.FILM = {
+    duration: dur,
+    ready: (async () => {
+      await Promise.all(fonts.map((f) => document.fonts.load(f)));
+      await import(`./shots/${name}.js`);
+      window.update = window.SHOTS[name](document.getElementById('root'), { t0: 0, t1: dur }, opts);
+    })(),
+    seek: (t) => window.update(t),
+  };
+</script>
+</body>
+</html>
