@@ -13,7 +13,7 @@ import numpy as np
 import soundfile as sf
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from eleven import client, credits_used  # noqa: E402
+from eleven import client, credits_used, retry  # noqa: E402
 from elevenlabs import VoiceSettings  # noqa: E402
 
 SR = 48000
@@ -115,7 +115,7 @@ for role, spec in roles.items():
     if len(sample) < 120:
         sample = (sample + " Every prompt, every correction, every thumbs-up became a signal. The signal had a destination.")[:900]
     before, _ = credits_used()
-    d = client.text_to_voice.design(voice_description=spec["design_prompt"], model_id="eleven_ttv_v3", text=sample)
+    d = retry(client.text_to_voice.design, voice_description=spec["design_prompt"], model_id="eleven_ttv_v3", text=sample)
     best, best_score = None, -1
     for p in d.previews:
         pth = out / "lines" / f"_design_{role}_{p.generated_voice_id}.mp3"
@@ -156,7 +156,7 @@ for i, ln in enumerate(lines):
         if eff:
             from elevenlabs import EffectsSpecInput
             kwargs["audio_effects"] = EffectsSpecInput(**eff)
-        r = client.text_to_speech.convert_with_timestamps(**kwargs)
+        r = retry(client.text_to_speech.convert_with_timestamps, **kwargs)
         log_cost(f"line {ln['id']} take {take + 1}", before)
         tmp = out / "lines" / f"_{ln['id']}_take{take + 1}.mp3"
         tmp.write_bytes(base64.b64decode(r.audio_base_64))

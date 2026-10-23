@@ -9,7 +9,7 @@ import hashlib, json, re, sys, time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from eleven import client, credits_used  # noqa: E402
+from eleven import client, credits_used, retry  # noqa: E402
 
 bible = json.loads(Path(sys.argv[1]).read_text())
 cues = json.loads(Path(sys.argv[2]).read_text())
@@ -47,7 +47,7 @@ for sid in sorted({c["sfx"] for c in cues}):
     path = out / "sfx" / f"{sid}_{key}.mp3"
     if not path.exists():
         before, _ = credits_used()
-        audio = client.text_to_sound_effects.convert(text=s["prompt"], duration_seconds=max(0.5, min(30.0, s["duration_s"])),
+        audio = retry(client.text_to_sound_effects.convert, text=s["prompt"], duration_seconds=max(0.5, min(30.0, s["duration_s"])),
                                                      prompt_influence=s.get("prompt_influence", 0.5), loop=bool(s.get("loop", False)),
                                                      output_format="mp3_44100_192")
         path.write_bytes(b"".join(audio))

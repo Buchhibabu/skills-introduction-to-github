@@ -159,6 +159,7 @@
       const lx = cx + (r + 0) * Math.cos(a), ly = cy + (r + 0) * Math.sin(a);
       css(n, { left: lx + 'px', top: ly + 'px', transform: 'translate(-50%,-50%)', background: '#1a2028', border: '2px solid rgba(240,166,58,0.8)', borderRadius: '40px', padding: '14px 30px', whiteSpace: 'nowrap', boxShadow: '0 10px 40px rgba(0,0,0,.5)' });
       n.innerHTML = `<span class="title" style="font-size:36px;letter-spacing:.08em">${txt}</span>`;
+      if (!txt) n.style.display = 'none';
       const ts = stationTimes[i] ?? t0 + 0.6 * i;
       cue(ts, 'pop', { freq: 440 + 110 * i });
       return { n, ts };
@@ -570,7 +571,7 @@
       c.style.transform = `translateX(${(1 - k) * 260}px) rotate(1.2deg)`;
       ls.forEach(({ n, l }) => {
         const tt = l.t ?? at + 0.3;
-        const chars = Math.floor(clamp((t - tt) * 55, 0, l.text.length));
+        const chars = Math.floor(clamp((t - tt) * (l.cps || 55), 0, l.text.length));
         n.textContent = l.text.slice(0, chars);
       });
       if (q) q.style.opacity = prog(t, quote.t ?? at + 1, (quote.t ?? at + 1) + 0.5);

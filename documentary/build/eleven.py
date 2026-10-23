@@ -16,7 +16,21 @@ from elevenlabs import ElevenLabs  # noqa: E402
 client = ElevenLabs(api_key=os.environ.get("ELEVENLABS_API_KEY"))
 
 
+def retry(fn, *args, tries=6, **kwargs):
+    """Call the API, backing off on rate limits (429) and transient server errors."""
+    import time
+    from elevenlabs.core.api_error import ApiError
+
+    for i in range(tries):
+        try:
+            return fn(*args, **kwargs)
+        except ApiError as e:
+            if e.status_code not in (429, 500, 502, 503, 504) or i == tries - 1:
+                raise
+            time.sleep(min(60, 4 * 2 ** i))
+
+
 def credits_used():
     """Credits consumed this billing period and the period's limit (for the production ledger)."""
-    sub = client.user.subscription.get()
+    sub = retry(client.user.subscription.get)
     return sub.character_count, sub.character_limit

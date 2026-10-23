@@ -1286,60 +1286,84 @@
    "approx_duration_s": 27.1,
    "chunks": [
     {
-     "text": "Cold open, the whispers. Near silence: a low D sub-bass drone fades in under analog tape texture; one felt-piano note (D) every three seconds; a thin high string harmonic rises in volume and density as tension builds to a peak, then stops abruptly with no tail.",
+     "text": "[Intro]",
      "duration_ms": 6600,
      "positive_styles": [
       "dark ambient documentary score",
-      "sub-bass drone",
-      "felt piano",
+      "low D sub-bass drone",
       "analog tape texture",
-      "suspenseful",
-      "minimal",
-      "D minor"
+      "single felt piano note every few seconds",
+      "thin high string harmonic rising",
+      "building unease",
+      "D minor",
+      "instrumental"
      ],
      "negative_styles": [
-      "vocals",
+      "EDM",
       "choir",
       "drums",
+      "humming",
+      "jazz saxophone",
+      "lyrics",
+      "singing",
+      "spoken word",
       "upbeat",
-      "EDM",
-      "jazz saxophone"
-     ]
+      "vocals"
+     ],
+     "direction": "Cold open, the whispers. Near silence: a low D sub-bass drone fades in under analog tape texture; one felt-piano note (D) every three seconds; a thin high string harmonic rises in volume and density as tension builds to a peak, then stops abruptly with no tail."
     },
     {
-     "text": "Cold open, the gift. Starts from silence. Solo felt piano, very soft and close, plays a two-note falling motif (D down to B-flat): the gift motif. A sustained low cello harmonic sits underneath, with wide spaces for a spoken voice and a quiet unease. Ends holding a dark, unresolved chord.",
+     "text": "[Verse]",
      "duration_ms": 14500,
      "positive_styles": [
       "solo felt piano",
+      "soft two-note falling motif",
       "low cello harmonic",
       "intimate",
       "sparse",
-      "restrained suspense"
+      "restrained suspense",
+      "D minor",
+      "instrumental"
      ],
      "negative_styles": [
-      "drums",
-      "percussion",
-      "vocals",
       "bright",
-      "trailer hits"
-     ]
+      "choir",
+      "drums",
+      "humming",
+      "lyrics",
+      "percussion",
+      "singing",
+      "spoken word",
+      "trailer hits",
+      "vocals"
+     ],
+     "direction": "Cold open, the gift. Starts from silence. Solo felt piano, very soft and close, plays a two-note falling motif (D down to B-flat): the gift motif. A sustained low cello harmonic sits underneath, with wide spaces for a spoken voice and a quiet unease. Ends holding a dark, unresolved chord."
     },
     {
-     "text": "Main title. A deep sub-bass braam on the downbeat; low strings swell in D minor; a pulsing analog synth arpeggio enters at 84 BPM; the felt-piano gift motif returns an octave lower over it. The last bar stops dead on one low hit with a long reverb tail.",
+     "text": "[Chorus]",
      "duration_ms": 6000,
      "positive_styles": [
-      "cinematic braam",
+      "cinematic sub-bass braam",
       "low strings swell",
-      "pulsing analog synth",
+      "pulsing analog synth arpeggio",
       "84 BPM",
-      "dark title theme"
+      "dark main title theme",
+      "felt piano motif an octave lower",
+      "D minor",
+      "instrumental"
      ],
      "negative_styles": [
-      "vocals",
-      "major key",
       "cheerful",
-      "guitar"
-     ]
+      "choir",
+      "guitar",
+      "humming",
+      "lyrics",
+      "major key",
+      "singing",
+      "spoken word",
+      "vocals"
+     ],
+     "direction": "Main title. A deep sub-bass braam on the downbeat; low strings swell in D minor; a pulsing analog synth arpeggio enters at 84 BPM; the felt-piano gift motif returns an octave lower over it. The last bar stops dead on one low hit with a long reverb tail."
     }
    ],
    "mix_notes": "Generate as ONE plan. At the cold-open cut (end of co-v6, about 0:05.8) hard-mute ALL audio (music, whispers, hiss) for 0.8 s of digital black; chunk 2 then enters from silence under 'It looks like a gift.'. Bed at -24 dB under the narrator (6 dB sidechain duck, 120 ms release). Chunk 3 plays free at -12 dB with sfx_braam on its downbeat, frame-locked to the title burn-in at about 0:21.1. Let the final low hit ring under the Exhibit A card."
@@ -1350,77 +1374,109 @@
    "approx_duration_s": 143.2,
    "chunks": [
     {
-     "text": "Exhibit A, the archive. 84 BPM, D minor. The felt-piano gift motif over warm low string pads; a soft, clock-like rim tick on every quarter note; gentle tape saturation like an old reel. Restrained and curious, leaving room for narration and document reads. A small swell near the end, then a short drop to near silence.",
+     "text": "[Verse]",
      "duration_ms": 42800,
      "positive_styles": [
-      "cinematic documentary score",
-      "investigative",
-      "felt piano",
-      "low strings",
-      "soft ticking pulse",
+      "cinematic investigative documentary score",
+      "felt piano motif",
+      "warm low string pads",
+      "soft clock-like rim tick on every beat",
       "84 BPM",
-      "D minor"
+      "slow-burn suspicion",
+      "D minor",
+      "instrumental"
      ],
      "negative_styles": [
-      "vocals",
-      "choir",
-      "jazz",
-      "saxophone",
+      "EDM drop",
       "cheerful",
-      "EDM drop"
-     ]
+      "choir",
+      "humming",
+      "jazz",
+      "lyrics",
+      "saxophone",
+      "singing",
+      "spoken word",
+      "vocals"
+     ],
+     "direction": "Exhibit A, the archive. 84 BPM, D minor. The felt-piano gift motif over warm low string pads; a soft, clock-like rim tick on every quarter note; gentle tape saturation like an old reel. Restrained and curious, leaving room for narration and document reads. A small swell near the end, then a short drop to near silence."
     },
     {
-     "text": "Exhibit B, the wheel. Same key and tempo. A circular eighth-note analog synth bass ostinato enters, looping like a turning flywheel under the piano motif, with a muted metallic pulse. Colder, more hypnotic and one notch more intense. Ends on a low swell and a brief stop.",
+     "text": "[Build]",
      "duration_ms": 32900,
      "positive_styles": [
-      "circular synth ostinato",
-      "hypnotic pulse",
-      "felt piano",
+      "circular analog synth bass ostinato",
+      "hypnotic turning pulse",
+      "felt piano motif",
       "low strings",
-      "cold"
+      "cold",
+      "84 BPM",
+      "D minor",
+      "instrumental"
      ],
      "negative_styles": [
-      "vocals",
-      "drum kit",
       "bright",
-      "cheerful"
-     ]
+      "cheerful",
+      "choir",
+      "drum kit",
+      "humming",
+      "lyrics",
+      "singing",
+      "spoken word",
+      "vocals"
+     ],
+     "direction": "Exhibit B, the wheel. Same key and tempo. A circular eighth-note analog synth bass ostinato enters, looping like a turning flywheel under the piano motif, with a muted metallic pulse. Colder, more hypnotic and one notch more intense. Ends on a low swell and a brief stop."
     },
     {
-     "text": "Exhibit C, the steamroller. Same key and tempo. Staccato low strings and deep tom hits on beats one and three, with sub-bass accents at the ends of phrases. Heavier and pressing, but sparse enough for speech. The last three seconds thin to a single sustained low string note.",
+     "text": "[Bridge]",
      "duration_ms": 29100,
      "positive_styles": [
       "staccato low strings",
-      "deep tom hits",
+      "deep tom hits on one and three",
       "sub-bass accents",
       "pressure",
-      "driving"
+      "driving",
+      "84 BPM",
+      "D minor",
+      "instrumental"
      ],
      "negative_styles": [
-      "vocals",
-      "rock drums",
+      "cheerful",
+      "choir",
       "guitar",
-      "cheerful"
-     ]
+      "humming",
+      "lyrics",
+      "rock drums",
+      "singing",
+      "spoken word",
+      "vocals"
+     ],
+     "direction": "Exhibit C, the steamroller. Same key and tempo. Staccato low strings and deep tom hits on beats one and three, with sub-bass accents at the ends of phrases. Heavier and pressing, but sparse enough for speech. The last three seconds thin to a single sustained low string note."
     },
     {
-     "text": "Exhibit D, the acceleration. Opens from near silence: for two seconds, only a high string harmonic. Then the pulse doubles: a sixteenth-note synth pulse, a string ostinato climbing in pitch every four bars, crisp ticking clicks. The tightest and fastest section, rising steadily. The final eight seconds hold a sustained high violin tension chord over the pulse, less busy so a spoken read stays clear, and the piece stops dead at its peak with no tail.",
+     "text": "[Climax]",
      "duration_ms": 38400,
      "positive_styles": [
       "sixteenth-note synth pulse",
       "rising string ostinato",
       "high violin tension",
-      "accelerating",
-      "urgent"
+      "accelerating urgency",
+      "tightest pulse",
+      "D minor",
+      "instrumental"
      ],
      "negative_styles": [
-      "vocals",
-      "dubstep drop",
-      "major key",
       "cheerful",
-      "fade-out ending"
-     ]
+      "choir",
+      "dubstep drop",
+      "fade-out ending",
+      "humming",
+      "lyrics",
+      "major key",
+      "singing",
+      "spoken word",
+      "vocals"
+     ],
+     "direction": "Exhibit D, the acceleration. Opens from near silence: for two seconds, only a high string harmonic. Then the pulse doubles: a sixteenth-note synth pulse, a string ostinato climbing in pitch every four bars, crisp ticking clicks. The tightest and fastest section, rising steadily. The final eight seconds hold a sustained high violin tension chord over the pulse, less busy so a spoken read stays clear, and the piece stops dead at its peak with no tail."
     }
    ],
    "mix_notes": "Generate as ONE plan so key, tempo and motif stay consistent. Chunk boundaries sit on the chapter cards (A 0:27.1, B 1:10.0, C 1:42.9, D 2:11.9); each 1.8 s card is a music-forward moment at -14 dB with only a low hit. Under dialogue -22 to -26 dB with a 6 dB sidechain duck; under every ARCHIVE read pull the music a further 3 dB. HARD-CUT the music on the door's latch click at the end of c-doors (about 2:11.6), then let chunk 4 enter from near silence under the D card. Under the clean GitHub read the tape-hiss bed is already gone. At the end of 'developers like you' (about 2:50.4) cut EVERYTHING to digital silence for 1.5 s: no generated tail may leak through. If the cut runs long or short, retime by nudging line pauses, never by time-stretching more than 3%."
@@ -1431,24 +1487,31 @@
    "approx_duration_s": 6.5,
    "chunks": [
     {
-     "text": "Exhibit E, the ledger, 60 BPM. Sparse: a single low felt-piano note repeating on each beat like a counting machine, with a faint sub-bass swell rising underneath. Stops dead at the end, no tail.",
+     "text": "[Interlude]",
      "duration_ms": 6500,
      "positive_styles": [
       "minimal",
-      "solo felt piano",
-      "sub-bass swell",
+      "single low felt piano note repeating like a counting machine",
+      "faint rising sub-bass swell",
+      "60 BPM",
       "tense",
-      "sparse",
-      "documentary underscore",
-      "D minor"
+      "sparse documentary underscore",
+      "D minor",
+      "instrumental"
      ],
      "negative_styles": [
+      "choir",
       "drums",
-      "string swell",
+      "humming",
+      "lyrics",
       "melody",
-      "vocals",
-      "reverb tail"
-     ]
+      "reverb tail",
+      "singing",
+      "spoken word",
+      "string swell",
+      "vocals"
+     ],
+     "direction": "Exhibit E, the ledger, 60 BPM. Sparse: a single low felt-piano note repeating on each beat like a counting machine, with a faint sub-bass swell rising underneath. Stops dead at the end, no tail."
     }
    ],
    "mix_notes": "Enters under e-why at -26 dB, after the clock has played alone under the E card. Gate it so it stops dead 0.4 s before 'And part of the price' (about 3:00.2), together with the clock and every bed: that line and 'Yours.' play in TOTAL silence. The first sound back is sfx_piano_note about 0.5 s after 'Yours.'."
@@ -1459,42 +1522,57 @@
    "approx_duration_s": 24.5,
    "chunks": [
     {
-     "text": "After the silence, 60 BPM, D minor. The gift motif returns slowly on solo felt piano, fragile and human, very soft, with long gaps between phrases; a low cello cluster underneath; a hint of warmth enters the harmony.",
+     "text": "[Verse]",
      "duration_ms": 11100,
      "positive_styles": [
       "solo felt piano",
-      "fragile",
+      "fragile two-note motif with long gaps",
+      "low cello",
       "intimate",
       "reflective",
-      "low cello",
-      "minimal",
-      "documentary underscore"
+      "60 BPM",
+      "D minor",
+      "instrumental"
      ],
      "negative_styles": [
+      "big crescendo",
+      "brass",
+      "choir",
       "drums",
       "electronic beat",
-      "brass",
-      "vocals",
-      "big crescendo"
-     ]
+      "humming",
+      "lyrics",
+      "singing",
+      "spoken word",
+      "vocals"
+     ],
+     "direction": "After the silence, 60 BPM, D minor. The gift motif returns slowly on solo felt piano, fragile and human, very soft, with long gaps between phrases; a low cello cluster underneath; a hint of warmth enters the harmony."
     },
     {
-     "text": "The warning. A low cello drone and a faint, steady low pulse like a distant turning wheel; serious, caring, not threatening. In the last six seconds everything thins to a single sustained low D that fades to silence: a held breath, no resolution.",
+     "text": "[Outro]",
      "duration_ms": 13300,
      "positive_styles": [
-      "cello drone",
-      "faint steady pulse",
+      "low cello drone",
+      "faint steady low pulse like a distant turning wheel",
       "serious",
-      "single low drone",
-      "fade to silence"
+      "caring",
+      "slow fade to silence",
+      "D minor",
+      "instrumental"
      ],
      "negative_styles": [
+      "choir",
       "drums",
-      "vocals",
-      "melodrama",
       "horror",
-      "resolution"
-     ]
+      "humming",
+      "lyrics",
+      "melodrama",
+      "resolution",
+      "singing",
+      "spoken word",
+      "vocals"
+     ],
+     "direction": "The warning. A low cello drone and a faint, steady low pulse like a distant turning wheel; serious, caring, not threatening. In the last six seconds everything thins to a single sustained low D that fades to silence: a held breath, no resolution."
     }
    ],
    "mix_notes": "Fades in over 1.5 s under the decay of sfx_piano_note (about 3:06.7). -24 dB under dialogue. The steady pulse must NOT slow down: the wheel never winds down. After 'The wheel won't.' (about 3:29.2) the music fades to silence over 2 s. The rest of the 4.0 s breath is music-light: the drone tail, sfx_reel_runout and sfx_film_burn, then 0.3 s of silence before dawn."
@@ -1505,73 +1583,103 @@
    "approx_duration_s": 48.3,
    "chunks": [
     {
-     "text": "First light. The felt-piano gift motif reharmonised in D major, warm and unhurried at about 72 BPM; a soft airy pad; gentle high strings entering; open and hopeful.",
+     "text": "[Intro]",
      "duration_ms": 7400,
      "positive_styles": [
       "warm cinematic",
       "hopeful",
-      "felt piano",
-      "soft strings",
-      "D major",
-      "gentle",
-      "documentary ending"
+      "felt piano motif reharmonised in D major",
+      "soft airy pad",
+      "gentle high strings entering",
+      "72 BPM",
+      "documentary ending",
+      "instrumental"
      ],
      "negative_styles": [
-      "vocals",
       "choir",
       "drums",
+      "epic trailer",
+      "humming",
+      "lyrics",
       "sad",
-      "epic trailer"
-     ]
+      "singing",
+      "spoken word",
+      "vocals"
+     ],
+     "direction": "First light. The felt-piano gift motif reharmonised in D major, warm and unhurried at about 72 BPM; a soft airy pad; gentle high strings entering; open and hopeful."
     },
     {
-     "text": "The one asset. A gentle build: a warm cello melody rises under rolling piano arpeggios, with a soft low pulse like a calm heartbeat. Strings swell gradually, with a small lift each time an idea lands; human, tender and quietly confident, not triumphant.",
+     "text": "[Build]",
      "duration_ms": 27200,
      "positive_styles": [
       "warm cello melody",
-      "piano arpeggios",
+      "rolling piano arpeggios",
+      "soft heartbeat-like low pulse",
       "gentle swell",
       "tender",
-      "uplifting"
+      "uplifting",
+      "D major",
+      "instrumental"
      ],
      "negative_styles": [
-      "drums",
-      "vocals",
       "bombastic",
-      "minor key"
-     ]
+      "choir",
+      "drums",
+      "humming",
+      "lyrics",
+      "minor key",
+      "singing",
+      "spoken word",
+      "vocals"
+     ],
+     "direction": "The one asset. A gentle build: a warm cello melody rises under rolling piano arpeggios, with a soft low pulse like a calm heartbeat. Strings swell gradually, with a small lift each time an idea lands; human, tender and quietly confident, not triumphant."
     },
     {
-     "text": "The breath before the ending. A gentle two-second swell that settles into a single held D-major chord on strings and piano, almost still, leaving space for one last spoken phrase.",
+     "text": "[Bridge]",
      "duration_ms": 8200,
      "positive_styles": [
-      "held major chord",
-      "strings",
-      "felt piano",
+      "held D major chord",
+      "strings and felt piano",
       "near stillness",
-      "gentle swell"
+      "gentle swell then settle",
+      "space",
+      "instrumental"
      ],
      "negative_styles": [
-      "drums",
-      "new melody",
+      "choir",
       "crescendo",
+      "drums",
+      "humming",
+      "lyrics",
+      "new melody",
+      "singing",
+      "spoken word",
       "vocals"
-     ]
+     ],
+     "direction": "The breath before the ending. A gentle two-second swell that settles into a single held D-major chord on strings and piano, almost still, leaving space for one last spoken phrase."
     },
     {
-     "text": "Resolution and end card. A full, warm D-major cadence in strings and piano; the gift motif now rising instead of falling; a long natural decay into silence.",
+     "text": "[Outro]",
      "duration_ms": 5500,
      "positive_styles": [
+      "warm D major cadence",
+      "strings and felt piano",
+      "rising two-note motif",
       "resolution",
-      "warm strings",
-      "felt piano",
-      "long decay"
+      "long natural decay into silence",
+      "instrumental"
      ],
      "negative_styles": [
+      "abrupt ending",
+      "choir",
       "drums",
-      "vocals",
-      "abrupt ending"
-     ]
+      "humming",
+      "lyrics",
+      "singing",
+      "spoken word",
+      "vocals"
+     ],
+     "direction": "Resolution and end card. A full, warm D-major cadence in strings and piano; the gift motif now rising instead of falling; a long natural decay into silence."
     }
    ],
    "mix_notes": "Enters out of the film-burn silence 0.3 s before 'Still.'. Bed at -22 dB under the narrator; duck 6 dB under the ECHO stacks. The lifts land on 'Guard it.', 'Train it.' and 'Move it.'. Rises to -14 dB in the 2.0 s breath after 'Only you can.', then holds the chord under 'Invest consciously.' (about 4:13.3). The cadence blooms on the cut to the end card (about 4:15.7) and decays to silence by the last frame (4:21.2). Master: -14 LUFS integrated, -1 dBTP; dialogue normalised to about -16 LUFS short-term."

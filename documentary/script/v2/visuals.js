@@ -130,8 +130,8 @@
     'b-reveal': {
       beat: 'combo',
       parts: [
-        { beat: 'flywheel', labels: ['YOU USE IT', 'YOUR FEEDBACK', 'BETTER MODEL', 'MORE USERS'], stationTimes: [s('b-reveal') - 0.3, s('b-reveal') - 0.3, s('b-reveal') - 0.3, s('b-reveal') - 0.3],
-          spin: [[0, 1.4], [1, 2.2]], center: '' },
+        { beat: 'flywheel', labels: ['', '', '', ''], stationTimes: [s('b-reveal') - 0.3, s('b-reveal') - 0.3, s('b-reveal') - 0.3, s('b-reveal') - 0.3],
+          spin: [[0, 1.4], [1, 2.2]], center: '', r: 420 },
         { beat: 'say', html: 'You’re not just the customer.<br><span style="color:var(--amber)">You’re part of the wheel.</span>', size: 88, gap: 0.14 },
       ],
     },
@@ -203,7 +203,7 @@
       points: [
         { fx: 0.03, v: 1.96, label: '2%', sub: 'OCT 2023 · Claude 2', t: W('d-2pct', 'two', 0.5), dx: 90 },
         { fx: 0.4, v: 33.2, label: '33%', sub: 'AUG 2024 · GPT-4o', t: (W('d-2pct', 'two', 0.5) + W('d-80pct', 'eighty', 0.6)) / 2 },
-        { fx: 0.95, v: 80.8, label: '~80%', sub: 'FEB 2026 · Claude Opus 4.6 (Anthropic)', t: W('d-80pct', 'eighty', 0.6), dx: -190, dy: -150 },
+        { fx: 0.95, v: 80.8, label: '~80%', sub: 'FEB 2026 · Claude Opus 4.6 (Anthropic)', t: W('d-80pct', 'eighty', 0.6), dx: 210, dy: -70 },
       ],
       src: 'Jimenez et al. 2023 · OpenAI (Aug 2024) · Anthropic (Feb 5, 2026)',
     },
@@ -242,7 +242,7 @@
         { beat: 'toggle', title: 'ILLUSTRATION · NOT A REAL SCREEN · SETTINGS › DATA CONTROLS', row: 'Improve the model for everyone',
           note: 'Opting out is one switch away', flipAt: W('e-record', 'switch', 0.7) },
         { beat: 'record', at: s('e-record') + 0.4, x: 1180, y: 690, w: 680,
-          lines: [{ text: 'ChatGPT: on by default for consumer chats, free and paid · business plans excluded by default · opt-outs exist at OpenAI, Anthropic, Google and GitHub', size: 21 }] },
+          lines: [{ text: 'ChatGPT: on by default for consumer chats, free and paid · business plans excluded by default · opt-outs exist at OpenAI, Anthropic, Google and GitHub', size: 21, cps: 140 }] },
       ],
     },
     'e-defaults': {

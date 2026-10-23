@@ -10,7 +10,7 @@ import hashlib, json, re, sys, time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from eleven import client, credits_used  # noqa: E402
+from eleven import client, credits_used, retry  # noqa: E402
 
 bible = json.loads(Path(sys.argv[1]).read_text())
 score = json.loads(Path(sys.argv[2]).read_text())
@@ -32,6 +32,25 @@ def t_of(ref):
     return timings["lines"][m.group(1)][m.group(2)] + float(m.group(3) or 0)
 
 
+def wrap_lines(text, width=190):
+    """The API takes at most 30 lines of 200 characters per chunk: break long directions at clause boundaries."""
+    out = []
+    for para in text.split("\n"):
+        parts = re.split(r"(?<=[.;:])\s+", para.strip())
+        line = ""
+        for p in parts:
+            while len(p) > width:  # very long clause: break at a comma or space
+                cut = max(p.rfind(", ", 0, width), p.rfind(" ", 0, width))
+                out.append((line + " " + p[:cut]).strip() if line else p[:cut].strip()); line = ""; p = p[cut:].lstrip(", ")
+            if len(line) + len(p) + 1 > width:
+                out.append(line); line = p
+            else:
+                line = (line + " " + p).strip()
+        if line:
+            out.append(line)
+    return "\n".join(out[:30])
+
+
 cues = {c["id"]: c for c in bible["music_cues"]}
 placements = []
 for slot in score:
@@ -50,6 +69,7 @@ for slot in score:
         drift = length_ms - sum(c["duration_ms"] for c in chunks)
         chunks[-1]["duration_ms"] = int(min(120000, max(3000, chunks[-1]["duration_ms"] + drift)))
     for c in chunks:
+        c["text"] = wrap_lines(c["text"])
         c.setdefault("context_adherence", "high")
         c["positive_styles"] = list(c.get("positive_styles", []))
         c["negative_styles"] = list(set(c.get("negative_styles", [])) | {"vocals", "singing", "lyrics"})
@@ -58,7 +78,7 @@ for slot in score:
     path = out / "music" / f"{slot['cue']}_{h}.mp3"
     if not path.exists():
         before, _ = credits_used()
-        audio = client.music.compose(composition_plan=plan, model_id="music_v2_5", force_instrumental=True,
+        audio = retry(client.music.compose, composition_plan=plan, model_id="music_v2_5",
                                      respect_sections_durations=True, output_format="mp3_48000_320")
         path.write_bytes(b"".join(audio))
         time.sleep(1.5)
