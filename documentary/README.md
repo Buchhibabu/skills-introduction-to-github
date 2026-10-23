@@ -12,7 +12,7 @@
 - **Video:** `release/v2/The_Flywheel_v2.mp4` · **Captions:** `release/v2/The_Flywheel_v2.srt` · **Description and sources:** `release/v2/DESCRIPTION.md`
 - **Direction:** `script/v2/bible.json` is the production bible from a three-director panel. It holds the 15-role cast, all 68 lines with audio tags, five music cues, 28 sound effects and the transitions. `script/v2/visuals.js` is the shot list.
 - **Studio:** `studio/` holds the ElevenLabs code. `eleven.py` loads the key from the repo's git-ignored `.env.local`. `voices.py` designs and casts the voices and records each line with `eleven_v4`, keeping the best of up to three takes as judged by speech recognition. `music.py` composes Eleven Music cues fitted to the cut. `sfx.py` generates the sound effects and places them on spoken words. `mix.py` handles adaptive ducking, the directed silences and a peak limiter.
-- **Rebuild:** run `studio/make.sh`. Generated audio is cached in `out/v2`, so re-runs only pay for what changed. The whole v2 production used about 12k ElevenLabs credits.
+- **Rebuild:** run `studio/make.sh`. Generated audio is cached in `out/v2`, so re-runs only pay for what changed. The whole v2 production used about 19k ElevenLabs credits (about 5% of a Creator month).
 - **Key setup:** `npx -y @elevenlabs/cli@latest onboard init` from the repo root, then `onboard check --env-path ../.env.local` from `documentary/`.
 
 ## How it is made (v1)
