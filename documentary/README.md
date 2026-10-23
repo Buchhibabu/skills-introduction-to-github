@@ -7,7 +7,7 @@
 - **Description, chapters and sources:** `release/DESCRIPTION.md`
 - **Research:** `research/fact-sheet.md`: corrections to the original brief, the narrative evidence, a "do not say" list and every source. `research/verified-facts.json` holds 64 claims, each checked by a researcher and an independent verifier.
 
-## v3 — the trailer cut (about 4 minutes)
+## v3 — the trailer cut (4:09)
 
 - **Video:** `release/v3/The_Flywheel_v3.mp4` · **Captions:** `release/v3/The_Flywheel_v3.srt` · **Description and sources:** `release/v3/DESCRIPTION.md`
 - **What changed from v2.**
@@ -16,7 +16,9 @@
   - Cinematic 3D documentary footage under the evidence, instead of document slides. The shots are rendered with three.js from `broll/shots/` and land on the words they illustrate.
 - **Direction:** `script/v3/bible.json` (cast, lines, score cues, sound design), `script/v3/visuals.js` (evidence on top, B-roll track underneath).
 - **B-roll:** `broll/kit.js` is the shared renderer and helpers. Preview a single shot with `node build/shot_sheet.mjs <shot> out.png --dur 6`, which renders a contact sheet and reports cost and determinism.
-- **Rebuild:** run `studio/make.sh` (it builds v3 by default; pass `v2` for the v2 cut).
+- **Rebuild:** run `studio/make.sh` (it builds v3 by default; pass `v2` for the v2 cut). The picture renders the 3D footage in software WebGL, about an hour for the whole film on 4 cores.
+- **Cost:** v3 used about 36k ElevenLabs credits (3–4 takes per line, 3 variants per music cue).
+- **Release file:** the repo copy (`release/v3/The_Flywheel_v3.mp4`, about 92 MB) is a two-pass encode that fits GitHub's file limit. `studio/make.sh` writes the full-quality master to `out/v3/`.
 
 ## v2 — the ElevenLabs production (about 4½ minutes)
 
