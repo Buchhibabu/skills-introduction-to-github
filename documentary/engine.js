@@ -205,6 +205,25 @@
     });
   }
 
+
+  // Film burn / light leak: warm light washes across the frame (screen blend), optionally flaring to white.
+  const burns = [];
+  const burnEl = document.createElement('div');
+  burnEl.style.cssText = 'position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:0';
+  document.getElementById('fx').appendChild(burnEl);
+  function burn(t0, dur = 1.2, { flare = 0.85, hue = 28, from = 'left' } = {}) { burns.push({ t0, dur, flare, hue, from }); }
+  function applyBurn(t) {
+    const b = burns.find((x) => t >= x.t0 && t < x.t0 + x.dur);
+    if (!b) { burnEl.style.opacity = 0; return; }
+    const k = (t - b.t0) / b.dur;
+    const env = Math.sin(Math.PI * k);
+    const x = b.from === 'left' ? lerp(-20, 120, k) : lerp(120, -20, k);
+    burnEl.style.opacity = Math.min(1, env * 1.3);
+    burnEl.style.background = `radial-gradient(ellipse 70% 120% at ${x}% ${50 + 20 * noise(t * 3)}%, hsla(${b.hue},100%,62%,${0.9 * env}) 0%, hsla(${b.hue + 12},100%,50%,${0.55 * env}) 35%, transparent 70%),` +
+      `radial-gradient(circle at ${100 - x}% 30%, hsla(${b.hue - 10},100%,70%,${0.35 * env}) 0%, transparent 45%),` +
+      `rgba(255,248,235,${Math.max(0, env - (1 - b.flare)) * 0.9})`;
+  }
+
   async function seek(t) {
     ambience(t);
     for (const s of scenes) {
@@ -217,11 +236,12 @@
     }
     globals.forEach((g) => g(t));
     applyGlitch(t);
+    applyBurn(t);
   }
 
   window.E = {
     clamp, lerp, mix, ease, prog, env, keys, noise, hash, el, css, scene, every, cue, typewriter, words, counter, source, rng,
     sfx, setPalette: (fn) => (palette = fn), setBg: (fn) => (bgColor = fn), setGrain: (fn) => (grainAmount = fn), setVignette: (fn) => (vignetteAmount = fn),
-    setBlackout: (ks) => (blackoutKeys = ks), glitch, seek,
+    setBlackout: (ks) => (blackoutKeys = ks), glitch, burn, seek,
   };
 })();

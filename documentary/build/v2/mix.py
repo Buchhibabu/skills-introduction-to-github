@@ -1,0 +1,118 @@
+"""Mix voices, score and sound effects into the final soundtrack.
+
+Usage: python3 build/v2/mix.py out/v2
+Reads out/v2/voices.wav, out/v2/music/placements.json, out/v2/sfx/placements.json.
+Writes out/v2/mix.wav (48 kHz stereo) plus stems (dialog/music/sfx) for checking levels.
+"""
+import json, subprocess, sys
+from pathlib import Path
+
+import numpy as np
+import soundfile as sf
+from scipy.signal import butter, sosfilt, sosfiltfilt
+
+SR = 48000
+out = Path(sys.argv[1])
+voices, sr = sf.read(out / "voices.wav", dtype="float32")
+assert sr == SR
+N = len(voices)
+T = np.arange(N) / SR
+timings = json.loads((out / "timings.json").read_text())
+
+
+def decode(path):
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(path), "-ac", "2", "-ar", str(SR), "-f", "f32le", "-"],
+                         capture_output=True, check=True).stdout
+    return np.frombuffer(raw, np.float32).reshape(-1, 2).copy()
+
+
+def rms_db(x):
+    return 20 * np.log10(np.sqrt(np.mean(np.square(x))) + 1e-12)
+
+
+def db(g):
+    return 10 ** (g / 20)
+
+
+def place(bus, sig, t):
+    i = int(round(t * SR))
+    if i >= len(bus):
+        return
+    a, b = max(0, i), min(len(bus), i + len(sig))
+    bus[a:b] += sig[a - i:b - i]
+
+
+# ---------- dialog ----------
+dialog = sosfilt(butter(2, 70, "high", fs=SR, output="sos"), voices, axis=0).astype(np.float32)
+env = np.sqrt(np.maximum(sosfiltfilt(butter(2, 4, "low", fs=SR, output="sos"), np.square(dialog).mean(1)), 0))
+speaking = env > np.percentile(env[env > 1e-5], 20) if np.any(env > 1e-5) else env > 0
+dialog *= db(-20.0 - rms_db(dialog[speaking]))
+# gentle compression: tame peaks above -12 dBFS short-term level
+lvl = np.sqrt(np.maximum(sosfiltfilt(butter(2, 12, "low", fs=SR, output="sos"), np.square(dialog).mean(1)), 1e-12))
+over = np.maximum(0, 20 * np.log10(lvl) + 12)
+dialog *= db(-over * (1 - 1 / 2.5))[:, None]
+
+
+def follow(x, attack_s, release_s, rate=1000):
+    """Envelope follower at a 1 kHz control rate: fast attack, slow release."""
+    step = SR // rate
+    xs = x[: len(x) // step * step].reshape(-1, step).max(1)
+    a, r = np.exp(-1 / (attack_s * rate)), np.exp(-1 / (release_s * rate))
+    y, cur = np.empty_like(xs), 0.0
+    for i, v in enumerate(xs):
+        cur = a * cur + (1 - a) * v if v > cur else r * cur + (1 - r) * v
+        y[i] = cur
+    return np.interp(np.arange(len(x)), np.arange(len(y)) * step, y)
+
+
+vad = follow(np.clip(env / (np.percentile(env[speaking], 50) + 1e-9), 0, 1), 0.04, 0.45)
+
+# ---------- music ----------
+music = np.zeros_like(voices)
+for p in json.loads((out / "music" / "placements.json").read_text()):
+    a = decode(p["file"])
+    length = int((p["t1"] - p["t0"] + p.get("fade_out", 2.0)) * SR)
+    a = a[:length]
+    a *= db(-23.0 + p.get("gain_db", 0) - rms_db(a))
+    fi, fo = int(p.get("fade_in", 1.5) * SR), int(p.get("fade_out", 2.0) * SR)
+    ramp = np.ones(len(a), np.float32)
+    ramp[:fi] = np.linspace(0, 1, min(fi, len(a)))[:len(ramp[:fi])]
+    if fo and len(a) > fo:
+        ramp[-fo:] = np.linspace(1, 0, fo) ** 1.5
+    place(music, a * ramp[:, None], p["t0"])
+music *= (1 - 0.78 * vad)[:, None]  # about -13 dB under the voice
+
+# ---------- sound effects ----------
+sfx = np.zeros_like(voices)
+sfx_path = out / "sfx" / "placements.json"
+for p in (json.loads(sfx_path.read_text()) if sfx_path.exists() else []):
+    a = decode(p["file"])
+    if p.get("dur"):
+        a = a[:int(p["dur"] * SR)]
+        fo = int(p.get("fade_out", 0.3) * SR)
+        if len(a) > fo > 0:
+            a[-fo:] *= np.linspace(1, 0, fo)[:, None]
+    a *= db(-6.0 + p.get("gain_db", -6) - 20 * np.log10(np.abs(a).max() + 1e-9))
+    pan = p.get("pan", 0.0)
+    a[:, 0] *= np.sqrt((1 - pan) / 2) * np.sqrt(2)
+    a[:, 1] *= np.sqrt((1 + pan) / 2) * np.sqrt(2)
+    place(sfx, a, p["t"])
+sfx *= (1 - 0.45 * vad)[:, None]
+
+# ---------- master ----------
+total = timings["total"]
+fade = np.clip((total - T) / 2.0, 0, 1) * np.clip(T / 0.2, 0, 1)
+mix = (dialog + music + sfx) * fade[:, None]
+# look-ahead peak limiter at -1.5 dBFS (5 ms look-ahead, 80 ms release)
+ceiling = db(-1.5)
+need = np.minimum(1, ceiling / np.maximum(np.abs(mix).max(1), 1e-9))
+look = int(0.005 * SR)
+need = np.minimum(need, np.r_[need[look:], np.ones(look)])
+gr = 1 - follow(1 - need, 0.001, 0.08)
+gr = np.minimum(gr, ceiling / np.maximum(np.abs(mix).max(1), 1e-9))
+mix *= np.clip(gr, 0, 1)[:, None]
+sf.write(out / "mix.wav", mix.astype(np.float32), SR, subtype="FLOAT")
+for name, stem in (("dialog", dialog), ("music", music), ("sfx", sfx)):
+    sf.write(out / f"stem_{name}.wav", stem.astype(np.float32), SR, subtype="FLOAT")
+print(f"mix {N / SR:.1f}s | dialog {rms_db(dialog[speaking]):.1f} dB while speaking | music under voice {rms_db(music[speaking]):.1f} dB"
+      f" | music in gaps {rms_db(music[~speaking]):.1f} dB | peak {20 * np.log10(np.abs(mix).max()):.1f} dBFS")

@@ -1,0 +1,7 @@
+kokoro-onnx
+soundfile
+scipy
+numpy
+faster-whisper
+elevenlabs
+python-dotenv

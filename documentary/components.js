@@ -423,5 +423,59 @@
     };
   }
 
-  window.C = { ledger, sun, hud, chapterCard, docCard, bigStat, timeline, flywheel, startupGrid, chart, togglePanel, titleCard, statement, pillars, credits };
+
+  // A wall of illustrative user prompts that floods in faster and faster (the flywheel's raw material).
+  function promptWall(root, { t0, t1, prompts, label = 'ILLUSTRATIVE PROMPTS', accel = [[0, 2.5], [1, 18]] }) {
+    const R = rng(4242);
+    const cols = 5, colW = 360, gap = 24, x0 = (1920 - (cols * colW + (cols - 1) * gap)) / 2;
+    const items = [];
+    let t = t0 + 0.2, i = 0;
+    while (t < t1 && i < 400) {
+      const rate = keys((t - t0) / (t1 - t0), accel, ease.in);
+      const p = prompts[i % prompts.length];
+      const n = el('div', 'abs', root);
+      const col = i % cols;
+      css(n, { left: x0 + col * (colW + gap) + 'px', width: colW + 'px', padding: '16px 20px', borderRadius: '16px',
+        background: 'rgba(236,230,218,0.07)', border: '1px solid rgba(236,230,218,0.14)', fontSize: '24px', lineHeight: 1.3, color: 'rgba(236,230,218,.88)' });
+      n.textContent = p;
+      items.push({ n, t, col, y: 1080 + R() * 80, speed: 120 + R() * 60, thumb: R() < 0.22 ? (R() < 0.75 ? '👍' : '👎') : null });
+      if (items[items.length - 1].thumb) n.textContent = p + '  ' + items[items.length - 1].thumb;
+      t += 1 / rate; i += 1;
+    }
+    const tag = el('div', 'abs mono', root, label);
+    css(tag, { right: '64px', bottom: '64px', fontSize: '20px', letterSpacing: '0.3em', color: 'var(--amber)' });
+    const counter = el('div', 'abs title', root);
+    css(counter, { left: '64px', bottom: '56px', fontSize: '44px', color: 'var(--text)' });
+    return (tt) => {
+      root.style.opacity = env(tt, t0, t1, 0.4, 0.6);
+      let shown = 0;
+      items.forEach((it) => {
+        const age = tt - it.t;
+        if (age < 0) { it.n.style.opacity = 0; return; }
+        shown++;
+        const y = it.y - age * it.speed * (1 + 0.6 * ((tt - t0) / (t1 - t0)));
+        it.n.style.transform = `translateY(${y}px)`;
+        it.n.style.opacity = clamp(age / 0.3) * clamp((y + 200) / 400);
+      });
+      counter.textContent = `${shown.toLocaleString('en-US')} prompts`;
+      tag.style.opacity = prog(tt, t0 + 0.5, t0 + 1.2);
+    };
+  }
+
+  // Voice-print bars for a speaking chorus.
+  function voicePrint(root, { t0, t1, bars = 96, y = 540, h = 260, color = 'var(--teal)' }) {
+    const box = el('div', 'abs', root);
+    css(box, { left: '160px', right: '160px', top: y - h / 2 + 'px', height: h + 'px', display: 'flex', alignItems: 'center', gap: '6px' });
+    const bs = Array.from({ length: bars }, () => { const b = el('div', '', box); css(b, { flex: '1', background: color, borderRadius: '4px', opacity: 0.85 }); return b; });
+    return (t) => {
+      root.style.opacity = env(t, t0, t1, 0.4, 0.5);
+      const k = prog(t, t0, t1, ease.linear);
+      bs.forEach((b, i) => {
+        const v = 0.15 + 0.85 * Math.abs(noise(t * (6 + 10 * k) + i * 0.37)) * (0.4 + 0.6 * Math.sin(Math.PI * (i + 0.5) / bars));
+        b.style.height = Math.max(4, v * h * (0.3 + 0.7 * k)) + 'px';
+      });
+    };
+  }
+
+  window.C = { promptWall, voicePrint, ledger, sun, hud, chapterCard, docCard, bigStat, timeline, flywheel, startupGrid, chart, togglePanel, titleCard, statement, pillars, credits };
 })();

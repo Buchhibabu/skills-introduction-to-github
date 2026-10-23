@@ -127,6 +127,10 @@
     return (t) => { box.style.opacity = env(t, t0, t1, 0.8, 0.8); };
   };
 
+
+  B.prompts = (root, { t0, t1 }, o) => C.promptWall(root, { t0, t1, ...o });
+  B.voiceprint = (root, { t0, t1 }, o) => C.voicePrint(root, { t0, t1, ...o });
+
   window.B = B;
   window.W = W;
 })();
