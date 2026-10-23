@@ -1,6 +1,6 @@
 """Generate the sound effects with ElevenLabs and resolve where each one lands.
 
-Usage: python3 build/v2/sfx.py script/v2/bible.json script/v2/sfx_cues.json out/v2
+Usage: python3 studio/sfx.py script/v2/bible.json script/v2/sfx_cues.json out/v2
 sfx_cues.json: [{"sfx": id, "at": <time-ref>, "gain_db": -6, "pan": 0}] where a time-ref is seconds,
 "line:<id>:start|end[+/-s]" or "word:<line id>:<word>[+/-s]" (when the narrator says that word).
 Writes out/v2/sfx/<id>.mp3 (cached by prompt) and out/v2/sfx/placements.json.
@@ -8,7 +8,7 @@ Writes out/v2/sfx/<id>.mp3 (cached by prompt) and out/v2/sfx/placements.json.
 import hashlib, json, re, sys, time
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from eleven import client, credits_used, retry  # noqa: E402
 
 bible = json.loads(Path(sys.argv[1]).read_text())

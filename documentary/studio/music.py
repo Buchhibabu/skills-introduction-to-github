@@ -1,6 +1,6 @@
 """Compose the score with Eleven Music, fitting each cue to the cut.
 
-Usage: python3 build/v2/music.py script/v2/bible.json script/v2/score.json out/v2
+Usage: python3 studio/music.py script/v2/bible.json script/v2/score.json out/v2
 score.json places each cue on the timeline: [{"cue": id, "from": <time-ref>, "to": <time-ref>}],
 where a time-ref is a number (seconds) or "line:<id>:start|end" with an optional "+/-seconds" suffix.
 Each cue's composition-plan chunks are rescaled to the slot length, so the music lands on the edit.
@@ -9,7 +9,7 @@ Writes out/v2/music/<cue>.mp3 (cached by plan hash) and out/v2/music/placements.
 import hashlib, json, re, sys, time
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from eleven import client, credits_used, retry  # noqa: E402
 
 bible = json.loads(Path(sys.argv[1]).read_text())

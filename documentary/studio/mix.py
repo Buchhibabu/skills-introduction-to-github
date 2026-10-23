@@ -1,6 +1,6 @@
 """Mix voices, score and sound effects into the final soundtrack.
 
-Usage: python3 build/v2/mix.py out/v2 [script/v2/mutes.json]
+Usage: python3 studio/mix.py out/v2 [script/v2/mutes.json]
 Reads out/v2/voices.wav, out/v2/music/placements.json, out/v2/sfx/placements.json.
 Writes out/v2/mix.wav (48 kHz stereo) plus stems (dialog/music/sfx) for checking levels.
 """
@@ -65,7 +65,7 @@ def follow(x, attack_s, release_s, rate=1000):
     return np.interp(np.arange(len(x)), np.arange(len(y)) * step, y)
 
 
-vad = follow(np.clip(env / (np.percentile(env[speaking], 50) + 1e-9), 0, 1), 0.04, 0.45)
+vad = follow(np.clip(env / (np.percentile(env[speaking], 35) + 1e-9), 0, 1), 0.04, 0.8)
 
 # ---------- music ----------
 music = np.zeros_like(voices)
@@ -73,14 +73,29 @@ for p in json.loads((out / "music" / "placements.json").read_text()):
     a = decode(p["file"])
     length = int((p["t1"] - p["t0"] + p.get("fade_out", 2.0)) * SR)
     a = a[:length]
-    a *= db(-23.0 + p.get("gain_db", 0) - rms_db(a))
+    a *= db(-19.0 + p.get("gain_db", 0) - rms_db(a))
     fi, fo = int(p.get("fade_in", 1.5) * SR), int(p.get("fade_out", 2.0) * SR)
     ramp = np.ones(len(a), np.float32)
     ramp[:fi] = np.linspace(0, 1, min(fi, len(a)))[:len(ramp[:fi])]
     if fo and len(a) > fo:
         ramp[-fo:] = np.linspace(1, 0, fo) ** 1.5
     place(music, a * ramp[:, None], p["t0"])
-music *= (1 - 0.78 * vad)[:, None]  # about -13 dB under the voice
+# adaptive ducking: keep the music about 14 dB under the voice while anyone speaks (the cues get
+# busier as the case builds, so a fixed duck is not enough); in the gaps the score plays at full level
+def short_rms(x, win_s=0.3):
+    k = int(win_s * SR)
+    c = np.cumsum(np.r_[0, np.square(x)])
+    r = np.sqrt(np.maximum((c[k:] - c[:-k]) / k, 1e-12))
+    return np.r_[np.full(k // 2, r[0]), r, np.full(len(x) - len(r) - k // 2, r[-1])]
+
+
+dial_env = short_rms(dialog.mean(1), 0.6)
+mus_env = short_rms(music.mean(1), 0.6)
+target = dial_env * db(-17.0)
+want = np.clip(target / np.maximum(mus_env, 1e-9), db(-30), 1.0)
+duck = 1 - vad * (1 - np.minimum(want, db(-11)))  # at least 11 dB of duck under speech, more if the cue is loud
+duck = 1 - follow(1 - duck, 0.05, 0.9)
+music *= duck[:, None]
 
 # directed silences: hard mutes on music and beds (10 ms ramps), e.g. the cold-open cut and the price reveal
 def t_of(ref):

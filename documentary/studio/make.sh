@@ -3,20 +3,20 @@
 # Needs ELEVENLABS_API_KEY in the repo's .env.local (run `npx -y @elevenlabs/cli@latest onboard init`).
 # Generated audio is cached in out/v2, so re-runs only pay for what changed.
 set -euo pipefail
-cd "$(dirname "$0")/../.."
+cd "$(dirname "$0")/.."
 OUT=out/v2
 mkdir -p "$OUT"
 
-python3 -u build/v2/voices.py script/v2/bible.json "$OUT"
+python3 -u studio/voices.py script/v2/bible.json "$OUT"
 python3 - <<'PY'
 import json
 t = json.load(open("out/v2/timings.json"))
 w = json.load(open("out/v2/words.json"))
 open("out/v2/timings.js", "w").write(f"window.TIMINGS = {json.dumps(t)};\nwindow.WORDS = {json.dumps(w)};\nwindow.FILM_DURATION = window.TIMINGS.total;\n")
 PY
-python3 -u build/v2/music.py script/v2/bible.json script/v2/score.json "$OUT"
-python3 -u build/v2/sfx.py script/v2/bible.json script/v2/sfx_cues.json "$OUT"
-python3 -u build/v2/mix.py "$OUT" script/v2/mutes.json
+python3 -u studio/music.py script/v2/bible.json script/v2/score.json "$OUT"
+python3 -u studio/sfx.py script/v2/bible.json script/v2/sfx_cues.json "$OUT"
+python3 -u studio/mix.py "$OUT" script/v2/mutes.json
 python3 build/captions.py "$OUT/timings.json" "$OUT/captions.srt" script/v2/no_captions.json
 node build/render.mjs film_v2.html "$OUT/picture.mp4" --fps 24 --workers "${WORKERS:-3}"
 

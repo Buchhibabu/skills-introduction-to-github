@@ -1,6 +1,6 @@
 """Cast the voices and perform every line of the v2 production bible with ElevenLabs.
 
-Usage: python3 build/v2/voices.py script/v2/bible.json out/v2
+Usage: python3 studio/voices.py script/v2/bible.json out/v2
 Writes out/v2/cast.json, out/v2/lines/<id>.mp3 (+ .json alignment), out/v2/timings.json,
 out/v2/words.json, out/v2/voices.wav (all lines placed on the timeline, 48 kHz stereo).
 
@@ -12,7 +12,7 @@ from pathlib import Path
 import numpy as np
 import soundfile as sf
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from eleven import client, credits_used, retry  # noqa: E402
 from elevenlabs import VoiceSettings  # noqa: E402
 
