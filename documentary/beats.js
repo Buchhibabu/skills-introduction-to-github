@@ -100,7 +100,10 @@
 
   // Several beats layered in one scene.
   B.combo = (root, ctx, { parts }) => {
-    const ups = parts.map((p) => { const layer = el('div', 'abs', root); css(layer, { inset: '0' }); return B[p.beat](layer, ctx, p); });
+    const ups = parts.map((p) => {
+      const layer = el('div', 'abs', root); css(layer, { inset: '0' });
+      return B[p.beat](layer, { ...ctx, t0: p.at ?? ctx.t0, t1: p.until ?? ctx.t1 }, p);
+    });
     return (t) => { root.style.opacity = env(t, ctx.t0, ctx.t1, 0.3, 0.5); ups.forEach((u) => u(t)); };
   };
 
@@ -130,6 +133,20 @@
 
   B.prompts = (root, { t0, t1 }, o) => C.promptWall(root, { t0, t1, ...o });
   B.voiceprint = (root, { t0, t1 }, o) => C.voicePrint(root, { t0, t1, ...o });
+
+
+  B.whispers = (root, { t0, t1 }, o) => C.whispers(root, { t0, t1, ...o });
+  B.casefile = (root, { t1 }, o) => C.caseFile(root, { t1, ...o });
+  B.record = (root, { t0, t1 }, o) => C.recordCard(root, { at: o.at ?? t0, t1, ...o });
+  B.code = (root, { t0, t1 }, o) => C.codeFrame(root, { t0, t1, ...o });
+  B.settings = (root, { t0, t1 }, o) => C.settingsGrid(root, { t0, t1, ...o });
+  B.wrapper = (root, { t0, t1 }, o) => C.wrapperCard(root, { t0, t1, ...o });
+  B.bubbles = (root, ctx, o) => C.bubbles(root, o);
+  B.label = (root, { t0, t1 }, { text, pos, size = 18, color = 'var(--amber)' }) => {
+    const n = el('div', 'abs mono', root, text);
+    css(n, { ...pos, fontSize: size + 'px', letterSpacing: '0.2em', color });
+    return (t) => (n.style.opacity = env(t, t0, t1, 0.4, 0.4));
+  };
 
   window.B = B;
   window.W = W;

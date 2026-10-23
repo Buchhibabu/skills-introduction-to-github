@@ -59,6 +59,11 @@ for sid in sorted({c["sfx"] for c in cues}):
     files[sid] = str(path)
 
 placements = [{"sfx": c["sfx"], "file": files[c["sfx"]], "t": round(t_of(c["at"]), 3), "gain_db": c.get("gain_db", specs[c["sfx"]].get("gain_db", -6)),
-               "pan": c.get("pan", 0.0), "dur": c.get("dur"), "fade_out": c.get("fade_out", 0.05)} for c in cues]
+               "pan": c.get("pan", 0.0), "dur": c.get("dur"), "fade_out": c.get("fade_out", 0.05), "fade_in": c.get("fade_in", 0.0),
+               "until": round(t_of(c["until"]), 3) if c.get("until") is not None else None, "bed": bool(c.get("until"))} for c in cues]
+for c, pl in zip(cues, placements):
+    if c.get("cut") is not None:
+        pl["dur"] = round(t_of(c["cut"]) - pl["t"], 3)
+        pl["fade_out"] = c.get("fade_out", 0.3)
 (out / "sfx" / "placements.json").write_text(json.dumps(placements, indent=1))
 print(f"{len(placements)} sfx placed from {len(files)} sounds")

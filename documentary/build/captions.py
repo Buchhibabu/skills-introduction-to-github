@@ -1,10 +1,11 @@
 """Writes SubRip captions from the narration timings, splitting long lines at sentence/clause breaks.
 
-Usage: python3 build/captions.py out/timings.json out/captions.srt
+Usage: python3 build/captions.py out/timings.json out/captions.srt [skip_ids.json]
 """
 import json, re, sys
 
 timings = json.load(open(sys.argv[1]))["lines"]
+skip = set(json.load(open(sys.argv[3]))) if len(sys.argv) > 3 else set()
 
 
 def stamp(s):
@@ -14,7 +15,9 @@ def stamp(s):
 
 
 cues = []
-for line in timings.values():
+for lid, line in timings.items():
+    if lid in skip:
+        continue
     text = line.get("caption") or line["text"]
     parts = [p.strip() for p in re.split(r"(?<=[.!?])\s+", text) if p.strip()]
     chunks = []

@@ -54,13 +54,49 @@ def transcribe(audio):
     return " ".join(s.text for s in _asr.transcribe(mono16, beam_size=5, language="en")[0])
 
 
-def norm_words(s):
-    s = s.lower().replace("-", " ").replace("%", " percent")
-    return [w for w in re.sub(r"[^a-z0-9 ]", " ", s).split() if not w.isdigit()]
+ONES = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split()
+TENS = "_ _ twenty thirty forty fifty sixty seventy eighty ninety".split()
+ORD = {"one": "first", "two": "second", "three": "third", "five": "fifth", "eight": "eighth", "nine": "ninth", "twelve": "twelfth"}
+
+
+def say_int(n):
+    if n < 20:
+        return ONES[n]
+    if n < 100:
+        return TENS[n // 10] + ("" if n % 10 == 0 else " " + ONES[n % 10])
+    if n < 1000:
+        return ONES[n // 100] + " hundred" + ("" if n % 100 == 0 else " " + say_int(n % 100))
+    for size, name in ((10 ** 9, "billion"), (10 ** 6, "million"), (1000, "thousand")):
+        if n >= size:
+            return say_int(n // size) + " " + name + ("" if n % size == 0 else " " + say_int(n % size))
+
+
+def spell_numbers(s):
+    """Spell out digits the way the script does ("2022" -> "twenty twenty two", "30th" -> "thirtieth")."""
+    def one(m):
+        n, suffix = int(m.group(1)), m.group(2)
+        if suffix:
+            w = say_int(n).split()
+            last = w[-1]
+            w[-1] = ORD.get(last, last[:-1] + "ieth" if last.endswith("y") else last + "th")
+            return " ".join(w)
+        if 2000 <= n <= 2099 and n % 100 >= 10:
+            return "twenty " + say_int(n % 100)
+        if 1900 <= n <= 1999:
+            return say_int(n // 100) + " " + say_int(n % 100)
+        return say_int(n)
+    s = re.sub(r"(\d+)\.(\d+)", lambda m: f"{m.group(1)} point {' '.join(m.group(2))}", s)
+    return re.sub(r"(\d+)(st|nd|rd|th)?", one, s)
+
+
+def letters(s):
+    """Compare on letters only, so 'ChatGPT' == 'Chat GPT' and punctuation never matters."""
+    s = spell_numbers(s.lower().replace("%", " percent"))
+    return re.sub(r"[^a-z]", "", s)
 
 
 def match(a, b):
-    return difflib.SequenceMatcher(None, norm_words(a), norm_words(b)).ratio()
+    return difflib.SequenceMatcher(None, letters(a), letters(b), autojunk=False).ratio()
 
 
 # ---------------- cast ----------------

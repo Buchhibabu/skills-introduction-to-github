@@ -1,0 +1,392 @@
+[
+ {
+  "sfx": "sfx_projector_start",
+  "at": 0,
+  "gain_db": -18,
+  "cut": "line:co-v3:start",
+  "fade_out": 1.0
+ },
+ {
+  "sfx": "sfx_tape_hiss",
+  "at": 0,
+  "gain_db": -32,
+  "until": "line:d-code:start",
+  "fade_in": 1.2,
+  "fade_out": 1.0
+ },
+ {
+  "sfx": "sfx_whisper_crowd",
+  "at": "line:co-v1:start-0.3",
+  "gain_db": -22,
+  "cut": "line:co-v6:end",
+  "fade_in": 1.5,
+  "fade_out": 0.02
+ },
+ {
+  "sfx": "sfx_typewriter_keys",
+  "at": "line:co-gift:start",
+  "gain_db": -20
+ },
+ {
+  "sfx": "sfx_counter_roll",
+  "at": "word:co-billion:billion",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "line:co-question:end+0.15",
+  "gain_db": -12
+ },
+ {
+  "sfx": "sfx_braam",
+  "at": "line:co-question:end+0.45",
+  "gain_db": -10
+ },
+ {
+  "sfx": "sfx_typewriter_line",
+  "at": "line:co-question:end+0.8",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_low_hit",
+  "at": "line:a-launch:start-1.45",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_projector_loop",
+  "at": "line:a-launch:start-1.8",
+  "gain_db": -30,
+  "until": "line:b-name:start-1.8",
+  "fade_in": 0.4,
+  "fade_out": 0.6
+ },
+ {
+  "sfx": "sfx_typewriter_line",
+  "at": "line:a-launch:start",
+  "gain_db": -20
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "line:a-critics:start-0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_highlighter",
+  "at": "word:a-critics:unreliable+0.1",
+  "gain_db": -26
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "word:a-critics:unreliable+1.0",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_counter_roll",
+  "at": "word:a-critics:million",
+  "gain_db": -24
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "line:a-whyfree:start-0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_radio_tune",
+  "at": "line:a-whyfree-doc:start-0.5",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_highlighter",
+  "at": "word:a-whyfree-doc:get",
+  "gain_db": -26
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "line:a-gpt4:start-0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_highlighter",
+  "at": "word:a-gpt4:trained",
+  "gain_db": -26
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "word:a-gpt4:months+0.2",
+  "gain_db": -14
+ },
+ {
+  "sfx": "sfx_low_hit",
+  "at": "word:a-gpt4:months+0.2",
+  "gain_db": -18
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "line:a-scale:start-0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_highlighter",
+  "at": "word:a-scale:models",
+  "gain_db": -26
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "line:a-refine:start-0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_highlighter",
+  "at": "word:a-refine-doc:feedback",
+  "gain_db": -26
+ },
+ {
+  "sfx": "sfx_braam",
+  "at": "line:a-reveal:start",
+  "gain_db": -18
+ },
+ {
+  "sfx": "sfx_typewriter_keys",
+  "at": "line:a-record:start+0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_flywheel_spinup",
+  "at": "line:b-name:start-2.0",
+  "gain_db": -18
+ },
+ {
+  "sfx": "sfx_low_hit",
+  "at": "line:b-name:start-1.45",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_server_hum",
+  "at": "line:b-name:start-1.8",
+  "gain_db": -30,
+  "until": "line:d-code-doc:end",
+  "fade_in": 1.5,
+  "fade_out": 0.02
+ },
+ {
+  "sfx": "sfx_thumb_tap",
+  "at": "word:b-signal-v:thumbs",
+  "gain_db": -20
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "line:b-thumbs:start-0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_highlighter",
+  "at": "word:b-thumbs-doc:thumbs",
+  "gain_db": -26
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "word:b-flatter:rolled+0.1",
+  "gain_db": -14
+ },
+ {
+  "sfx": "sfx_braam",
+  "at": "line:b-reveal:start",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_glitch",
+  "at": "line:c-rush:start-2.15",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_low_hit",
+  "at": "line:c-rush:start-1.45",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "word:c-pdf:PDFs+0.3",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "line:c-died:start-0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_typewriter_keys",
+  "at": "line:c-record:start+0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "line:c-steamroll:start-0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "word:c-steamroll:steamrolled",
+  "gain_db": -12
+ },
+ {
+  "sfx": "sfx_low_hit",
+  "at": "word:c-steamroll:steamrolled",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "word:c-doors:doors+0.3",
+  "gain_db": -18
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "word:c-doors:next+0.3",
+  "gain_db": -18
+ },
+ {
+  "sfx": "sfx_door",
+  "at": "line:c-doors:end-2.35",
+  "gain_db": -18
+ },
+ {
+  "sfx": "sfx_keyboard_storm",
+  "at": "line:d-coders:start-1.8",
+  "gain_db": -22,
+  "cut": "line:d-memos:start+0.6",
+  "fade_in": 1.2,
+  "fade_out": 0.8
+ },
+ {
+  "sfx": "sfx_low_hit",
+  "at": "line:d-coders:start-1.45",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "word:d-memos:memos+0.3",
+  "gain_db": -20
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "word:d-memos:memos+0.8",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "word:d-memos:memos+1.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_stamp",
+  "at": "word:d-memos:memos+1.4",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_low_hit",
+  "at": "word:d-80pct:eighty",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "line:d-opus55:start-0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_highlighter",
+  "at": "word:d-opus55:level-0.2",
+  "gain_db": -26
+ },
+ {
+  "sfx": "sfx_paper_slide",
+  "at": "line:d-code:start-0.3",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_flywheel_spinup",
+  "at": "line:d-code:start",
+  "gain_db": -28
+ },
+ {
+  "sfx": "sfx_highlighter",
+  "at": "word:d-code:personal",
+  "gain_db": -26
+ },
+ {
+  "sfx": "sfx_highlighter",
+  "at": "word:d-code-doc:developers",
+  "gain_db": -26
+ },
+ {
+  "sfx": "sfx_clock_tick",
+  "at": "line:d-code-doc:end+1.5",
+  "gain_db": -24,
+  "until": "line:e-data:start-0.4",
+  "fade_out": 0.02
+ },
+ {
+  "sfx": "sfx_ledger_pen",
+  "at": "word:e-list:investor",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_ledger_pen",
+  "at": "word:e-list:race",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_ledger_pen",
+  "at": "word:e-list:ads",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_ledger_pen",
+  "at": "word:e-list:falling",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_piano_note",
+  "at": "line:e-yours:end+0.5",
+  "gain_db": -14
+ },
+ {
+  "sfx": "sfx_toggle",
+  "at": "word:e-record:switch",
+  "gain_db": -18
+ },
+ {
+  "sfx": "sfx_projector_loop",
+  "at": "line:v-thin:start",
+  "gain_db": -34,
+  "until": "line:v-wheel:end+2.6",
+  "fade_in": 1.0,
+  "fade_out": 0.3
+ },
+ {
+  "sfx": "sfx_reel_runout",
+  "at": "line:v-wheel:end+0.3",
+  "gain_db": -16
+ },
+ {
+  "sfx": "sfx_film_burn",
+  "at": "line:v-wheel:end+2.5",
+  "gain_db": -18
+ },
+ {
+  "sfx": "sfx_shutters_dawn",
+  "at": "line:f-build:start-0.6",
+  "gain_db": -22
+ },
+ {
+  "sfx": "sfx_dawn_birds",
+  "at": "line:f-build:start-0.8",
+  "gain_db": -28,
+  "until": "line:f-final:end+5.5",
+  "fade_in": 2.0,
+  "fade_out": 3.0
+ },
+ {
+  "sfx": "sfx_pen_down",
+  "at": "line:f-final:end+2.2",
+  "gain_db": -22
+ }
+]

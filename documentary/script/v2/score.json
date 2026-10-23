@@ -1,0 +1,59 @@
+[
+ {
+  "cue": "M1_CASE_OPENS",
+  "from": 0,
+  "to": "line:a-launch:start-1.8",
+  "bounds": [
+   "line:co-v6:end",
+   "line:co-question:end+0.45"
+  ],
+  "tail_s": 0.4,
+  "fade_in": 1.0,
+  "fade_out": 0.5
+ },
+ {
+  "cue": "M2_THE_CASE",
+  "from": "line:a-launch:start-1.8",
+  "to": "line:d-code-doc:end",
+  "bounds": [
+   "line:b-name:start-1.8",
+   "line:c-rush:start-1.8",
+   "line:d-coders:start-1.8"
+  ],
+  "tail_s": 0.3,
+  "fade_in": 0.3,
+  "fade_out": 0.03
+ },
+ {
+  "cue": "M3A_LEDGER",
+  "from": "line:e-why:start-0.3",
+  "to": "line:e-data:start-0.4",
+  "tail_s": 0.3,
+  "fade_in": 1.0,
+  "fade_out": 0.03
+ },
+ {
+  "cue": "M3B_AFTER_THE_SILENCE",
+  "from": "line:e-yours:end+1.6",
+  "to": "line:v-wheel:end+0.5",
+  "bounds": [
+   "line:v-founder:start"
+  ],
+  "tail_s": 2.0,
+  "fade_in": 1.5,
+  "fade_out": 2.0
+ },
+ {
+  "cue": "M4_DAWN",
+  "from": "line:f-build:start-0.3",
+  "to": "end",
+  "bounds": [
+   "line:f-attention:start",
+   "line:f-update:end",
+   "line:f-final:start"
+  ],
+  "tail_s": 0.0,
+  "fade_in": 0.8,
+  "fade_out": 0.01
+ }
+]

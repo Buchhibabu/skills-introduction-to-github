@@ -158,6 +158,8 @@
   let blackoutKeys = [[0, 0]];
   let grainAmount = () => 0.16;
   let vignetteAmount = () => 1;
+  let grade = () => '';
+  let weave = () => 0;
   const vignette = document.getElementById('vignette');
 
   function ambience(t) {
@@ -175,6 +177,10 @@
     gctx.putImageData(tiles[Math.floor(t * 12) % tiles.length], 0, 0);
     grain.style.opacity = grainAmount(t);
     vignette.style.opacity = vignetteAmount(t);
+    const layer = document.getElementById('scenes');
+    layer.style.filter = grade(t);
+    const wv = weave(t);
+    layer.style.translate = wv ? `${noise(t * 7) * wv}px ${noise(t * 9 + 3) * wv * 1.6}px` : '0px 0px';
     flicker.style.opacity = 0.035 * (0.5 + 0.5 * noise(t * 9)) + (noise(t * 31) > 0.93 ? 0.04 : 0);
     blackout.style.opacity = keys(t, blackoutKeys, ease.linear);
     scanline.style.top = ((t * 140) % 1200) - 60 + 'px';
@@ -193,10 +199,10 @@
   function applyGlitch(t) {
     const g = glitches.find(([a, d]) => t >= a && t < a + d);
     const layer = document.getElementById('scenes');
-    if (!g) { layer.style.transform = ''; layer.style.filter = ''; bands.forEach((b) => (b.style.display = 'none')); return; }
+    if (!g) { layer.style.transform = ''; bands.forEach((b) => (b.style.display = 'none')); return; }
     const f = Math.floor(t * 24);
     layer.style.transform = `translateX(${(hash(f) - 0.5) * 40}px)`;
-    layer.style.filter = `contrast(1.5) saturate(${hash(f + 3) > 0.5 ? 0 : 1.8}) hue-rotate(${(hash(f + 7) - 0.5) * 90}deg)`;
+    layer.style.filter = `${grade(t)} contrast(1.5) saturate(${hash(f + 3) > 0.5 ? 0 : 1.8}) hue-rotate(${(hash(f + 7) - 0.5) * 90}deg)`;
     bands.forEach((b, i) => {
       b.style.display = 'block';
       b.style.top = hash(f * 7 + i) * 1080 + 'px';
@@ -241,7 +247,7 @@
 
   window.E = {
     clamp, lerp, mix, ease, prog, env, keys, noise, hash, el, css, scene, every, cue, typewriter, words, counter, source, rng,
-    sfx, setPalette: (fn) => (palette = fn), setBg: (fn) => (bgColor = fn), setGrain: (fn) => (grainAmount = fn), setVignette: (fn) => (vignetteAmount = fn),
+    sfx, setPalette: (fn) => (palette = fn), setBg: (fn) => (bgColor = fn), setGrain: (fn) => (grainAmount = fn), setVignette: (fn) => (vignetteAmount = fn), setGrade: (fn) => (grade = fn), setWeave: (fn) => (weave = fn),
     setBlackout: (ks) => (blackoutKeys = ks), glitch, burn, seek,
   };
 })();

@@ -22,12 +22,24 @@
 
   // Paper document with optional highlight sweep and redaction bars.
   // html may contain <span class="hl"><span class="mark"></span>...</span> and <span class="redact"><span class="bar"></span>...</span>
-  function docCard(root, { head, date, html, foot, t0, t1, x = 260, y, w = 1400, rot = -1.1, hl = [], redact = [], quoteSize, stamp }) {
+  function docCard(root, { head, date, html, foot, t0: tIn, t1, x = 260, y, w = 1400, rot = -1.1, hl = [], redact = [], quoteSize, stamp, at, label, isolate, gloss, clean }) {
+    const t0 = at ?? tIn;
     const d = el('div', 'doc', root);
     css(d, { left: x + 'px', top: (y ?? 200) + 'px', width: w + 'px' });
     let placed = y !== undefined;
     d.innerHTML = `<div class="head"><span>${head}</span><span>${date || ''}</span></div><div class="quote">${html}</div>${foot ? `<div class="foot">${foot}</div>` : ''}`;
     if (quoteSize) d.querySelector('.quote').style.fontSize = quoteSize + 'px';
+    if (clean) d.style.background = '#fbfaf7';
+    const quoteEl = d.querySelector('.quote');
+    let lab = null, gl = null;
+    if (label) {
+      lab = el('div', 'abs mono', d, label);
+      css(lab, { right: '0px', top: '-46px', fontSize: '18px', letterSpacing: '0.12em', color: '#f0e6d2', background: 'rgba(20,16,12,.78)', padding: '8px 14px', textTransform: 'uppercase' });
+    }
+    if (gloss) {
+      gl = el('div', 'mono', d, gloss.text);
+      css(gl, { fontSize: '22px', color: '#8a4b16', marginTop: '18px', opacity: 0 });
+    }
     const marks = [...d.querySelectorAll('.hl')];
     d.querySelectorAll('.mark').forEach((m) => m.remove());
     const bars = [...d.querySelectorAll('.bar')];
@@ -47,6 +59,13 @@
       d.style.opacity = a;
       d.style.transform = `translateY(${(1 - k) * 60}px) rotate(${rot}deg) scale(${lerp(0.97, 1.0, k) + 0.025 * prog(t, t0, t1, ease.linear)})`;
       marks.forEach((m, i) => { const [a0, a1] = hl[i] || [t0 + 1, t0 + 2]; m.style.backgroundSize = `${prog(t, a0, a1, ease.linear) * 100}% 78%`; });
+      if (isolate) {
+        const k = Math.min(prog(t, isolate[0], isolate[0] + 0.4), 1 - prog(t, isolate[1] - 0.3, isolate[1]));
+        quoteEl.style.color = `rgba(29,27,24,${1 - 0.85 * k})`;
+        marks.forEach((m) => (m.style.color = '#1d1b18'));
+      }
+      if (lab) lab.style.opacity = prog(t, t0 + 0.4, t0 + 0.9);
+      if (gl) gl.style.opacity = prog(t, gloss.t, gloss.t + 0.5);
       bars.forEach((b, i) => { const r0 = redact[i] ?? t0 + 1; b.style.transform = `scaleX(${1 - prog(t, r0, r0 + 0.35, ease.in)})`; });
       if (st) {
         const s = prog(t, stamp.t, stamp.t + 0.18, ease.out);
@@ -272,7 +291,7 @@
   }
 
   // Generic settings panel with a single toggle that stays ON.
-  function togglePanel(root, { t0, t1, title, row, note, t: tHover }) {
+  function togglePanel(root, { t0, t1, title, row, note, t: tHover, flipAt }) {
     const p = el('div', 'panel', root);
     css(p, { left: '460px', top: '300px', width: '1000px', height: '400px', padding: '56px 64px' });
     p.innerHTML = `<div class="mono" style="font-size:24px;color:var(--dim);letter-spacing:.25em">${title}</div>
@@ -289,13 +308,14 @@
     return (t) => {
       root.style.opacity = env(t, t0, t1, 0.5, 0.5);
       p.style.transform = `translateY(${(1 - prog(t, t0, t0 + 0.7, ease.out)) * 40}px)`;
-      const on = 1;
+      const on = flipAt === undefined || t < flipAt;
       tg.style.background = on ? '#3fa69c' : '#3a4250';
       knob.style.left = on ? '52px' : '6px';
       // cursor drifts toward the toggle, hesitates, and leaves without clicking
-      const cx = keys(t, [[tHover, 1500], [tHover + 1.4, 1395], [tHover + 2.6, 1400], [tHover + 3.8, 1700]]);
-      const cy = keys(t, [[tHover, 900], [tHover + 1.4, 500], [tHover + 2.6, 505], [tHover + 3.8, 980]]);
-      css(cursor, { left: cx + 'px', top: cy + 'px', opacity: prog(t, tHover - 0.2, tHover + 0.3) * (1 - prog(t, tHover + 3.4, tHover + 3.8)) });
+      const tc = flipAt ?? tHover + 1.4;  // with flipAt the cursor arrives and clicks; otherwise it hovers and leaves
+      const cx = keys(t, [[tc - 1.4, 1500], [tc, 1395], [tc + 1.2, 1400], [tc + 2.4, 1700]]);
+      const cy = keys(t, [[tc - 1.4, 900], [tc, 500], [tc + 1.2, 505], [tc + 2.4, 980]]);
+      css(cursor, { left: cx + 'px', top: cy + 'px', opacity: prog(t, tc - 1.6, tc - 1.1) * (1 - prog(t, tc + 2.0, tc + 2.4)) });
     };
   }
 
@@ -477,5 +497,169 @@
     };
   }
 
-  window.C = { promptWall, voicePrint, ledger, sun, hud, chapterCard, docCard, bigStat, timeline, flywheel, startupGrid, chart, togglePanel, titleCard, statement, pillars, credits };
+
+  // Cold open: spoken prompts as large bubbles over a growing field of silent ones.
+  function whispers(root, { t0, t1, spoken, filler, labels }) {
+    const R = rng(77);
+    const field = [];
+    for (let i = 0; i < 150; i++) {
+      const n = el('div', 'abs', root);
+      const txt = filler[i % filler.length];
+      css(n, { left: R() * 1800 - 80 + 'px', top: R() * 1000 + 'px', padding: '10px 16px', borderRadius: '14px', fontFamily: "'IBM Plex Mono'", fontSize: 14 + R() * 10 + 'px',
+        color: 'rgba(236,230,218,.5)', background: 'rgba(236,230,218,.05)', border: '1px solid rgba(236,230,218,.08)', filter: `blur(${R() * 3}px)`, whiteSpace: 'nowrap' });
+      n.textContent = txt;
+      field.push({ n, at: t0 + 0.6 + Math.pow(i / 150, 0.55) * (t1 - t0 - 0.9), z: R() });
+    }
+    const big = spoken.map((sp) => {
+      const n = el('div', 'abs', root);
+      css(n, { left: sp.x + 'px', top: sp.y + 'px', padding: '22px 30px', borderRadius: '22px', fontFamily: "'IBM Plex Mono'", fontSize: '40px',
+        color: '#ece6da', background: 'rgba(30,36,46,.92)', border: '1px solid rgba(236,230,218,.25)', boxShadow: '0 20px 60px rgba(0,0,0,.6)', whiteSpace: 'nowrap' });
+      n.textContent = sp.text;
+      return { n, sp };
+    });
+    const labs = labels.map((l) => { const n = el('div', 'abs mono', root, l.text); css(n, { ...l.pos, fontSize: '17px', letterSpacing: '0.25em', color: 'rgba(240,166,58,.85)' }); return n; });
+    return (t) => {
+      root.style.opacity = t < t1 ? 1 : 0;
+      field.forEach(({ n, at, z }) => { const k = prog(t, at, at + 0.5, ease.out); n.style.opacity = k * (0.25 + 0.6 * z); n.style.transform = `scale(${0.8 + 0.2 * k})`; });
+      big.forEach(({ n, sp }, i) => {
+        const k = prog(t, sp.t, sp.t + 0.35, ease.outBack);
+        const last = i === big.length - 1;
+        const push = last ? prog(t, sp.t + 0.4, t1, ease.in) : 0;
+        n.style.opacity = Math.min(1, k) * (last ? 1 : 1 - 0.5 * prog(t, sp.t + 1.2, sp.t + 2.2));
+        n.style.transform = `scale(${(0.7 + 0.3 * Math.min(1, k)) * (1 + 1.6 * push)})`;
+      });
+      labs.forEach((n) => (n.style.opacity = prog(t, t0 + 0.3, t0 + 1)));
+    };
+  }
+
+  // Manila case file slamming shut over the frame, stamped.
+  function caseFile(root, { at, stampText = 'CASE OPENED', t1 }) {
+    const f = el('div', 'abs', root);
+    css(f, { left: '160px', right: '160px', top: '120px', bottom: '80px', background: 'linear-gradient(170deg, #d8b98a, #c49a62)', borderRadius: '10px 10px 6px 6px',
+      boxShadow: '0 40px 120px rgba(0,0,0,.7)', transformOrigin: '50% 0%' });
+    const tab = el('div', 'abs', f);
+    css(tab, { left: '60px', top: '-46px', width: '340px', height: '50px', background: '#d8b98a', borderRadius: '10px 10px 0 0' });
+    const lab = el('div', 'abs type', f, 'CASE 0001 · THE FLYWHEEL');
+    css(lab, { left: '80px', top: '60px', fontSize: '44px', color: '#3a2a16' });
+    const st = el('div', 'stamp', f, stampText);
+    css(st, { right: '120px', bottom: '120px', fontSize: '96px', transform: 'rotate(-9deg)' });
+    return (t) => {
+      const k = prog(t, at, at + 0.22, ease.in);
+      f.style.opacity = t >= at ? 1 : 0;
+      f.style.transform = `perspective(1600px) rotateX(${(1 - k) * 80}deg) translateY(${(1 - k) * -200}px)`;
+      const s = prog(t, at + 0.3, at + 0.45, ease.out);
+      st.style.opacity = s * 0.9;
+      st.style.transform = `rotate(-9deg) scale(${lerp(1.8, 1, s)})`;
+      root.style.opacity = t < t1 ? 1 : 0;
+    };
+  }
+
+  // "For the record" index card with typed lines.
+  function recordCard(root, { at, t1, lines, quote, x = 1080, y = 200, w = 700 }) {
+    const c = el('div', 'abs', root);
+    css(c, { left: x + 'px', top: y + 'px', width: w + 'px', background: '#f4eddc', color: '#1d1b18', padding: '34px 40px 36px', boxShadow: '0 30px 80px rgba(0,0,0,.55)',
+      backgroundImage: 'repeating-linear-gradient(180deg, transparent 0 43px, rgba(90,140,200,.25) 43px 44px)', transform: 'rotate(1.2deg)' });
+    const h = el('div', 'type', c, 'FOR THE RECORD');
+    css(h, { color: '#b23a2e', fontSize: '34px', letterSpacing: '0.08em', marginBottom: '14px' });
+    const ls = lines.map((l) => { const n = el('div', 'type', c, l.text); css(n, { fontSize: (l.size || 27) + 'px', lineHeight: 1.45, marginTop: '10px' }); return { n, l }; });
+    let q = null;
+    if (quote) { q = el('div', 'serif', c, quote.text); css(q, { fontSize: '22px', fontStyle: 'italic', color: '#5b554b', marginTop: '18px' }); }
+    return (t) => {
+      const k = prog(t, at, at + 0.45, ease.out);
+      c.style.opacity = Math.min(k, 1 - prog(t, t1 - 0.4, t1));
+      c.style.transform = `translateX(${(1 - k) * 260}px) rotate(1.2deg)`;
+      ls.forEach(({ n, l }) => {
+        const tt = l.t ?? at + 0.3;
+        const chars = Math.floor(clamp((t - tt) * 55, 0, l.text.length));
+        n.textContent = l.text.slice(0, chars);
+      });
+      if (q) q.style.opacity = prog(t, quote.t ?? at + 1, (quote.t ?? at + 1) + 0.5);
+    };
+  }
+
+  // A dark code-editor frame with scrolling code.
+  function codeFrame(root, { t0, t1, strip }) {
+    const box = el('div', 'abs', root);
+    css(box, { left: '220px', right: '220px', top: '150px', bottom: '170px', background: '#0b0f15', borderRadius: '14px', border: '1px solid rgba(255,255,255,.08)', overflow: 'hidden' });
+    const code = el('div', 'abs mono', box);
+    css(code, { left: '40px', right: '40px', top: '0', fontSize: '24px', lineHeight: '1.6', color: '#7d8fa3', filter: 'blur(1.2px)', whiteSpace: 'pre' });
+    const R = rng(9);
+    const toks = ['const', 'await', 'model', 'fetch', 'return', 'if', 'for', 'user', 'prompt', 'data', 'train', 'feedback', 'signal', 'loss', 'grad', 'batch'];
+    let txt = '';
+    for (let i = 0; i < 90; i++) { let l = ' '.repeat(2 * Math.floor(R() * 4)); for (let j = 0; j < 3 + R() * 6; j++) l += toks[Math.floor(R() * toks.length)] + (R() < 0.3 ? '(' : ' '); txt += l + '\n'; }
+    code.textContent = txt;
+    const st = el('div', 'abs mono', root, strip);
+    css(st, { left: '220px', bottom: '110px', fontSize: '22px', letterSpacing: '0.12em', color: 'var(--amber)' });
+    return (t) => { root.style.opacity = env(t, t0, t1, 0.4, 0.4); code.style.transform = `translateY(${-(t - t0) * 90}px)`; st.style.opacity = prog(t, t0 + 0.4, t0 + 0.9); };
+  }
+
+  // A grid of generic settings icons: almost all untouched.
+  function settingsGrid(root, { t0, t1, changed = [7, 31, 58, 86], label, quote }) {
+    const grid = el('div', 'abs', root);
+    css(grid, { left: '510px', top: '170px', width: '900px', display: 'grid', gridTemplateColumns: 'repeat(10, 1fr)', gap: '18px' });
+    const cells = Array.from({ length: 100 }, (_, i) => {
+      const c = el('div', '', grid);
+      const on = changed.includes(i);
+      c.innerHTML = `<svg viewBox="0 0 24 24" width="62" height="62"><circle cx="12" cy="12" r="3.2" fill="none" stroke="${on ? '#f0a63a' : '#56606e'}" stroke-width="1.6"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" stroke="${on ? '#f0a63a' : '#56606e'}" stroke-width="1.6"/></svg>`;
+      return { c, i };
+    });
+    const lab = el('div', 'abs mono', root, label);
+    css(lab, { left: '0', right: '0', top: '1010px', textAlign: 'center', fontSize: '19px', letterSpacing: '0.12em', color: 'var(--amber)' });
+    const q = el('div', 'abs serif', root, quote);
+    css(q, { left: '0', right: '0', top: '900px', textAlign: 'center', fontSize: '36px', fontStyle: 'italic', color: 'var(--text)' });
+    return (t) => {
+      root.style.opacity = env(t, t0, t1, 0.4, 0.5);
+      const k = prog(t, t0, t0 + 1.2, ease.out);
+      grid.style.transform = `scale(${lerp(1.6, 1, k)})`;
+      cells.forEach(({ c, i }) => (c.style.opacity = prog(t, t0 + (i % 10) * 0.03 + Math.floor(i / 10) * 0.03, t0 + 0.6 + (i % 10) * 0.03)));
+      q.style.opacity = prog(t, t0 + 0.8, t0 + 1.4);
+      lab.style.opacity = prog(t, t0 + 0.6, t0 + 1.2);
+    };
+  }
+
+  // "Your app" -> "Someone else's model".
+  function wrapperCard(root, { t0, t1, pitch, pitchT, freezeT, label }) {
+    const big = el('div', 'abs', root);
+    css(big, { left: '980px', top: '250px', width: '700px', height: '520px', borderRadius: '24px', background: 'linear-gradient(160deg,#243041,#151b24)', border: '2px solid rgba(108,195,189,.5)', display: 'flex', alignItems: 'center', justifyContent: 'center' });
+    big.innerHTML = '<div class="title" style="font-size:64px;color:var(--teal);text-align:center;line-height:1.1">SOMEONE<br>ELSE’S MODEL</div>';
+    const small = el('div', 'abs', root);
+    css(small, { left: '300px', top: '430px', width: '360px', height: '160px', borderRadius: '18px', background: '#1d242e', border: '2px solid rgba(240,166,58,.8)', display: 'flex', alignItems: 'center', justifyContent: 'center' });
+    small.innerHTML = '<div class="title" style="font-size:52px">YOUR APP</div>';
+    const arrow = el('div', 'abs', root);
+    css(arrow, { left: '660px', top: '508px', height: '4px', width: '0', background: 'var(--amber)' });
+    const sp = el('div', 'abs mono', root);
+    css(sp, { left: '300px', top: '330px', fontSize: '30px', color: 'var(--text)' });
+    const lab = el('div', 'abs mono', root, label);
+    css(lab, { left: '300px', top: '620px', fontSize: '18px', letterSpacing: '0.25em', color: 'var(--amber)' });
+    return (t) => {
+      root.style.opacity = env(t, t0, t1, 0.5, 0.6);
+      arrow.style.width = prog(t, t0 + 0.3, t0 + 0.9) * 310 + 'px';
+      const chars = Math.floor(clamp((Math.min(t, freezeT) - pitchT) * 28, 0, pitch.length));
+      sp.textContent = '“' + pitch.slice(0, chars) + (t >= freezeT && chars < pitch.length ? '—' : '') + (chars >= pitch.length ? '”' : '');
+      lab.style.opacity = prog(t, t0 + 0.5, t0 + 1);
+    };
+  }
+
+  // Bubbles that drift up and dissolve (closing echoes) or fly into a point (feeding the wheel).
+  function bubbles(root, { items }) {
+    const ns = items.map((b) => {
+      const n = el('div', 'abs', root, b.text || '');
+      css(n, { left: b.x + 'px', top: b.y + 'px', padding: b.text ? '14px 22px' : '0', width: b.text ? 'auto' : (b.size || 70) + 'px', height: b.text ? 'auto' : (b.size || 40) + 'px',
+        borderRadius: '18px', fontFamily: "'IBM Plex Mono'", fontSize: '30px', color: b.color || '#ece6da', background: b.bg || 'rgba(30,36,46,.92)',
+        border: '1px solid rgba(236,230,218,.25)', whiteSpace: 'nowrap' });
+      return { n, b };
+    });
+    return (t) => ns.forEach(({ n, b }) => {
+      const k = prog(t, b.t, b.t + (b.dur || 1.4), b.to ? ease.in : ease.out);
+      if (b.to) {
+        n.style.opacity = Math.min(prog(t, b.t, b.t + 0.2), 1 - prog(t, b.t + (b.dur || 1.4) - 0.2, b.t + (b.dur || 1.4)));
+        n.style.transform = `translate(${(b.to[0] - b.x) * k}px, ${(b.to[1] - b.y) * k}px) scale(${1 - 0.6 * k})`;
+      } else {
+        n.style.opacity = Math.sin(Math.PI * clamp(k)) * (b.alpha ?? 0.8);
+        n.style.transform = `translateY(${-140 * k}px)`;
+      }
+    });
+  }
+
+  window.C = { whispers, caseFile, recordCard, codeFrame, settingsGrid, wrapperCard, bubbles, promptWall, voicePrint, ledger, sun, hud, chapterCard, docCard, bigStat, timeline, flywheel, startupGrid, chart, togglePanel, titleCard, statement, pillars, credits };
 })();

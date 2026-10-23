@@ -39,11 +39,16 @@ for slot in score:
     t0, t1 = t_of(slot["from"]), t_of(slot["to"])
     length_ms = int((t1 - t0 + slot.get("tail_s", 2.0)) * 1000)
     chunks = [dict(c) for c in cue["chunks"]]
-    scale = length_ms / sum(c["duration_ms"] for c in chunks)
-    for c in chunks:
-        c["duration_ms"] = int(min(120000, max(3000, c["duration_ms"] * scale)))
-    drift = length_ms - sum(c["duration_ms"] for c in chunks)
-    chunks[-1]["duration_ms"] = int(min(120000, max(3000, chunks[-1]["duration_ms"] + drift)))
+    if slot.get("bounds"):  # explicit chunk boundaries on the timeline, so sections land on the cut
+        edges = [t0] + [t_of(b) for b in slot["bounds"]] + [t0 + length_ms / 1000]
+        for c, a, b in zip(chunks, edges, edges[1:]):
+            c["duration_ms"] = int(min(120000, max(3000, (b - a) * 1000)))
+    else:
+        scale = length_ms / sum(c["duration_ms"] for c in chunks)
+        for c in chunks:
+            c["duration_ms"] = int(min(120000, max(3000, c["duration_ms"] * scale)))
+        drift = length_ms - sum(c["duration_ms"] for c in chunks)
+        chunks[-1]["duration_ms"] = int(min(120000, max(3000, chunks[-1]["duration_ms"] + drift)))
     for c in chunks:
         c.setdefault("context_adherence", "high")
         c["positive_styles"] = list(c.get("positive_styles", []))

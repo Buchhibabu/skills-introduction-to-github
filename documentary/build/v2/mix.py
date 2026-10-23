@@ -1,6 +1,6 @@
 """Mix voices, score and sound effects into the final soundtrack.
 
-Usage: python3 build/v2/mix.py out/v2
+Usage: python3 build/v2/mix.py out/v2 [script/v2/mutes.json]
 Reads out/v2/voices.wav, out/v2/music/placements.json, out/v2/sfx/placements.json.
 Writes out/v2/mix.wav (48 kHz stereo) plus stems (dialog/music/sfx) for checking levels.
 """
@@ -82,20 +82,49 @@ for p in json.loads((out / "music" / "placements.json").read_text()):
     place(music, a * ramp[:, None], p["t0"])
 music *= (1 - 0.78 * vad)[:, None]  # about -13 dB under the voice
 
+# directed silences: hard mutes on music and beds (10 ms ramps), e.g. the cold-open cut and the price reveal
+def t_of(ref):
+    if isinstance(ref, (int, float)):
+        return float(ref)
+    import re
+    m = re.match(r"line:([^:]+):(start|end)([+-][0-9.]+)?$", ref)
+    return timings["lines"][m.group(1)][m.group(2)] + float(m.group(3) or 0)
+
+
+mutes_path = Path(sys.argv[2]) if len(sys.argv) > 2 else out / "mutes.json"
+mute = np.ones(N, np.float32)
+for a0, a1 in ([(t_of(a), t_of(b)) for a, b in json.loads(mutes_path.read_text())] if mutes_path.exists() else []):
+    i0, i1, r = int(a0 * SR), int(a1 * SR), int(0.01 * SR)
+    mute[i0:i1] = 0
+    mute[max(0, i0 - r):i0] = np.minimum(mute[max(0, i0 - r):i0], np.linspace(1, 0, i0 - max(0, i0 - r)))
+    mute[i1:i1 + r] = np.minimum(mute[i1:i1 + r], np.linspace(0, 1, len(mute[i1:i1 + r])))
+music *= mute[:, None]
+
 # ---------- sound effects ----------
 sfx = np.zeros_like(voices)
 sfx_path = out / "sfx" / "placements.json"
 for p in (json.loads(sfx_path.read_text()) if sfx_path.exists() else []):
     a = decode(p["file"])
+    if p.get("until"):  # seamless loop tiled until a time on the timeline (beds: hiss, hum, birds)
+        need = int((p["until"] - p["t"]) * SR)
+        a = np.tile(a, (need // len(a) + 1, 1))[:need]
+        level = -6.0 + p.get("gain_db", -30) - rms_db(a) - 9  # beds are set by loudness, not peak
+    else:
+        level = -6.0 + p.get("gain_db", -6) - 20 * np.log10(np.abs(a).max() + 1e-9)
     if p.get("dur"):
         a = a[:int(p["dur"] * SR)]
-        fo = int(p.get("fade_out", 0.3) * SR)
-        if len(a) > fo > 0:
-            a[-fo:] *= np.linspace(1, 0, fo)[:, None]
-    a *= db(-6.0 + p.get("gain_db", -6) - 20 * np.log10(np.abs(a).max() + 1e-9))
+    fo, fi = int(p.get("fade_out", 0.05) * SR), int(p.get("fade_in", 0.0) * SR)
+    if len(a) > fo > 0:
+        a[-fo:] *= np.linspace(1, 0, fo)[:, None]
+    if len(a) > fi > 0:
+        a[:fi] *= np.linspace(0, 1, fi)[:, None]
+    a *= db(level)
     pan = p.get("pan", 0.0)
     a[:, 0] *= np.sqrt((1 - pan) / 2) * np.sqrt(2)
     a[:, 1] *= np.sqrt((1 + pan) / 2) * np.sqrt(2)
+    if p.get("bed"):
+        i = int(p["t"] * SR)
+        a *= mute[i:i + len(a)][:, None] if i + len(a) <= N else np.pad(mute[i:], (0, i + len(a) - N), constant_values=1)[:, None]
     place(sfx, a, p["t"])
 sfx *= (1 - 0.45 * vad)[:, None]
 
