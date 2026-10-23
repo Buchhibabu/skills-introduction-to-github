@@ -23,6 +23,7 @@
     if (sub) {
       s = el('div', 'center mono', root, sub);
       css(s, { top: y + size * 0.9 + 'px', fontSize: '24px', color: 'var(--dim)', letterSpacing: '0.2em' });
+      if (window.LABEL_PLATE) css(s, { color: 'rgba(236,230,218,.85)', background: 'rgba(8,10,14,.55)', padding: '6px 14px' });
     }
     return (t) => {
       root.style.opacity = env(t, t0, t1, 0.15, 0.5);
@@ -149,9 +150,12 @@
   B.settings = (root, { t0, t1 }, o) => C.settingsGrid(root, { t0, t1, ...o });
   B.wrapper = (root, { t0, t1 }, o) => C.wrapperCard(root, { t0, t1, ...o });
   B.bubbles = (root, ctx, o) => C.bubbles(root, o);
-  B.label = (root, { t0, t1 }, { text, pos, size = 18, color = 'var(--amber)' }) => {
-    const n = el('div', 'abs mono', root, text);
+  // plate: a dark backplate behind the text so small labels stay readable over footage (v3 sets window.LABEL_PLATE)
+  B.label = (root, { t0, t1 }, { text, pos, size = 18, color = 'var(--amber)', plate = window.LABEL_PLATE }) => {
+    const n = el('div', 'abs mono', root);
     css(n, { ...pos, fontSize: size + 'px', letterSpacing: '0.2em', color });
+    const sp = el('span', '', n, text);
+    if (plate) css(sp, { background: 'rgba(8,10,14,.55)', padding: '5px 12px', lineHeight: 1.75, boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone' });
     return (t) => (n.style.opacity = env(t, t0, t1, 0.4, 0.4));
   };
 
@@ -166,12 +170,13 @@
       <div style="font-size:30px;color:#4a3a2c;margin-top:20px;line-height:1.35">${o.text}</div>
       <div class="mono" style="font-size:18px;color:rgba(74,58,44,.8);margin-top:22px;line-height:1.45">${o.source}</div>`;
     const verb = el('div', 'abs serif', root, o.verb);
-    css(verb, { left: '110px', width: '620px', top: '800px', textAlign: 'center', fontSize: '88px', fontStyle: 'italic', color: '#fff6e8',
-      textShadow: '0 4px 30px rgba(60,30,10,.7)' });
+    css(verb, { left: '110px', width: '620px', top: '800px', textAlign: 'center', fontSize: '88px', fontStyle: 'italic', color: o.verbColor || '#fff6e8',
+      textShadow: o.verbColor ? '0 2px 24px rgba(255,246,232,.8)' : '0 4px 30px rgba(60,30,10,.7)' });
     return (t) => {
       root.style.opacity = env(t, t0, t1, 0.3, 0.5);
       const k = prog(t, t0 + 0.2, t0 + 0.9, ease.out);
-      card.style.opacity = k;
+      // the card steps aside as the verb lands, so the verb gets a clean frame over the footage
+      card.style.opacity = k * (1 - prog(t, o.verbT - 0.3, o.verbT + 0.2));
       card.style.transform = `translateX(${(1 - k) * -60}px)`;
       const v = prog(t, o.verbT, o.verbT + 0.35, ease.out);
       verb.style.opacity = v;

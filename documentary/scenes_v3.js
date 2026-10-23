@@ -113,8 +113,10 @@
   scene(TITLE_AT, TITLE_END + 0.2, (root) => C.titleCard(root, { t0: TITLE_AT, t1: TITLE_END + 0.2, title: 'THE FLYWHEEL', sub: 'A case in five exhibits · all from public sources', typewriter: true }), { push: 0.04 });
 
   // ---- cold open: persistent disclosure labels and the running case timecode ----
-  scene(1.5, TITLE_AT, (root) => B.label(root, { t0: 1.5, t1: TITLE_AT }, { text: 'ILLUSTRATIVE PROMPTS · AI VOICES · NOT REAL USERS', pos: { left: '96px', bottom: '56px' }, size: 17 }), { push: 0 });
-  scene(1.5, TITLE_AT, (root) => B.label(root, { t0: 1.5, t1: TITLE_AT }, { text: 'DOCUMENTARY · ALL VOICES ARE AI-GENERATED', pos: { right: '96px', bottom: '56px' }, size: 17 }), { push: 0 });
+  // the disclosure labels belong to the whispered prompts, so they leave with them
+  const PROMPTS_END = S('co-gift') - 0.3;
+  scene(1.5, PROMPTS_END, (root) => B.label(root, { t0: 1.5, t1: PROMPTS_END }, { text: 'ILLUSTRATIVE PROMPTS · AI VOICES · NOT REAL USERS', pos: { left: '96px', bottom: '56px' }, size: 17, plate: false }), { push: 0 });
+  scene(1.5, PROMPTS_END, (root) => B.label(root, { t0: 1.5, t1: PROMPTS_END }, { text: 'DOCUMENTARY · ALL VOICES ARE AI-GENERATED', pos: { right: '96px', bottom: '56px' }, size: 17, plate: false }), { push: 0 });
   scene(0.2, TITLE_END, (root) => C.hud(root, { label: 'CASE 0001', from: 0.2, to: TITLE_END }), { push: 0 });
   // a thin ribbon of warm light behind "It looks like a gift."
   scene(S('co-gift') - 0.3, S('co-billion'), (root) => {

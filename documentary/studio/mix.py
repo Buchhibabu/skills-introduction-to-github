@@ -128,6 +128,16 @@ for a0, a1 in ([(t_of(a), t_of(b)) for a, b in json.loads(mutes_path.read_text()
     mute[i1:i1 + r] = np.minimum(mute[i1:i1 + r], np.linspace(0, 1, len(mute[i1:i1 + r])))
 music *= mute[:, None]
 
+# score lifts: [[from, to, dB], ...] next to the mutes file (e.g. keep the drive up under a dense stretch of narration)
+gains_path = mutes_path.with_name("music_gain.json")
+for a0, a1, g in ([(t_of(a), t_of(b), g) for a, b, g in json.loads(gains_path.read_text())] if gains_path.exists() else []):
+    i0, i1, r = int(a0 * SR), int(a1 * SR), int(0.3 * SR)
+    lift = np.ones(N, np.float32)
+    lift[i0:i1] = db(g)
+    lift[max(0, i0 - r):i0] = np.linspace(1, db(g), i0 - max(0, i0 - r))
+    lift[i1:i1 + r] = np.linspace(db(g), 1, len(lift[i1:i1 + r]))
+    music *= lift[:, None]
+
 # ---------- sound effects ----------
 sfx = np.zeros_like(voices)
 sfx_path = out / "sfx" / "placements.json"

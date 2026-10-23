@@ -40,11 +40,11 @@
     let lab = null, gl = null;
     if (label) {
       lab = el('div', 'abs mono', d, label);
-      css(lab, { right: '0px', top: '-46px', fontSize: '18px', letterSpacing: '0.12em', color: '#f0e6d2', background: 'rgba(20,16,12,.78)', padding: '8px 14px', textTransform: 'uppercase' });
+      css(lab, { right: '0px', top: '-46px', fontSize: '18px', letterSpacing: '0.12em', color: '#f0e6d2', background: 'rgba(20,16,12,.78)', padding: '8px 14px', textTransform: 'uppercase', whiteSpace: 'nowrap' });
     }
     if (gloss) {
       gl = el('div', 'mono', d, gloss.text);
-      css(gl, { fontSize: '22px', color: '#8a4b16', marginTop: '18px', opacity: 0 });
+      css(gl, { fontSize: '24px', color: '#7a2e14', marginTop: '18px', opacity: 0 });
     }
     const marks = [...d.querySelectorAll('.hl')];
     d.querySelectorAll('.mark').forEach((m) => m.remove());
@@ -438,10 +438,10 @@
     h.style.marginBottom = '34px';
     const nodes = rows.map((r) => {
       const row = el('div', '', box);
-      css(row, { display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', borderBottom: '1px solid rgba(236,230,218,.14)', padding: '22px 0' });
+      css(row, { display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '32px', borderBottom: '1px solid rgba(236,230,218,.14)', padding: '22px 0' });
       if (r.big) row.style.borderBottom = '5px double var(--amber)';
       row.innerHTML = `<span style="font-size:${r.big ? 60 : 46}px;font-family:${r.big ? "'Playfair Display'" : 'Inter'};font-weight:${r.big ? 700 : 400};color:${r.big ? 'var(--amber)' : 'var(--text)'}">${r.text}</span>
-        <span class="mono" style="font-size:22px;color:var(--dim)">${r.note || ''}</span>`;
+        <span class="mono" style="font-size:22px;color:rgba(236,230,218,.78);text-align:right">${r.note || ''}</span>`;
       cue(r.t, r.big ? 'hit' : 'tick', { gain: r.big ? 0.6 : 0.8 });
       return { row, r };
     });
