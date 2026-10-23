@@ -7,6 +7,17 @@
 - **Description, chapters and sources:** `release/DESCRIPTION.md`
 - **Research:** `research/fact-sheet.md`: corrections to the original brief, the narrative evidence, a "do not say" list and every source. `research/verified-facts.json` holds 64 claims, each checked by a researcher and an independent verifier.
 
+## v3 — the trailer cut (about 4 minutes)
+
+- **Video:** `release/v3/The_Flywheel_v3.mp4` · **Captions:** `release/v3/The_Flywheel_v3.srt` · **Description and sources:** `release/v3/DESCRIPTION.md`
+- **What changed from v2.**
+  - Natural voices only. The archive reader and the "for the record" voice are gone, and the narrator reads every quote. No voice uses a filter or effect, and no voices are stacked.
+  - Trailer energy all the way through. The script is tighter, and each exhibit has its own score cue, climbing in tempo and weight. Impacts land on every chapter card and reveal. A three-band duck keeps the score's drums and sub under the narration.
+  - Cinematic 3D documentary footage under the evidence, instead of document slides. The shots are rendered with three.js from `broll/shots/` and land on the words they illustrate.
+- **Direction:** `script/v3/bible.json` (cast, lines, score cues, sound design), `script/v3/visuals.js` (evidence on top, B-roll track underneath).
+- **B-roll:** `broll/kit.js` is the shared renderer and helpers. Preview a single shot with `node build/shot_sheet.mjs <shot> out.png --dur 6`, which renders a contact sheet and reports cost and determinism.
+- **Rebuild:** run `studio/make.sh` (it builds v3 by default; pass `v2` for the v2 cut).
+
 ## v2 — the ElevenLabs production (about 4½ minutes)
 
 - **Video:** `release/v2/The_Flywheel_v2.mp4` · **Captions:** `release/v2/The_Flywheel_v2.srt` · **Description and sources:** `release/v2/DESCRIPTION.md`
