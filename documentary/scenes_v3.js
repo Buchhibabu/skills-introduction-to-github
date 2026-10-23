@@ -71,7 +71,7 @@
     [En('c-doors') + 0.03, 0], [En('c-doors') + 0.05, 1], [CARD_AT.EXHIBIT_D, 1], [CARD_AT.EXHIBIT_D + 0.08, 0],
     // D -> E: a hard cut on "like you." to half a second of black
     [D_TO_E - 0.02, 0], [D_TO_E, 1], [CARD_AT.EXHIBIT_E, 1], [CARD_AT.EXHIBIT_E + 0.08, 0],
-    [END_AT + 8.0, 0], [DUR, 1]];
+    [DUR - 1.2, 0], [DUR, 1]];   // fade to black over the last 1.2 s
   K.sort((a, b) => a[0] - b[0]);
   E.setBlackout(K);
   E.burn(CARD_AT.EXHIBIT_A - 0.25, 0.5, { flare: 0.95, hue: 40 });          // projector-gate flash into the archive reel

@@ -344,7 +344,7 @@
   ];
 
   window.ENDCARD = {
-    title: 'THE FLYWHEEL',
+    title: 'THE FLYWHEEL', panel: true,
     lines: [
       'Every exhibit is from public sources. Full source list in the description.',
       'All voices, music and sound effects are AI-generated (ElevenLabs). No real person’s voice was imitated or cloned.',

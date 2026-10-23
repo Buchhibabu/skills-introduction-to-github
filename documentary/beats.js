@@ -128,8 +128,10 @@
   };
 
   // Static end card.
-  B.endcard = (root, { t0, t1 }, { title, lines }) => {
+  B.endcard = (root, { t0, t1 }, { title, lines, panel }) => {
     const box = el('div', 'center', root);
+    // panel: a soft warm card behind the text, for when the end card sits over footage
+    if (panel) css(box, { width: '1240px', padding: '56px 72px 60px', background: 'rgba(255,246,232,.78)', borderRadius: '8px', boxShadow: '0 30px 90px rgba(60,30,10,.25)' });
     box.innerHTML = `<div class="title" style="font-size:64px;letter-spacing:.3em;color:#2a1d14">${title}</div>` +
       lines.map((l) => `<div class="mono" style="font-size:24px;color:rgba(42,29,20,.8);margin-top:22px;letter-spacing:.06em">${l}</div>`).join('');
     return (t) => { box.style.opacity = env(t, t0, t1, 0.8, 0.8); };
